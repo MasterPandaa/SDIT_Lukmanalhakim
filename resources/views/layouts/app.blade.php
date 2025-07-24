@@ -6,16 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title') - SDIT Lukmanalhakim</title>
     
+    <link rel="shortcut icon" href="{{ asset('assets/images/x-icon.png') }}" type="image/x-icon">
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icofont.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/lightcase.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/swiper.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/lightcase.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
 <body>
-    <!-- Preloader -->
+    <!-- preloader start here -->
     <div class="preloader">
         <div class="preloader-inner">
             <div class="preloader-icon">
@@ -24,7 +26,11 @@
             </div>
         </div>
     </div>
-    <!-- /Preloader -->
+    <!-- preloader ending here -->
+
+    <!-- scrollToTop start here -->
+    <a href="#" class="scrollToTop"><i class="icofont-rounded-up"></i></a>
+    <!-- scrollToTop ending here -->
 
     <!-- Header -->
     @include('layouts.header')

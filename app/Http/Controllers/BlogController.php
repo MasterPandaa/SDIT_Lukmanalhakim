@@ -6,27 +6,15 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    /**
-     * Menampilkan halaman daftar berita
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
+        // Di sini nantinya akan mengambil data blog dari database
         return view('blog.index');
     }
 
-    /**
-     * Menampilkan halaman detail berita
-     *
-     * @param  string  $slug
-     * @return \Illuminate\View\View
-     */
-    public function detail($slug)
+    public function show($slug)
     {
-        // Di implementasi sebenarnya, data berita akan diambil dari database
-        // berdasarkan slug yang diberikan
-        
+        // Di sini nantinya akan mengambil detail blog berdasarkan slug dari database
         return view('blog.detail');
     }
 }

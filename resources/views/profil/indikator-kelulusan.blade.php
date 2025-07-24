@@ -3,124 +3,84 @@
 @section('title', 'Indikator Kelulusan')
 
 @section('content')
-<!-- Page Header Section Start -->
-<div class="pageheader-section">
+<!-- Page Header section start here -->
+<div class="pageheader-section style-2">
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="pageheader-content text-center">
-                    <h2>Indikator Kelulusan</h2>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Indikator Kelulusan</li>
-                        </ol>
-                    </nav>
+        <div class="row justify-content-center justify-content-lg-between align-items-center flex-row-reverse">
+            <div class="col-lg-7 col-12">
+                <div class="pageheader-thumb">
+                    <img src="{{ asset('assets/images/pageheader/02.jpg') }}" alt="rajibraj91" class="w-100">
+                    <a href="https://www.youtube.com/embed/rVzgmeZ3uYg?si=8WVqbZjyTAMas1q-" class="video-button" data-rel="lightcase"><i class="icofont-ui-play"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-5 col-12">
+                <div class="pageheader-content">
+                    <div class="course-category">
+                        <a href="#" class="course-cate">Unggul</a>
+                        <a href="#" class="course-cate">Islami</a>
+                        <a href="#" class="course-cate">Berprestasi</a>
+                    </div>
+                    <h2 class="phs-title">Target sekolah untuk menghafal 10 juz Al-Qur'an menjadi motivasi bagi orang tua.</h2>
+                    <div class="phs-thumb">
+                        <img src="{{ asset('assets/images/pageheader/03.jpg') }}" alt="rajibraj91">
+                        <span>Rohmat Sunaryo</span>
+                        <div class="course-reiew">
+                            <span class="ratting">
+                                <i class="icofont-ui-rating"></i>
+                                <i class="icofont-ui-rating"></i>
+                                <i class="icofont-ui-rating"></i>
+                                <i class="icofont-ui-rating"></i>
+                                <i class="icofont-ui-rating"></i>
+                            </span>
+                            <span class="ratting-count">
+                               
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Page Header Section Ending -->
+<!-- Page Header section ending here -->
 
-<!-- Indikator Section Start -->
-<section class="about-section padding-tb section-bg">
+<!-- course section start here -->
+<div class="course-single-section padding-tb section-bg">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="section-header text-center">
-                    <span>Indikator Kelulusan</span>
-                    <h2>Profil Lulusan SDIT Lukmanalhakim</h2>
-                </div>
-                <div class="section-wrapper">
-                    <div class="about-item">
-                        <div class="about-inner">
-                            <div class="about-content">
-                                <p class="mb-4">
-                                    SDIT Lukmanalhakim menetapkan standar kelulusan yang komprehensif untuk memastikan bahwa setiap lulusan memiliki kompetensi yang dibutuhkan untuk melanjutkan pendidikan ke jenjang yang lebih tinggi dan memiliki karakter Islami yang kuat.
-                                </p>
-                            </div>
+            <div class="col-lg-8">
+                <div class="main-part">
+                    <div class="course-video">
+                        <div class="course-video-title">
+                            <h2>100 indikator Kelulusan</h2>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Indikator Section Ending -->
-
-<!-- Dimensi Kelulusan Section Start -->
-<section class="about-section padding-tb">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="section-header text-center">
-                    <span>Dimensi Kelulusan</span>
-                    <h2>Dimensi Profil Lulusan</h2>
-                </div>
-                <div class="section-wrapper">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="card h-100">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0">Dimensi Keimanan dan Ketakwaan</h5>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="lab-ul">
-                                        <li>Memiliki aqidah yang kuat dan lurus</li>
-                                        <li>Mampu melaksanakan ibadah wajib dengan benar</li>
-                                        <li>Hafal minimal 2 juz Al-Qur'an</li>
-                                        <li>Hafal minimal 40 hadits pilihan</li>
-                                        <li>Mampu membaca Al-Qur'an dengan tartil</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card h-100">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0">Dimensi Akhlak dan Kepribadian</h5>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="lab-ul">
-                                        <li>Memiliki akhlak mulia dalam pergaulan sehari-hari</li>
-                                        <li>Menghormati orang tua, guru, dan orang yang lebih tua</li>
-                                        <li>Memiliki sikap jujur dan tanggung jawab</li>
-                                        <li>Memiliki kedisiplinan dan kemandirian</li>
-                                        <li>Memiliki kepedulian terhadap sesama dan lingkungan</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card h-100">
-                                <div class="card-header bg-info text-white">
-                                    <h5 class="mb-0">Dimensi Akademik</h5>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="lab-ul">
-                                        <li>Menguasai kompetensi dasar sesuai kurikulum nasional</li>
-                                        <li>Memiliki kemampuan berpikir kritis dan kreatif</li>
-                                        <li>Mampu berkomunikasi dengan baik secara lisan dan tulisan</li>
-                                        <li>Memiliki kemampuan dasar dalam bahasa Arab dan Inggris</li>
-                                        <li>Memiliki kemampuan dasar dalam penggunaan teknologi</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card h-100">
-                                <div class="card-header bg-warning text-dark">
-                                    <h5 class="mb-0">Dimensi Keterampilan Hidup</h5>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="lab-ul">
-                                        <li>Memiliki keterampilan dalam menyelesaikan masalah</li>
-                                        <li>Mampu bekerja sama dalam tim</li>
-                                        <li>Memiliki jiwa kepemimpinan</li>
-                                        <li>Memiliki keterampilan sosial yang baik</li>
-                                        <li>Memiliki keterampilan dasar dalam bidang seni dan olahraga</li>
-                                    </ul>
+                        <!-- ini indikator -->
+                        <div class="course-video-content">
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <!-- ini sub judulnya -->
+                                    <div class="accordion-header" id="accordion01">
+                                        <button class="d-flex flex-wrap justify-content-between" data-bs-toggle="collapse" data-bs-target="#videolist1" aria-expanded="true" aria-controls="videolist1"><span>AKIDAH LURUS</span></button>
+                                    </div>
+                                    <div id="videolist1" class="accordion-collapse collapse show" aria-labelledby="accordion01" data-bs-parent="#accordionExample">
+                                        <ul class="lab-ul video-item-list">
+                                            <li class="d-flex flex-wrap justify-content-between">
+                                                <div class="video-item-title">1.1 Welcome to the course 02:30 minutes</div>
+                                            </li>
+                                            <li class="d-flex flex-wrap justify-content-between">
+                                                <div class="video-item-title">1.2 How to set up your photoshop workspace 08:33 minutes</div>
+                                            </li>
+                                            <li class="d-flex flex-wrap justify-content-between">
+                                                <div class="video-item-title">1.3 Essential Photoshop Tools 03:38 minutes</div>
+                                            </li>
+                                            <li class="d-flex flex-wrap justify-content-between">
+                                                <div class="video-item-title">1.4 Finding inspiration 02:30 minutes</div>
+                                            </li>
+                                            <li class="d-flex flex-wrap justify-content-between">
+                                                <div class="video-item-title">1.5 Choosing Your Format 03:48 minutes</div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -129,43 +89,6 @@
             </div>
         </div>
     </div>
-</section>
-<!-- Dimensi Kelulusan Section Ending -->
-
-<!-- Penilaian Section Start -->
-<section class="about-section padding-tb section-bg">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="section-header text-center">
-                    <span>Sistem Penilaian</span>
-                    <h2>Penilaian Kelulusan</h2>
-                </div>
-                <div class="section-wrapper">
-                    <div class="about-item">
-                        <div class="about-inner">
-                            <div class="about-content">
-                                <p class="mb-4">
-                                    Penilaian kelulusan di SDIT Lukmanalhakim dilakukan secara komprehensif dengan mempertimbangkan aspek kognitif, afektif, dan psikomotorik. Penilaian dilakukan melalui:
-                                </p>
-                                <ol class="mb-4">
-                                    <li class="mb-3">Penilaian harian dan ujian semester</li>
-                                    <li class="mb-3">Ujian praktik ibadah</li>
-                                    <li class="mb-3">Ujian hafalan Al-Qur'an dan hadits</li>
-                                    <li class="mb-3">Penilaian sikap dan perilaku</li>
-                                    <li class="mb-3">Penilaian keterampilan dan proyek</li>
-                                    <li class="mb-3">Ujian Akhir Sekolah</li>
-                                </ol>
-                                <p>
-                                    Siswa dinyatakan lulus jika telah memenuhi semua kriteria kelulusan yang ditetapkan oleh sekolah dan memiliki nilai minimal sesuai dengan standar kelulusan nasional.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Penilaian Section Ending -->
+</div>
+<!-- course section ending here -->
 @endsection 

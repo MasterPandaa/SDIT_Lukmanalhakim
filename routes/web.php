@@ -1,13 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfilController;
-use App\Http\Controllers\GuruController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\TeamController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,35 +15,52 @@ use App\Http\Controllers\TeamController;
 |
 */
 
-// Halaman Utama
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', function () {
+    return view('index');
+})->name('home');
 
-// Halaman Profil
-Route::get('/visi-misi', [ProfilController::class, 'visiMisi'])->name('visi-misi');
-Route::get('/sambutan-kepsek', [ProfilController::class, 'sambutanKepsek'])->name('sambutan-kepsek');
-Route::get('/kurikulum', [ProfilController::class, 'kurikulum'])->name('kurikulum');
-Route::get('/indikator-kelulusan', [ProfilController::class, 'indikatorKelulusan'])->name('indikator-kelulusan');
+// Profil routes
+Route::get('/visi-misi', function () {
+    return view('profil.visi-misi');
+})->name('visi-misi');
 
-// Halaman Guru
-Route::get('/guru', [GuruController::class, 'index'])->name('guru');
-Route::get('/guru/{id}', [GuruController::class, 'detail'])->name('guru.detail');
+Route::get('/sambutan-kepsek', function () {
+    return view('profil.sambutan-kepsek');
+})->name('sambutan-kepsek');
 
-// Halaman Program/Course
-Route::get('/program', [CourseController::class, 'index'])->name('course');
-Route::get('/program/{id}', [CourseController::class, 'detail'])->name('course.detail');
+Route::get('/kurikulum', function () {
+    return view('profil.kurikulum');
+})->name('kurikulum');
 
-// Halaman Blog/Berita
-Route::get('/berita', [BlogController::class, 'index'])->name('blog');
-Route::get('/berita/{slug}', [BlogController::class, 'detail'])->name('blog-single');
+Route::get('/indikator-kelulusan', function () {
+    return view('profil.indikator-kelulusan');
+})->name('indikator-kelulusan');
 
-// Halaman Kontak
+// Guru routes
+Route::get('/guru', [App\Http\Controllers\GuruController::class, 'index'])->name('guru');
+Route::get('/guru/{id}', [App\Http\Controllers\GuruController::class, 'show'])->name('guru.detail');
+
+// Program/Course routes
+Route::get('/program', [App\Http\Controllers\CourseController::class, 'index'])->name('course');
+Route::get('/program/{id}', [App\Http\Controllers\CourseController::class, 'show'])->name('course.detail');
+
+// Blog routes
+Route::get('/blog', [App\Http\Controllers\BlogController::class, 'index'])->name('blog');
+Route::get('/blog/{slug}', [App\Http\Controllers\BlogController::class, 'show'])->name('blog-single');
+
+// Contact routes
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact');
 Route::post('/kontak/kirim', [ContactController::class, 'send'])->name('contact.send');
 
-// Halaman Tim
-Route::get('/tim/{id}', [TeamController::class, 'detail'])->name('team-single');
+// Admin Panel Routes
+Route::prefix('adminpanel')->group(function () {
+    // Admin login routes (public)
+    Route::get('/login', [AdminController::class, 'loginForm'])->name('admin.login');
+    Route::post('/login', [AdminController::class, 'login'])->name('admin.login.submit');
 
-// Halaman Error
-Route::fallback(function () {
-    return view('errors.404');
+    // Admin protected routes
+    Route::middleware('admin')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+    });
 });

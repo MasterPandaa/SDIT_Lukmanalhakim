@@ -6,27 +6,15 @@ use Illuminate\Http\Request;
 
 class GuruController extends Controller
 {
-    /**
-     * Menampilkan halaman daftar guru
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
+        // Di sini nantinya akan mengambil data guru dari database
         return view('guru.index');
     }
 
-    /**
-     * Menampilkan halaman detail guru
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function detail($id)
+    public function show($id)
     {
-        // Di implementasi sebenarnya, data guru akan diambil dari database
-        // berdasarkan ID yang diberikan
-        
+        // Di sini nantinya akan mengambil detail guru berdasarkan id dari database
         return view('guru.detail');
     }
 }

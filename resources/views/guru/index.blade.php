@@ -13,6 +13,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
+                            <li class="breadcrumb-item"><a href="#">Tentang</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Guru</li>
                         </ol>
                     </nav>
@@ -23,13 +24,9 @@
 </div>
 <!-- Page Header Section Ending -->
 
-<!-- Instructor Section Start -->
+<!-- Instructors Section Start Here -->
 <div class="instructor-section padding-tb section-bg">
     <div class="container">
-        <div class="section-header text-center">
-            <span>Tenaga Pendidik</span>
-            <h2>Guru-guru Profesional Kami</h2>
-        </div>
         <div class="section-wrapper">
             <div class="row g-4 justify-content-center row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
                 <div class="col">
@@ -41,12 +38,20 @@
                             <div class="instructor-content">
                                 <a href="{{ route('guru.detail', 1) }}"><h4>Ahmad Fauzi, S.Pd</h4></a>
                                 <p>Kepala Sekolah</p>
-                                <ul class="lab-ul social-icons">
-                                    <li><a href="#"><i class="icofont-facebook"></i></a></li>
-                                    <li><a href="#"><i class="icofont-twitter"></i></a></li>
-                                    <li><a href="#"><i class="icofont-instagram"></i></a></li>
-                                </ul>
+                                <span class="ratting">
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                </span>
                             </div>
+                        </div>
+                        <div class="instructor-footer">
+                            <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                <li><i class="icofont-book-alt"></i> 10 Tahun Mengajar</li>
+                                <li><i class="icofont-users-alt-3"></i> 120 Siswa</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -59,12 +64,20 @@
                             <div class="instructor-content">
                                 <a href="{{ route('guru.detail', 2) }}"><h4>Siti Aminah, S.Pd.I</h4></a>
                                 <p>Guru Kelas 1</p>
-                                <ul class="lab-ul social-icons">
-                                    <li><a href="#"><i class="icofont-facebook"></i></a></li>
-                                    <li><a href="#"><i class="icofont-twitter"></i></a></li>
-                                    <li><a href="#"><i class="icofont-instagram"></i></a></li>
-                                </ul>
+                                <span class="ratting">
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                </span>
                             </div>
+                        </div>
+                        <div class="instructor-footer">
+                            <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                <li><i class="icofont-book-alt"></i> 8 Tahun Mengajar</li>
+                                <li><i class="icofont-users-alt-3"></i> 25 Siswa</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -77,12 +90,20 @@
                             <div class="instructor-content">
                                 <a href="{{ route('guru.detail', 3) }}"><h4>Muhammad Rizki, S.Pd</h4></a>
                                 <p>Guru Kelas 2</p>
-                                <ul class="lab-ul social-icons">
-                                    <li><a href="#"><i class="icofont-facebook"></i></a></li>
-                                    <li><a href="#"><i class="icofont-twitter"></i></a></li>
-                                    <li><a href="#"><i class="icofont-instagram"></i></a></li>
-                                </ul>
+                                <span class="ratting">
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                </span>
                             </div>
+                        </div>
+                        <div class="instructor-footer">
+                            <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                <li><i class="icofont-book-alt"></i> 6 Tahun Mengajar</li>
+                                <li><i class="icofont-users-alt-3"></i> 28 Siswa</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -95,12 +116,20 @@
                             <div class="instructor-content">
                                 <a href="{{ route('guru.detail', 4) }}"><h4>Fatimah Azzahra, S.Pd</h4></a>
                                 <p>Guru Kelas 3</p>
-                                <ul class="lab-ul social-icons">
-                                    <li><a href="#"><i class="icofont-facebook"></i></a></li>
-                                    <li><a href="#"><i class="icofont-twitter"></i></a></li>
-                                    <li><a href="#"><i class="icofont-instagram"></i></a></li>
-                                </ul>
+                                <span class="ratting">
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                </span>
                             </div>
+                        </div>
+                        <div class="instructor-footer">
+                            <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                <li><i class="icofont-book-alt"></i> 5 Tahun Mengajar</li>
+                                <li><i class="icofont-users-alt-3"></i> 26 Siswa</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -113,12 +142,20 @@
                             <div class="instructor-content">
                                 <a href="{{ route('guru.detail', 5) }}"><h4>Abdullah Hasan, S.Pd.I</h4></a>
                                 <p>Guru Kelas 4</p>
-                                <ul class="lab-ul social-icons">
-                                    <li><a href="#"><i class="icofont-facebook"></i></a></li>
-                                    <li><a href="#"><i class="icofont-twitter"></i></a></li>
-                                    <li><a href="#"><i class="icofont-instagram"></i></a></li>
-                                </ul>
+                                <span class="ratting">
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                </span>
                             </div>
+                        </div>
+                        <div class="instructor-footer">
+                            <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                <li><i class="icofont-book-alt"></i> 7 Tahun Mengajar</li>
+                                <li><i class="icofont-users-alt-3"></i> 24 Siswa</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -131,12 +168,20 @@
                             <div class="instructor-content">
                                 <a href="{{ route('guru.detail', 6) }}"><h4>Aisyah Putri, S.Pd</h4></a>
                                 <p>Guru Kelas 5</p>
-                                <ul class="lab-ul social-icons">
-                                    <li><a href="#"><i class="icofont-facebook"></i></a></li>
-                                    <li><a href="#"><i class="icofont-twitter"></i></a></li>
-                                    <li><a href="#"><i class="icofont-instagram"></i></a></li>
-                                </ul>
+                                <span class="ratting">
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                </span>
                             </div>
+                        </div>
+                        <div class="instructor-footer">
+                            <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                <li><i class="icofont-book-alt"></i> 6 Tahun Mengajar</li>
+                                <li><i class="icofont-users-alt-3"></i> 22 Siswa</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -149,12 +194,20 @@
                             <div class="instructor-content">
                                 <a href="{{ route('guru.detail', 7) }}"><h4>Umar Faruk, S.Pd</h4></a>
                                 <p>Guru Kelas 6</p>
-                                <ul class="lab-ul social-icons">
-                                    <li><a href="#"><i class="icofont-facebook"></i></a></li>
-                                    <li><a href="#"><i class="icofont-twitter"></i></a></li>
-                                    <li><a href="#"><i class="icofont-instagram"></i></a></li>
-                                </ul>
+                                <span class="ratting">
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                </span>
                             </div>
+                        </div>
+                        <div class="instructor-footer">
+                            <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                <li><i class="icofont-book-alt"></i> 9 Tahun Mengajar</li>
+                                <li><i class="icofont-users-alt-3"></i> 20 Siswa</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -167,18 +220,61 @@
                             <div class="instructor-content">
                                 <a href="{{ route('guru.detail', 8) }}"><h4>Khadijah Nur, S.Pd.I</h4></a>
                                 <p>Guru Tahfidz</p>
-                                <ul class="lab-ul social-icons">
-                                    <li><a href="#"><i class="icofont-facebook"></i></a></li>
-                                    <li><a href="#"><i class="icofont-twitter"></i></a></li>
-                                    <li><a href="#"><i class="icofont-instagram"></i></a></li>
-                                </ul>
+                                <span class="ratting">
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                    <i class="icofont-ui-rating"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="instructor-footer">
+                            <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                <li><i class="icofont-book-alt"></i> 10 Tahun Mengajar</li>
+                                <li><i class="icofont-users-alt-3"></i> 120 Siswa</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Achieve Section Start -->
+            <div class="achieve-part mt-4">
+                <div class="row g-4 row-cols-1 row-cols-lg-2">
+                    <div class="col">
+                        <div class="achieve-item">
+                            <div class="achieve-inner">
+                                <div class="achieve-thumb">
+                                    <img src="{{ asset('assets/images/achive/01.png') }}" alt="achieve thumb">
+                                </div>
+                                <div class="achieve-content">
+                                    <h4>Bergabung Menjadi Guru</h4>
+                                    <p>SDIT Lukmanalhakim membuka kesempatan bagi pendidik yang berdedikasi untuk bergabung dalam misi kami mencerdaskan generasi Islam yang berakhlak mulia.</p>
+                                    <a href="{{ route('contact') }}" class="lab-btn"><span>Lamar Sekarang</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="achieve-item">
+                            <div class="achieve-inner">
+                                <div class="achieve-thumb">
+                                    <img src="{{ asset('assets/images/achive/02.png') }}" alt="achieve thumb">
+                                </div>
+                                <div class="achieve-content">
+                                    <h4>Daftarkan Putra/Putri Anda</h4>
+                                    <p>Berikan pendidikan terbaik untuk putra/putri Anda dengan kurikulum yang mengintegrasikan nilai-nilai Islam dan pengetahuan umum.</p>
+                                    <a href="https://psb.luqmanalhakim.sch.id/" class="lab-btn"><span>Daftar Sekarang</span></a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Achieve Section Ending -->
         </div>
     </div>
 </div>
-<!-- Instructor Section Ending -->
+<!-- Instructors Section Ending Here -->
 @endsection 

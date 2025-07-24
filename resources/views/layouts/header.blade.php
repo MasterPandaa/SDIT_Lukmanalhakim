@@ -17,6 +17,7 @@
                     <li><a href="#" class="twitter"><i class="icofont-instagram"></i></a></li>
                     <li><a href="#" class="vimeo"><i class="icofont-youtube-play"></i></a></li>
                     <li><a href="#" class="skype"><i class="icofont-google-map"></i></a></li>
+                    <!-- <li><a href="#" class="rss"><i class="icofont-rss-feed"></i></a></li> -->
                 </ul>
             </div>
         </div>
@@ -33,35 +34,36 @@
                     <div class="menu">
                         <ul class="lab-ul">
                             <li>
-                                <a href="{{ route('home') }}">Beranda</a>
+                                <a href="{{ route('home') }}">Home</a>
                             </li>
                             <li>
-                                <a href="#">Profil</a>
+                                <a href="#0">Profil</a>
                                 <ul class="lab-ul">
-                                    <li><a href="{{ route('visi-misi') }}">Visi & Misi</a></li>
+                                    <li><a href="{{ route('visi-misi') }}">Visi Misi</a></li>
                                     <li><a href="{{ route('sambutan-kepsek') }}">Sambutan Kepala Sekolah</a></li>
                                     <li><a href="{{ route('kurikulum') }}">Kurikulum</a></li>
-                                    <li><a href="{{ route('indikator-kelulusan') }}">Indikator Kelulusan</a></li>
+                                    <li><a href="{{ route('indikator-kelulusan') }}">Indikator kelulusan</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">About</a>
+                                <a href="#0">About</a>
                                 <ul class="lab-ul">
                                     <li><a href="#">Prestasi</a></li>
-                                    <li><a href="#">Ekstrakurikuler</a></li>
+                                    <li><a href="#">Ekstakulikuer</a></li>
                                     <li><a href="#">Fasilitas</a></li>
                                     <li><a href="#">Galeri</a></li>
                                     <li><a href="#">Alumni</a></li>
                                     <li><a href="#">Artikel</a></li>
                                 </ul>
                             </li>
-                            <li><a href="{{ route('guru') }}">Guru</a></li>
-                            <li><a href="{{ route('course') }}">Program</a></li>
-                            <li><a href="{{ route('blog') }}">Berita</a></li>
-                            <li><a href="{{ route('contact') }}">Kontak</a></li>
+                            <li><a href="{{ route('contact') }}">Contact</a></li>
                         </ul>
                     </div>
-                    <a href="https://psb.luqmanalhakim.sch.id/" class="signup"><i class="icofont-users"></i> <span>DAFTAR</span></a>
+                    
+                    <!-- <a href="login.html" class="login"><i class="icofont-user"></i> <span>LOG IN</span> </a> -->
+                    <a href="https://psb.luqmanalhakim.sch.id/" class="signup"><i class="icofont-users"></i> <span>DAFTAR</span> </a>
+
+                    <!-- toggle icons -->
                     <div class="header-bar d-lg-none">
                         <span></span>
                         <span></span>

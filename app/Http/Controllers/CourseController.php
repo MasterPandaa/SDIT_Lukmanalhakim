@@ -6,27 +6,15 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    /**
-     * Menampilkan halaman daftar program
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
+        // Di sini nantinya akan mengambil data program dari database
         return view('course.index');
     }
 
-    /**
-     * Menampilkan halaman detail program
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function detail($id)
+    public function show($id)
     {
-        // Di implementasi sebenarnya, data program akan diambil dari database
-        // berdasarkan ID yang diberikan
-        
+        // Di sini nantinya akan mengambil detail program berdasarkan id dari database
         return view('course.detail');
     }
 }

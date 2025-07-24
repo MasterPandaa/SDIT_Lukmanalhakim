@@ -3,42 +3,230 @@
 @section('title', 'Visi & Misi')
 
 @section('content')
-<!-- Page Header Section Start -->
-<div class="pageheader-section">
+<!-- banner section start here -->
+<section class="banner-section style-7">
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="pageheader-content text-center">
-                    <h2>Visi & Misi</h2>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Visi & Misi</li>
-                        </ol>
-                    </nav>
+        <div class="section-wrapper">
+            <div class="banner-top">
+                <div class="row justify-content-center">
+                    <div class="offset-xl-6 col-xl-6">
+                        <div class="banner-content">
+                            <h2 class="title">Faith is the Light of Life</h2>
+                            <p class="desc">Yuk, jadikan pendidikan agama sebagai panduan hidup untuk masa depan yang lebih bermakna!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- banner section ending here -->
+
+<!-- Features Start Here -->
+<section class="feature-section style-2 style-4 padding-tb pb-0">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="subtitle yellow-color">Visi Sekolah</span>
+            <h2 class="title">Terwujudnya Generasi Unggul yang Qur'ani, Berakhlaq Mulia, Berprestasi, Peduli, Berbudaya Lingkungan, dan Berwawasan Global.​</h2>
+        </div>
+        <div class="section-header text-center">
+            <span class="subtitle yellow-color">Misi Sekolah</span>
+        </div>
+        <div class="section-wrapper">
+            <div class="row g-4 justify-content-center align-items-center">
+                <div class="col-lg-4 col-sm-6 col-12 order-lg-0">
+                    <div class="left text-lg-end">
+                        <div class="feature-item">
+                            <div class="feature-inner flex-lg-row-reverse">
+                                <div class="feature-icon">
+                                    <i class="icofont-credit-card"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h5>Al Quran​</h5>
+                                    <p>Menyelenggarakan pendidikan Al Qur'an yang handal dan integratif.​</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-inner flex-lg-row-reverse">
+                                <div class="feature-icon">
+                                    <i class="icofont-light-bulb"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h5>Pendidikan Karakter</h5>
+                                    <p>Menyelenggarakan pendidikan yang menumbuhkan kesadaran untuk menjadi pribadi yang beriman, bertaqwa, berakhlaq mulia, manidiri, dan bertanggung jawab.​</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-inner flex-lg-row-reverse">
+                                <div class="feature-icon">
+                                    <i class="icofont-graduate"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h5>Active Deep Learner</h5>
+                                    <p>Menyelenggarakan pembelajaran yang menyenangkan, dengan pendekatan ADLX (Active, Deep, Learner, Experience), INTROFLEX (Individualiasi, Interaksi, Observasi, Refleksi) TERPADU (Telaah, Eksplorasi, Rumuskan, Presentasikan, Aplikasikan, Dunia, Ukhrowi)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12 order-lg-2">
+                    <div class="right">
+                        <div class="feature-item">
+                            <div class="feature-inner">
+                                <div class="feature-icon">
+                                    <i class="icofont-paper-plane"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h5>Prestasi</h5>
+                                    <p>Menyelenggarakan pembinaan peserta didik secara intensif dan efektif untuk merah prestasi.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-inner">
+                                <div class="feature-icon">
+                                    <i class="icofont-site-map"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h5>Budaya</h5>
+                                    <p>Menyelenggarakan program pelestarian budaya lokal, nasional, dan internasional</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-inner">
+                                <div class="feature-icon">
+                                    <i class="icofont-users-alt-3"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h5>Peduli Lingkungan</h5>
+                                    <p>Menyelenggarakan program yang membangkitkan kepedulian lingkungan secara terpadu</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12 order-lg-1">
+                    <div class="feature-thumb">
+                        <div class="abs-thumb">
+                            <img src="{{ asset('assets/images/feature/10.png') }}" alt="education">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Features End Here -->
+
+<!-- Offer Section Start Here -->
+<div class="offer-section padding-tb">
+    <div class="container">
+        <div class="row g-4 justify-content-center align-items-center">
+            <div class="col-lg-6 col-12">
+                <div class="section-header">
+                    <h2 class="title">Penerimaan Peserta Didik Baru</h2>
+                    <p>Mari Bergabung Bersama Kami</p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="section-wrapper">
+                    <div class="offer-area">
+                        <h3 class="title"><span>Discount</span> <b>30%.</b> Gelombang I</h3>
+                        <ul class="lab-ul date" data-date="July 09, 2022 18:25:25">
+                            <li>
+                                <h2 class="count-title"><span class="days">124</span></h2>
+                                <p class="days_text">Day</p>
+                            </li>
+                            <li>
+                                <h2 class="count-title"><span class="hours">0</span></h2>
+                                <p class="hours_text">Hour</p>
+                            </li>
+                            <li>
+                                <h2 class="count-title"><span class="minutes">25</span></h2>
+                                <p class="minu_text">Minute</p>
+                            </li>
+                            <li>
+                                <h2 class="count-title"><span class="seconds">43</span></h2>
+                                <p class="seco_text">Secound</p>
+                            </li>
+                        </ul>
+                        <a href="https://psb.luqmanalhakim.sch.id/" class="lab-btn"><span>Register Now</span></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Page Header Section Ending -->
+<!-- Offer Section Ending Here -->
 
-<!-- Visi Misi Section Start -->
-<section class="about-section padding-tb section-bg">
+<!-- Instructors Section Start Here -->
+<div class="instructor-section style-3 padding-tb section-bg-ash">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="section-header text-center">
-                    <span>Visi SDIT Lukmanalhakim</span>
-                    <h2>Menjadi Lembaga Pendidikan Islam Terdepan</h2>
-                </div>
-                <div class="section-wrapper">
-                    <div class="about-item">
-                        <div class="about-inner">
-                            <div class="about-content">
-                                <p class="mb-4">
-                                    "Menjadi lembaga pendidikan Islam terdepan yang menghasilkan generasi berakhlak mulia, cerdas, dan berprestasi berdasarkan Al-Qur'an dan As-Sunnah."
-                                </p>
+        <div class="section-header text-center">
+            <span class="subtitle">Why Choose Us</span>
+            <h2 class="title">Get Everything for Learning</h2>
+        </div>
+        <div class="section-wrapper">
+            <div class="instructor-bottom">
+                <div class="instructor-slider overflow-hidden">
+                    <div class="instructor-navi instructor-slider-next"><i class="icofont-rounded-double-right"></i></div>
+                    <div class="instructor-navi instructor-slider-prev"><i class="icofont-rounded-double-left"></i></div>
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="instructor-item">
+                                <div class="instructor-inner">
+                                    <div class="instructor-thumb">
+                                        <img src="{{ asset('assets/images/instructor/11.jpg') }}" alt="instructor">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="instructor-item">
+                                <div class="instructor-inner">
+                                    <div class="instructor-thumb">
+                                        <img src="{{ asset('assets/images/instructor/12.jpg') }}" alt="instructor">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="instructor-item">
+                                <div class="instructor-inner">
+                                    <div class="instructor-thumb">
+                                        <img src="{{ asset('assets/images/instructor/13.jpg') }}" alt="instructor">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="instructor-item">
+                                <div class="instructor-inner">
+                                    <div class="instructor-thumb">
+                                        <img src="{{ asset('assets/images/instructor/14.jpg') }}" alt="instructor">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="instructor-item">
+                                <div class="instructor-inner">
+                                    <div class="instructor-thumb">
+                                        <img src="{{ asset('assets/images/instructor/15.jpg') }}" alt="instructor">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="instructor-item">
+                                <div class="instructor-inner">
+                                    <div class="instructor-thumb">
+                                        <img src="{{ asset('assets/images/instructor/10.jpg') }}" alt="instructor">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -46,70 +234,6 @@
             </div>
         </div>
     </div>
-</section>
-<!-- Visi Misi Section Ending -->
-
-<!-- Misi Section Start -->
-<section class="about-section padding-tb">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="section-header text-center">
-                    <span>Misi SDIT Lukmanalhakim</span>
-                    <h2>Langkah-langkah Menuju Visi</h2>
-                </div>
-                <div class="section-wrapper">
-                    <div class="about-item">
-                        <div class="about-inner">
-                            <div class="about-content">
-                                <ol class="mb-4">
-                                    <li class="mb-3">Menyelenggarakan pendidikan yang mengintegrasikan antara ilmu pengetahuan umum dan nilai-nilai Islam.</li>
-                                    <li class="mb-3">Membangun karakter siswa berdasarkan akhlakul karimah melalui pembiasaan dan keteladanan.</li>
-                                    <li class="mb-3">Menerapkan metode pembelajaran yang aktif, kreatif, efektif, dan menyenangkan.</li>
-                                    <li class="mb-3">Mengembangkan potensi siswa secara optimal melalui kegiatan akademik dan non-akademik.</li>
-                                    <li class="mb-3">Membangun kerjasama yang harmonis antara sekolah, keluarga, dan masyarakat dalam mendidik siswa.</li>
-                                    <li class="mb-3">Menciptakan lingkungan sekolah yang aman, nyaman, dan kondusif untuk proses belajar mengajar.</li>
-                                    <li class="mb-3">Meningkatkan kompetensi dan profesionalisme tenaga pendidik dan kependidikan.</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Misi Section Ending -->
-
-<!-- Tujuan Section Start -->
-<section class="about-section padding-tb section-bg">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="section-header text-center">
-                    <span>Tujuan SDIT Lukmanalhakim</span>
-                    <h2>Apa yang Ingin Kami Capai</h2>
-                </div>
-                <div class="section-wrapper">
-                    <div class="about-item">
-                        <div class="about-inner">
-                            <div class="about-content">
-                                <ol class="mb-4">
-                                    <li class="mb-3">Menghasilkan lulusan yang memiliki aqidah yang kuat dan ibadah yang benar.</li>
-                                    <li class="mb-3">Membentuk siswa yang memiliki akhlak mulia dalam pergaulan sehari-hari.</li>
-                                    <li class="mb-3">Mewujudkan siswa yang memiliki kemampuan akademik yang tinggi.</li>
-                                    <li class="mb-3">Menghasilkan lulusan yang memiliki hafalan Al-Qur'an minimal 2 juz.</li>
-                                    <li class="mb-3">Mencetak siswa yang memiliki keterampilan hidup (life skill) dan kemandirian.</li>
-                                    <li class="mb-3">Membentuk siswa yang memiliki kepedulian sosial dan lingkungan.</li>
-                                    <li class="mb-3">Menghasilkan lulusan yang siap melanjutkan ke jenjang pendidikan yang lebih tinggi.</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Tujuan Section Ending -->
+</div>
+<!-- Instructors Section Ending Here -->
 @endsection 

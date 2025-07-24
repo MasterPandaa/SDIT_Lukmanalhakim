@@ -4,38 +4,47 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactFormMail;
 
 class ContactController extends Controller
 {
-    /**
-     * Menampilkan halaman kontak
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
         return view('contact.index');
     }
 
-    /**
-     * Mengirim pesan dari form kontak
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function send(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'subject' => 'required',
+            'message' => 'required'
         ]);
 
-        // Untuk implementasi sebenarnya, gunakan Mail::to() untuk mengirim email
-        // Mail::to('info@sditlukmanalhakim.sch.id')->send(new ContactFormMail($validated));
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone ?? '',
+            'subject' => $request->subject,
+            'message' => $request->message
+        ];
 
-        return redirect()->route('contact')->with('success', 'Pesan Anda telah berhasil dikirim. Kami akan segera menghubungi Anda.');
+        // Email to site admin
+        $recipient = "contac@luqmanalhakim.sch.id";
+        
+        // Build the email content
+        $email_content = "Full Name: " . $data['name'] . "\n";
+        $email_content .= "Phone: " . $data['phone'] . "\n";
+        $email_content .= "Email: " . $data['email'] . "\n\n";
+        $email_content .= "Subject: " . $data['subject'] . "\n\n";
+        $email_content .= "Message:\n" . $data['message'] . "\n";
+        
+        // Build the email headers
+        $email_headers = "From: " . $data['name'] . " <" . $data['email'] . ">";
+        
+        // Send the email
+        mail($recipient, $data['subject'], $email_content, $email_headers);
+
+        return redirect()->back()->with('success', 'Terima kasih! Pesan Anda telah dikirim.');
     }
 }
