@@ -48,12 +48,12 @@
                             <li>
                                 <a href="#0">About</a>
                                 <ul class="lab-ul">
-                                    <li><a href="#">Prestasi</a></li>
-                                    <li><a href="#">Ekstakulikuer</a></li>
-                                    <li><a href="#">Fasilitas</a></li>
-                                    <li><a href="#">Galeri</a></li>
-                                    <li><a href="#">Alumni</a></li>
-                                    <li><a href="#">Artikel</a></li>
+                                    <li><a href="{{ route('about.prestasi') }}">Prestasi</a></li>
+                                    <li><a href="{{ route('about.ekstrakurikuler') }}">Ekstrakulikuler</a></li>
+                                    <li><a href="{{ route('about.fasilitas') }}">Fasilitas</a></li>
+                                    <li><a href="{{ route('about.galeri') }}">Galeri</a></li>
+                                    <li><a href="{{ route('about.alumni') }}">Alumni</a></li>
+                                    <li><a href="{{ route('about.artikel') }}">Artikel</a></li>
                                 </ul>
                             </li>
                             <li><a href="{{ route('contact') }}">Contact</a></li>

@@ -52,6 +52,14 @@ Route::get('/blog/{slug}', [App\Http\Controllers\BlogController::class, 'show'])
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact');
 Route::post('/kontak/kirim', [ContactController::class, 'send'])->name('contact.send');
 
+// About Pages
+Route::get('/about/prestasi', [App\Http\Controllers\AboutController::class, 'prestasi'])->name('about.prestasi');
+Route::get('/about/ekstrakurikuler', [App\Http\Controllers\AboutController::class, 'ekstrakurikuler'])->name('about.ekstrakurikuler');
+Route::get('/about/fasilitas', [App\Http\Controllers\AboutController::class, 'fasilitas'])->name('about.fasilitas');
+Route::get('/about/galeri', [App\Http\Controllers\AboutController::class, 'galeri'])->name('about.galeri');
+Route::get('/about/alumni', [App\Http\Controllers\AboutController::class, 'alumni'])->name('about.alumni');
+Route::get('/about/artikel', [App\Http\Controllers\AboutController::class, 'artikel'])->name('about.artikel');
+
 // Admin Panel Routes
 Route::prefix('adminpanel')->group(function () {
     // Admin login routes (public)
