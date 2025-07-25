@@ -2,14 +2,75 @@
 
 @section('title', 'Sambutan Kepala Sekolah')
 
+@php
+use Illuminate\Support\Facades\Storage;
+@endphp
+
 @section('content')
+<style>
+    .skill-item {
+        height: 100%;
+        margin-bottom: 20px;
+    }
+    .skill-inner {
+        height: 100%;
+        min-height: 120px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    .skill-inner:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .skill-thumb {
+        width: 80px;
+        height: 80px;
+        margin-right: 20px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    .skill-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .skill-content {
+        text-align: left;
+        flex-grow: 1;
+    }
+    .skill-content h5 {
+        margin-bottom: 5px;
+        font-size: 1.2em;
+        color: #333;
+        font-weight: 600;
+    }
+    .skill-content p {
+        margin: 0;
+        font-size: 0.9em;
+        color: #666;
+        line-height: 1.4;
+    }
+    .section-wrpper .row {
+        margin: 0 -10px;
+    }
+    .section-wrpper .col {
+        padding: 0 10px;
+    }
+</style>
 <!-- Pageheader section start here -->
 <div class="pageheader-section">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="pageheader-content text-center">
-                    <h2>Sambutan Kepala Sekolah</h2>
+                    <h2>{{ $sambutan->judul ?? 'Sambutan Kepala Sekolah' }}</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
@@ -30,13 +91,13 @@
             <div class="col">
                 <div class="about-left">
                     <div class="about-thumb">
-                        <img src="{{ asset('assets/images/about/01.jpg') }}" alt="about">
+                        <img src="{{ $sambutan && $sambutan->foto_kepsek ? Storage::url($sambutan->foto_kepsek) : asset('assets/images/about/01.jpg') }}" alt="about">
                     </div>
                     <div class="abs-thumb">
-                        <img src="{{ asset('assets/images/about/02.jpg') }}" alt="about">
+                        <img src="{{ $sambutan && $sambutan->foto_kepsek2 ? Storage::url($sambutan->foto_kepsek2) : asset('assets/images/about/02.jpg') }}" alt="about">
                     </div>
                     <div class="about-left-content">
-                        <h3>11 Th</h3>
+                        <h3>{{ $sambutan->tahun_berdiri ?? '11' }} Th</h3>
                         <p>eLHaeS Berdiri</p>
                     </div>
                 </div>
@@ -44,12 +105,9 @@
             <div class="col">
                 <div class="about-right">
                     <div class="section-header">
-                        <span class="subtitle">Cerdas, Berakhlak, Menginspirasi</span>
-                        <h2 class="title">Mewujudkan Generasi Unggul Berakhlak Mulia</h2>
-                        <p>Assalamu'alaikum warahmatullahi wabarakatuh,
-                            Alhamdulillah, segala puji bagi Allah SWT yang telah memberikan kita kesempatan untuk terus belajar dan berkembang. Sebagai bagian dari keluarga besar sekolah ini, kami berkomitmen untuk menciptakan lingkungan pendidikan yang tidak hanya mengasah kecerdasan intelektual, tetapi juga membentuk karakter mulia sesuai nilai-nilai Islam.
-                            Dengan kerja sama yang baik antara guru, siswa, dan orang tua, insyaAllah kita dapat mencetak generasi yang cerdas, berakhlak, dan siap menghadapi tantangan masa depan. Mari bersama, mendidik dengan hati dan menginspirasi dengan teladan.
-                            Wassalamu'alaikum warahmatullahi wabarakatuh.</p>
+                        <span class="subtitle">{{ $sambutan->subtitle ?? 'Cerdas, Berakhlak, Menginspirasi' }}</span>
+                        <h2 class="title">{{ $sambutan->judul ?? 'Mewujudkan Generasi Unggul Berakhlak Mulia' }}</h2>
+                        <p>{!! $sambutan->sambutan ?? 'Sambutan belum tersedia' !!}</p>
                     </div>
                 </div>
             </div>
@@ -67,7 +125,7 @@
                     <div class="sf-left">
                         <div class="sfl-thumb">
                             <img src="{{ asset('assets/images/feedback/01.jpg') }}" alt="student feedback">
-                            <a href="https://www.youtube-nocookie.com/embed/jP649ZHA8Tg" class="video-button" data-rel="lightcase"><i class="icofont-ui-play"></i></a>
+                            <a href="{{ $sambutan->video_url ?? 'https://www.youtube-nocookie.com/embed/jP649ZHA8Tg' }}" class="video-button" data-rel="lightcase"><i class="icofont-ui-play"></i></a>
                         </div>
                     </div>
                 </div>

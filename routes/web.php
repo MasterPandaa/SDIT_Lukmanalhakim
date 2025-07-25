@@ -24,9 +24,7 @@ Route::get('/visi-misi', function () {
     return view('profil.visi-misi');
 })->name('visi-misi');
 
-Route::get('/sambutan-kepsek', function () {
-    return view('profil.sambutan-kepsek');
-})->name('sambutan-kepsek');
+Route::get('/sambutan-kepsek', [App\Http\Controllers\ProfilController::class, 'sambutanKepsek'])->name('sambutan-kepsek');
 
 Route::get('/kurikulum', function () {
     return view('profil.kurikulum');
@@ -71,4 +69,11 @@ Route::prefix('adminpanel')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
     });
+});
+
+// Admin Routes
+Route::prefix('adminpanel')->middleware(['admin'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/sambutan-kepsek', [AdminController::class, 'sambutanKepsek'])->name('admin.sambutan-kepsek');
+    Route::put('/sambutan-kepsek', [AdminController::class, 'updateSambutanKepsek'])->name('admin.sambutan-kepsek.update');
 });

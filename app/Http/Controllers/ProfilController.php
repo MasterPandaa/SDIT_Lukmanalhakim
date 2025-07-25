@@ -2,45 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SambutanKepsek;
 use Illuminate\Http\Request;
 
 class ProfilController extends Controller
 {
-    /**
-     * Menampilkan halaman visi misi
-     *
-     * @return \Illuminate\View\View
-     */
+    public function sambutanKepsek()
+    {
+        $sambutan = SambutanKepsek::first();
+        return view('profil.sambutan-kepsek', compact('sambutan'));
+    }
+
     public function visiMisi()
     {
         return view('profil.visi-misi');
     }
 
-    /**
-     * Menampilkan halaman sambutan kepala sekolah
-     *
-     * @return \Illuminate\View\View
-     */
-    public function sambutanKepsek()
-    {
-        return view('profil.sambutan-kepsek');
-    }
-
-    /**
-     * Menampilkan halaman kurikulum
-     *
-     * @return \Illuminate\View\View
-     */
     public function kurikulum()
     {
         return view('profil.kurikulum');
     }
 
-    /**
-     * Menampilkan halaman indikator kelulusan
-     *
-     * @return \Illuminate\View\View
-     */
     public function indikatorKelulusan()
     {
         return view('profil.indikator-kelulusan');

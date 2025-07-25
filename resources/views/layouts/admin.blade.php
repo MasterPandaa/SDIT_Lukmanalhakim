@@ -213,6 +213,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->is('adminpanel/sambutan-kepsek') ? 'active' : '' }}" href="{{ route('admin.sambutan-kepsek') }}">
+                            <i class="fas fa-user-tie"></i> Sambutan Kepsek
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="fas fa-newspaper"></i> Blog
                         </a>
