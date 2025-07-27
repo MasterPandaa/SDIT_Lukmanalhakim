@@ -26,9 +26,7 @@ Route::get('/visi-misi', function () {
 
 Route::get('/sambutan-kepsek', [App\Http\Controllers\ProfilController::class, 'sambutanKepsek'])->name('sambutan-kepsek');
 
-Route::get('/kurikulum', function () {
-    return view('profil.kurikulum');
-})->name('kurikulum');
+Route::get('/kurikulum', [App\Http\Controllers\KurikulumController::class, 'index'])->name('kurikulum');
 
 Route::get('/indikator-kelulusan', function () {
     return view('profil.indikator-kelulusan');
@@ -68,12 +66,16 @@ Route::prefix('adminpanel')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
-    });
-});
+        
+        // Sambutan Kepsek
+        Route::get('/sambutan-kepsek', [AdminController::class, 'sambutanKepsek'])->name('admin.sambutan-kepsek');
+        Route::put('/sambutan-kepsek', [AdminController::class, 'updateSambutanKepsek'])->name('admin.sambutan-kepsek.update');
 
-// Admin Routes
-Route::prefix('adminpanel')->middleware(['admin'])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/sambutan-kepsek', [AdminController::class, 'sambutanKepsek'])->name('admin.sambutan-kepsek');
-    Route::put('/sambutan-kepsek', [AdminController::class, 'updateSambutanKepsek'])->name('admin.sambutan-kepsek.update');
+        // Kurikulum Management Routes - Menggunakan Admin/KurikulumController
+        Route::get('/kurikulum', [App\Http\Controllers\Admin\KurikulumController::class, 'index'])->name('admin.kurikulum.index');
+        Route::put('/kurikulum', [App\Http\Controllers\Admin\KurikulumController::class, 'update'])->name('admin.kurikulum.update');
+        Route::post('/kurikulum/item', [App\Http\Controllers\Admin\KurikulumController::class, 'storeItem'])->name('admin.kurikulum.store-item');
+        Route::put('/kurikulum/item/{id}', [App\Http\Controllers\Admin\KurikulumController::class, 'updateItem'])->name('admin.kurikulum.update-item');
+        Route::delete('/kurikulum/item/{id}', [App\Http\Controllers\Admin\KurikulumController::class, 'destroyItem'])->name('admin.kurikulum.destroy-item');
+    });
 });

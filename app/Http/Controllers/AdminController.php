@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\SambutanKepsek;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Kurikulum;
 
 class AdminController extends Controller
 {
@@ -110,4 +111,5 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Sambutan Kepala Sekolah berhasil diperbarui');
     }
-} 
+
+}
