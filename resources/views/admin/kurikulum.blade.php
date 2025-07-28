@@ -173,16 +173,7 @@
                         </div>
                     </div>
 
-                    <!-- Tombol Kembali -->
-                    <div class="card shadow-sm border-left-success">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-end">
-                                <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary btn-lg px-5 shadow-sm">
-                                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Dashboard
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
