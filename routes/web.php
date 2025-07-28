@@ -73,9 +73,12 @@ Route::prefix('adminpanel')->group(function () {
 
         // Kurikulum Management Routes - Menggunakan Admin/KurikulumController
         Route::get('/kurikulum', [App\Http\Controllers\Admin\KurikulumController::class, 'index'])->name('admin.kurikulum.index');
-        Route::put('/kurikulum', [App\Http\Controllers\Admin\KurikulumController::class, 'update'])->name('admin.kurikulum.update');
+        Route::get('/kurikulum', [App\Http\Controllers\Admin\KurikulumController::class, 'index'])->name('admin.kurikulum');
+        Route::get('/kurikulum/item/create', [App\Http\Controllers\Admin\KurikulumController::class, 'createItem'])->name('admin.kurikulum.create-item');
         Route::post('/kurikulum/item', [App\Http\Controllers\Admin\KurikulumController::class, 'storeItem'])->name('admin.kurikulum.store-item');
+        Route::get('/kurikulum/item/{id}/edit', [App\Http\Controllers\Admin\KurikulumController::class, 'editItem'])->name('admin.kurikulum.edit-item');
         Route::put('/kurikulum/item/{id}', [App\Http\Controllers\Admin\KurikulumController::class, 'updateItem'])->name('admin.kurikulum.update-item');
         Route::delete('/kurikulum/item/{id}', [App\Http\Controllers\Admin\KurikulumController::class, 'destroyItem'])->name('admin.kurikulum.destroy-item');
+        Route::get('/kurikulum/item/{id}/toggle', [App\Http\Controllers\Admin\KurikulumController::class, 'toggleItemStatus'])->name('admin.kurikulum.toggle-item');
     });
 });

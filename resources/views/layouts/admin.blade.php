@@ -218,7 +218,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('adminpanel/kurikulum*') ? 'active' : '' }}" href="{{ route('admin.kurikulum.index') }}">
+                        <a class="nav-link {{ request()->is('adminpanel/kurikulum*') ? 'active' : '' }}" href="{{ route('admin.kurikulum') }}">
                             <i class="fas fa-book-open"></i> Kurikulum
                         </a>
                     </li>

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kurikulums', function (Blueprint $table) {
+        Schema::create('kurikulum_items', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->string('image');
+            $table->foreignId('kurikulum_id')->constrained('kurikulum')->onDelete('cascade');
+            $table->string('judul');
+            $table->text('deskripsi');
+            $table->string('gambar')->nullable(); // Path gambar/icon untuk item
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kurikulums');
+        Schema::dropIfExists('kurikulum_items');
     }
 };

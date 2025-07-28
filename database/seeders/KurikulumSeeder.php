@@ -10,39 +10,39 @@ class KurikulumSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Buat data kurikulum utama
         $kurikulum = Kurikulum::create([
-            'judul' => 'Kurikulum SDIT Luqman Al Hakim',
-            'subtitle' => 'Pendidikan Berkualitas',
-            'deskripsi' => 'SD Islam Terpadu Luqman Al Hakim Sleman menerapkan empat kurikulum terpadu'
+            'judul' => 'Kurikulum',
+            'subtitle' => 'Teach on edulon',
+            'deskripsi' => '<p>SD Islam Terpadu Luqman Al Hakim Sleman menerapkan empat kurikulum terpadu yang dirancang untuk memberikan pendidikan berkualitas tinggi dengan pendekatan holistik dan islami.</p><p>Sistem kurikulum yang diterapkan bertujuan untuk mengembangkan potensi siswa secara optimal dalam aspek akademik, spiritual, emosional, dan sosial.</p>',
+            'gambar_header' => null,
+            'is_active' => true
         ]);
 
-        // Buat data item kurikulum
+        // Buat data item kurikulum dengan data yang lebih lengkap
         $items = [
             [
                 'judul' => 'Kurikulum Merdeka',
-                'deskripsi' => 'Fokusnya pada pengembangan kompetensi, keterampilan berpikir kritis, kreativitas, serta pembelajaran yang inovatif dan aplikatif, selaras dengan kebutuhan dunia nyata.',
-                'urutan' => 1
+                'deskripsi' => '<p><strong>Kurikulum Merdeka</strong> adalah kurikulum yang berfokus pada pengembangan kompetensi siswa secara menyeluruh.</p>',
+                'gambar' => null
             ],
             [
                 'judul' => 'Kurikulum JSIT',
-                'deskripsi' => "Pendidikan holistik yang mencakup akademik, spiritual, emosional, dan sosial, dengan fokus pada akhlak mulia, hafalan Al-Qur'an, serta pembentukan kepribadian Islami dalam lingkungan kondusif.",
-                'urutan' => 2
+                'deskripsi' => '<p><strong>Jaringan Sekolah Islam Terpadu (JSIT)</strong> menerapkan pendidikan holistik yang mencakup akademik, spiritual, emosional, dan sosial.</p>',
+                'gambar' => null
             ],
             [
                 'judul' => 'Kurikulum Khas Yayasan',
-                'deskripsi' => 'Kurikulum ini dikembangkan secara mandiri oleh Konsorsium Yayasan Mulia untuk mencerminkan visi, misi, serta nilai-nilai khas yang ingin diterapkan dalam pendidikan.',
-                'urutan' => 3
+                'deskripsi' => '<p><strong>Kurikulum Khas Yayasan</strong> dikembangkan secara mandiri oleh Konsorsium Yayasan Mulia untuk mencerminkan visi dan misi yang unik.</p>',
+                'gambar' => null
             ],
             [
                 'judul' => 'Kurikulum Kepesantrenan',
-                'deskripsi' => 'Kurikulum ini berfokus pada pengajaran ilmu agama, seperti hadis, fiqh, akhlak, dan bahasa Arab, serta pendalaman Al-Qur\'an melalui pemahaman mendalam dan hafalan yang terstruktur.',
-                'urutan' => 4
+                'deskripsi' => '<p><strong>Kurikulum Kepesantrenan</strong> berfokus pada pengajaran ilmu agama secara mendalam dan komprehensif.</p>',
+                'gambar' => null
             ]
         ];
 
@@ -51,7 +51,7 @@ class KurikulumSeeder extends Seeder
                 'kurikulum_id' => $kurikulum->id,
                 'judul' => $item['judul'],
                 'deskripsi' => $item['deskripsi'],
-                'urutan' => $item['urutan']
+                'gambar' => $item['gambar']
             ]);
         }
     }

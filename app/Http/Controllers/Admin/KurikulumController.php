@@ -7,165 +7,258 @@ use App\Models\Kurikulum;
 use App\Models\KurikulumItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class KurikulumController extends Controller
 {
     /**
-     * Menampilkan halaman admin kurikulum
+     * Display the kurikulum management page
      */
     public function index()
     {
-        try {
-            $kurikulum = Kurikulum::with('items')->first();
-            \Log::debug('Admin/KurikulumController@index - Kurikulum data:', ['kurikulum' => $kurikulum]);
-            return view('admin.kurikulum', compact('kurikulum'));
-        } catch (\Exception $e) {
-            \Log::error('Admin/KurikulumController@index - Error:', ['message' => $e->getMessage()]);
-            // Jika terjadi error (misalnya tabel belum ada)
-            return view('admin.kurikulum', ['kurikulum' => null])
-                ->with('error', 'Tabel kurikulum belum tersedia. Silakan jalankan migrasi database terlebih dahulu.');
-        }
+        $kurikulum = Kurikulum::with('allItems')->first();
+        
+        return view('admin.kurikulum', compact('kurikulum'));
     }
 
     /**
-     * Menyimpan perubahan data kurikulum
+     * Update kurikulum utama
      */
     public function update(Request $request)
     {
-        \Log::debug('Admin/KurikulumController@update - Request data:', $request->all());
-        
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'judul' => 'required|string|max:255',
-            'subtitle' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
+            'subtitle' => 'nullable|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'gambar_header' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'is_active' => 'boolean'
         ]);
 
-        $kurikulum = Kurikulum::first();
-        if (!$kurikulum) {
-            $kurikulum = new Kurikulum();
-            \Log::info('Admin/KurikulumController@update - Creating new Kurikulum record');
-        } else {
-            \Log::info('Admin/KurikulumController@update - Updating existing Kurikulum record', ['id' => $kurikulum->id]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
-
-        $kurikulum->judul = $request->judul;
-        $kurikulum->subtitle = $request->subtitle;
-        $kurikulum->deskripsi = $request->deskripsi;
-        $kurikulum->save();
-
-        return redirect()->back()->with('success', 'Data kurikulum berhasil diperbarui');
-    }
-
-    /**
-     * Menambah item kurikulum baru
-     */
-    public function storeItem(Request $request)
-    {
-        \Log::debug('Admin/KurikulumController@storeItem - Request data:', $request->all());
-        
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'urutan' => 'required|integer|min:0',
-        ]);
-
-        $kurikulum = Kurikulum::first();
-        if (!$kurikulum) {
-            \Log::error('Admin/KurikulumController@storeItem - No Kurikulum record found');
-            return redirect()->back()->with('error', 'Data kurikulum utama belum dibuat');
-        }
-
-        $item = new KurikulumItem();
-        $item->kurikulum_id = $kurikulum->id;
-        $item->judul = $request->judul;
-        $item->deskripsi = $request->deskripsi;
-        $item->urutan = $request->urutan;
-
-        if ($request->hasFile('gambar')) {
-            \Log::info('Admin/KurikulumController@storeItem - Processing image upload');
-            $gambar = $request->file('gambar');
-            $path = $gambar->store('public/kurikulum');
-            $item->gambar = str_replace('public/', 'storage/', $path);
-            \Log::debug('Admin/KurikulumController@storeItem - Image path:', ['original' => $path, 'stored' => $item->gambar]);
-        }
-
-        $item->save();
-        \Log::info('Admin/KurikulumController@storeItem - Item created successfully', ['id' => $item->id]);
-
-        return redirect()->back()->with('success', 'Item kurikulum berhasil ditambahkan');
-    }
-
-    /**
-     * Mengupdate item kurikulum
-     */
-    public function updateItem(Request $request, $id)
-    {
-        \Log::debug('Admin/KurikulumController@updateItem - Request data:', array_merge($request->all(), ['id' => $id]));
-        
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'urutan' => 'required|integer|min:0',
-        ]);
 
         try {
-            $item = KurikulumItem::findOrFail($id);
-            \Log::info('Admin/KurikulumController@updateItem - Item found', ['id' => $id]);
-            
-            $item->judul = $request->judul;
-            $item->deskripsi = $request->deskripsi;
-            $item->urutan = $request->urutan;
+            $data = $request->only(['judul', 'subtitle', 'deskripsi']);
+            $data['is_active'] = $request->has('is_active');
 
-            if ($request->hasFile('gambar')) {
-                \Log::info('Admin/KurikulumController@updateItem - Processing image update');
+            // Handle gambar header upload
+            if ($request->hasFile('gambar_header')) {
                 // Hapus gambar lama jika ada
-                if ($item->gambar && Storage::exists(str_replace('storage/', 'public/', $item->gambar))) {
-                    \Log::debug('Admin/KurikulumController@updateItem - Deleting old image', ['path' => $item->gambar]);
-                    Storage::delete(str_replace('storage/', 'public/', $item->gambar));
+                $kurikulum = Kurikulum::first();
+                if ($kurikulum && $kurikulum->gambar_header && Storage::disk('public')->exists($kurikulum->gambar_header)) {
+                    Storage::disk('public')->delete($kurikulum->gambar_header);
                 }
 
-                $gambar = $request->file('gambar');
-                $path = $gambar->store('public/kurikulum');
-                $item->gambar = str_replace('public/', 'storage/', $path);
-                \Log::debug('Admin/KurikulumController@updateItem - New image path:', ['original' => $path, 'stored' => $item->gambar]);
+                // Upload gambar baru
+                $file = $request->file('gambar_header');
+                $filename = 'kurikulum-header-' . time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('kurikulum/header', $filename, 'public');
+                $data['gambar_header'] = $path;
             }
 
-            $item->save();
-            \Log::info('Admin/KurikulumController@updateItem - Item updated successfully', ['id' => $item->id]);
+            $kurikulum = Kurikulum::updateOrCreateData($data);
 
-            return redirect()->back()->with('success', 'Item kurikulum berhasil diperbarui');
+            return redirect()->route('admin.kurikulum')
+                ->with('success', 'Data kurikulum berhasil diperbarui!');
+
         } catch (\Exception $e) {
-            \Log::error('Admin/KurikulumController@updateItem - Error:', ['message' => $e->getMessage()]);
-            return redirect()->back()->with('error', 'Gagal memperbarui item: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    public function createItem()
+    {
+        $kurikulum = Kurikulum::first();
+        return view('admin.kurikulum-item-form', [
+            'kurikulum' => $kurikulum,
+            'item' => null,
+            'action' => route('admin.kurikulum.store-item'),
+            'method' => 'POST',
+            'title' => 'Tambah Item Kurikulum'
+        ]);
+    }
+
+    public function editItem($id)
+    {
+        $kurikulum = Kurikulum::first();
+        $item = KurikulumItem::findOrFail($id);
+        return view('admin.kurikulum-item-form', [
+            'kurikulum' => $kurikulum,
+            'item' => $item,
+            'action' => route('admin.kurikulum.update-item', $item->id),
+            'method' => 'PUT',
+            'title' => 'Edit Item Kurikulum'
+        ]);
+    }
+
+    public function storeItem(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'gambar' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            $kurikulum = Kurikulum::first();
+            if (!$kurikulum) {
+                $kurikulum = Kurikulum::create([
+                    'judul' => 'Kurikulum',
+                    'subtitle' => 'Pendidikan Berkualitas',
+                    'deskripsi' => 'Deskripsi kurikulum akan diisi di sini.'
+                ]);
+            }
+
+            $data = $request->only(['judul', 'deskripsi']);
+            $data['kurikulum_id'] = $kurikulum->id;
+
+            if ($request->hasFile('gambar')) {
+                $file = $request->file('gambar');
+                $filename = 'kurikulum-item-' . Str::slug($request->judul) . '-' . time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('kurikulum/items', $filename, 'public');
+                $data['gambar'] = $path;
+            }
+
+            KurikulumItem::create($data);
+
+            return redirect()->route('admin.kurikulum')
+                ->with('success', 'Item kurikulum berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    public function updateItem(Request $request, $id)
+    {
+        $item = KurikulumItem::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'gambar' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            $data = $request->only(['judul', 'deskripsi']);
+
+            if ($request->hasFile('gambar')) {
+                if ($item->gambar && Storage::disk('public')->exists($item->gambar)) {
+                    Storage::disk('public')->delete($item->gambar);
+                }
+                $file = $request->file('gambar');
+                $filename = 'kurikulum-item-' . Str::slug($request->judul) . '-' . time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('kurikulum/items', $filename, 'public');
+                $data['gambar'] = $path;
+            }
+
+            $item->update($data);
+
+            return redirect()->route('admin.kurikulum')
+                ->with('success', 'Item kurikulum berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                ->withInput();
         }
     }
 
     /**
-     * Menghapus item kurikulum
+     * Delete kurikulum item
      */
     public function destroyItem($id)
     {
-        \Log::debug('Admin/KurikulumController@destroyItem - Deleting item', ['id' => $id]);
-        
         try {
             $item = KurikulumItem::findOrFail($id);
-            \Log::info('Admin/KurikulumController@destroyItem - Item found', ['id' => $id]);
-            
-            // Hapus gambar jika ada
-            if ($item->gambar && Storage::exists(str_replace('storage/', 'public/', $item->gambar))) {
-                \Log::debug('Admin/KurikulumController@destroyItem - Deleting image', ['path' => $item->gambar]);
-                Storage::delete(str_replace('storage/', 'public/', $item->gambar));
-            }
-            
-            $item->delete();
-            \Log::info('Admin/KurikulumController@destroyItem - Item deleted successfully', ['id' => $id]);
+            $kurikulumId = $item->kurikulum_id;
+            $urutan = $item->urutan;
 
-            return redirect()->back()->with('success', 'Item kurikulum berhasil dihapus');
+            // Hapus gambar jika ada
+            if ($item->gambar && Storage::disk('public')->exists($item->gambar)) {
+                Storage::disk('public')->delete($item->gambar);
+            }
+
+            $item->delete();
+
+            // Reorder items setelah delete
+            KurikulumItem::reorderAfterDelete($kurikulumId, $urutan);
+
+            return redirect()->route('admin.kurikulum')
+                ->with('success', 'Item kurikulum berhasil dihapus!');
+
         } catch (\Exception $e) {
-            \Log::error('Admin/KurikulumController@destroyItem - Error:', ['message' => $e->getMessage()]);
-            return redirect()->back()->with('error', 'Gagal menghapus item: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Adjust urutan untuk item baru
+     */
+    private function adjustUrutanForNewItem($kurikulumId, $newUrutan)
+    {
+        KurikulumItem::where('kurikulum_id', $kurikulumId)
+            ->where('urutan', '>=', $newUrutan)
+            ->increment('urutan');
+    }
+
+    /**
+     * Adjust urutan untuk item yang diupdate
+     */
+    private function adjustUrutanForUpdatedItem($kurikulumId, $oldUrutan, $newUrutan, $itemId)
+    {
+        if ($oldUrutan < $newUrutan) {
+            // Pindah ke bawah
+            KurikulumItem::where('kurikulum_id', $kurikulumId)
+                ->where('id', '!=', $itemId)
+                ->whereBetween('urutan', [$oldUrutan + 1, $newUrutan])
+                ->decrement('urutan');
+        } elseif ($oldUrutan > $newUrutan) {
+            // Pindah ke atas
+            KurikulumItem::where('kurikulum_id', $kurikulumId)
+                ->where('id', '!=', $itemId)
+                ->whereBetween('urutan', [$newUrutan, $oldUrutan - 1])
+                ->increment('urutan');
+        }
+    }
+
+    /**
+     * Toggle status aktif item
+     */
+    public function toggleItemStatus($id)
+    {
+        try {
+            $item = KurikulumItem::findOrFail($id);
+            $item->update(['is_active' => !$item->is_active]);
+
+            $status = $item->is_active ? 'diaktifkan' : 'dinonaktifkan';
+            return redirect()->route('admin.kurikulum')
+                ->with('success', "Item kurikulum berhasil {$status}!");
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }
