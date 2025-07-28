@@ -207,13 +207,134 @@
     object-fit: cover;
 }
 
+.section-space--ptb_100 {
+    padding: 100px 0;
+}
+
+.section-space--mb_60 {
+    margin-bottom: 60px;
+}
+
+.breadcrumb-area {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+}
+
+.breadcrumb-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.breadcrumb {
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: #6c757d;
+}
+
+.breadcrumb-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+
+.heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.section-sub-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.text-gray-700 {
+    color: #374151;
+}
+
+.text-primary {
+    color: #007bff !important;
+}
+
+.shadow {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.rounded {
+    border-radius: 0.25rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
 @media (max-width: 768px) {
+    .breadcrumb-title {
+        font-size: 2rem;
+    }
+    
+    .heading {
+        font-size: 2rem;
+    }
+    
+    .section-space--ptb_100 {
+        padding: 60px 0;
+    }
+    
+    .section-space--mb_60 {
+        margin-bottom: 40px;
+    }
+    
     .single-course-image img {
         height: 180px;
     }
     
     .single-course-text-wrap {
         padding: 20px;
+    }
+    
+    .breadcrumb-area {
+        padding: 40px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .breadcrumb-title {
+        font-size: 1.5rem;
+    }
+    
+    .heading {
+        font-size: 1.75rem;
+    }
+    
+    .single-course-image img {
+        height: 160px;
+    }
+    
+    .single-course-text-wrap {
+        padding: 15px;
     }
 }
 </style>

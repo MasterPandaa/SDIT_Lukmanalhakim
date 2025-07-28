@@ -162,7 +162,7 @@
                                                     @if($item->gambar)
                                                         <img src="{{ $item->gambar_url }}" class="rounded mr-3" style="width: 50px; height: 50px; object-fit: cover;">
                                                     @else
-                                                        <div class="bg-primary rounded d-flex align-items-center justify-content-center mr-3" style="width: 50px; height: 50px; color: {{ $item->color }}">
+                                                        <div class="bg-primary rounded d-flex align-items-center justify-content-center mr-3" style="width: 50px; height: 50px; background-color: {{ $item->color }} !important;">
                                                             <i class="{{ $item->icon }} fa-lg text-white"></i>
                                                         </div>
                                                     @endif
@@ -468,95 +468,95 @@
 
 @push('styles')
 <style>
-    .border-left-primary {
-        border-left: 4px solid #4e73df !important;
-    }
-    
-    .border-left-secondary {
-        border-left: 4px solid #858796 !important;
-    }
-    
-    .custom-file-label::after {
-        content: "Browse";
-    }
-    
-    .card:hover {
-        transform: translateY(-2px);
-        transition: all 0.2s ease-in-out;
-    }
+.border-left-primary {
+    border-left: 4px solid #4e73df !important;
+}
+
+.border-left-secondary {
+    border-left: 4px solid #858796 !important;
+}
+
+.custom-file-label::after {
+    content: "Browse";
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    transition: all 0.2s ease-in-out;
+}
 </style>
 @endpush
 
 @push('scripts')
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <script>
-    // Initialize CKEditor
-    CKEDITOR.replace('deskripsi', {
-        height: 200,
-        toolbar: [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList'],
-            ['Link', 'Unlink'],
-            ['Format'],
-            ['Maximize']
-        ]
-    });
+// Initialize CKEditor
+CKEDITOR.replace('deskripsi', {
+    height: 200,
+    toolbar: [
+        ['Bold', 'Italic', 'Underline'],
+        ['NumberedList', 'BulletedList'],
+        ['Link', 'Unlink'],
+        ['Format'],
+        ['Maximize']
+    ]
+});
 
-    CKEDITOR.replace('add_deskripsi', {
-        height: 150,
-        toolbar: [['Bold', 'Italic'], ['NumberedList', 'BulletedList'], ['Link']]
-    });
+CKEDITOR.replace('add_deskripsi', {
+    height: 150,
+    toolbar: [['Bold', 'Italic'], ['NumberedList', 'BulletedList'], ['Link']]
+});
 
-    CKEDITOR.replace('edit_deskripsi', {
-        height: 150,
-        toolbar: [['Bold', 'Italic'], ['NumberedList', 'BulletedList'], ['Link']]
-    });
+CKEDITOR.replace('edit_deskripsi', {
+    height: 150,
+    toolbar: [['Bold', 'Italic'], ['NumberedList', 'BulletedList'], ['Link']]
+});
 
-    // Custom file input
-    $('.custom-file-input').on('change', function() {
-        let fileName = $(this).val().split('\\').pop();
-        $(this).next('.custom-file-label').addClass("selected").html(fileName);
-    });
+// Custom file input
+$('.custom-file-input').on('change', function() {
+    let fileName = $(this).val().split('\\').pop();
+    $(this).next('.custom-file-label').addClass("selected").html(fileName);
+});
 
-    // Edit item modal
-    $(document).on('click', '.edit-item-btn', function() {
-        const id = $(this).data('id');
-        const judul = $(this).data('judul');
-        const deskripsi = $(this).data('deskripsi');
-        const urutan = $(this).data('urutan');
-        const iconClass = $(this).data('icon_class');
-        const color = $(this).data('color');
-        const gambar = $(this).data('gambar');
-        const isActive = $(this).data('is_active');
-        
-        const actionUrl = "{{ route('admin.kurikulum.update-item', ['id' => 'ITEM_ID_PLACEHOLDER']) }}".replace('ITEM_ID_PLACEHOLDER', id);
-        $('#editItemForm').attr('action', actionUrl);
-        $('#edit_judul').val(judul);
-        $('#edit_urutan').val(urutan);
-        $('#edit_icon_class').val(iconClass);
-        $('#edit_color').val(color);
-        $('#edit_is_active').prop('checked', isActive);
-        
-        // Set CKEditor content
-        if (CKEDITOR.instances.edit_deskripsi) {
-            CKEDITOR.instances.edit_deskripsi.setData(deskripsi);
-        }
-        
-        // Show current image if exists
-        if (gambar) {
-            $('#current_image_container').removeClass('d-none');
-            $('#current_image').attr('src', '{{ asset("storage") }}/' + gambar);
-        } else {
-            $('#current_image_container').addClass('d-none');
-        }
-    });
+// Edit item modal
+$(document).on('click', '.edit-item-btn', function() {
+    const id = $(this).data('id');
+    const judul = $(this).data('judul');
+    const deskripsi = $(this).data('deskripsi');
+    const urutan = $(this).data('urutan');
+    const iconClass = $(this).data('icon_class');
+    const color = $(this).data('color');
+    const gambar = $(this).data('gambar');
+    const isActive = $(this).data('is_active');
+    
+    const actionUrl = "{{ route('admin.kurikulum.update-item', ['id' => 'ITEM_ID_PLACEHOLDER']) }}".replace('ITEM_ID_PLACEHOLDER', id);
+    $('#editItemForm').attr('action', actionUrl);
+    $('#edit_judul').val(judul);
+    $('#edit_urutan').val(urutan);
+    $('#edit_icon_class').val(iconClass);
+    $('#edit_color').val(color);
+    $('#edit_is_active').prop('checked', isActive);
+    
+    // Set CKEditor content
+    if (CKEDITOR.instances.edit_deskripsi) {
+        CKEDITOR.instances.edit_deskripsi.setData(deskripsi);
+    }
+    
+    // Show current image if exists
+    if (gambar) {
+        $('#current_image_container').removeClass('d-none');
+        $('#current_image').attr('src', '{{ asset("storage") }}/' + gambar);
+    } else {
+        $('#current_image_container').addClass('d-none');
+    }
+});
 
-    // Delete item modal
-    $(document).on('click', '.delete-item-btn', function() {
-        const actionUrl = $(this).data('action');
-        const title = $(this).data('title');
-        $('#deleteItemForm').attr('action', actionUrl);
-        $('#delete_item_title').text(title);
-    });
+// Delete item modal
+$(document).on('click', '.delete-item-btn', function() {
+    const actionUrl = $(this).data('action');
+    const title = $(this).data('title');
+    $('#deleteItemForm').attr('action', actionUrl);
+    $('#delete_item_title').text(title);
+});
 </script>
 @endpush
