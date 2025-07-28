@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\Storage;
                             <div class="category-item text-center">
                                 <div class="category-inner">
                                     <div class="category-thumb">
-                                        <img src="{{ $item->gambar ? Storage::url($item->gambar) : asset('assets/images/category/icon/15.jpg') }}" alt="category">
+                                        <img src="{{ $item->gambar ? asset($item->gambar) : asset('assets/images/category/icon/15.jpg') }}" alt="category">
                                     </div>
                                     <div class="category-content">
                                         <a href="#"><h4>{{ $item->judul }}</h4></a>
