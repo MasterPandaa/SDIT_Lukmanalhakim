@@ -223,6 +223,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->is('adminpanel/indikator-kelulusan*') ? 'active' : '' }}" href="{{ route('admin.indikator-kelulusan.index') }}">
+                            <i class="fas fa-graduation-cap"></i> Indikator Kelulusan
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->is('adminpanel/artikel*') ? 'active' : '' }}" href="{{ route('admin.artikel.index') }}">
                             <i class="fas fa-newspaper"></i> Artikel
                         </a>

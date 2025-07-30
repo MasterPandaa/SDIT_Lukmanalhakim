@@ -28,9 +28,7 @@ Route::get('/sambutan-kepsek', [App\Http\Controllers\ProfilController::class, 's
 
 Route::get('/kurikulum', [App\Http\Controllers\KurikulumController::class, 'index'])->name('kurikulum');
 
-Route::get('/indikator-kelulusan', function () {
-    return view('profil.indikator-kelulusan');
-})->name('indikator-kelulusan');
+Route::get('/indikator-kelulusan', [App\Http\Controllers\IndikatorKelulusanController::class, 'index'])->name('indikator-kelulusan');
 
 // Guru routes
 Route::get('/guru', [App\Http\Controllers\GuruController::class, 'index'])->name('guru');
@@ -98,5 +96,25 @@ Route::prefix('adminpanel')->group(function () {
         Route::put('/artikel/{id}', [App\Http\Controllers\Admin\ArtikelController::class, 'update'])->name('admin.artikel.update');
         Route::delete('/artikel/{id}', [App\Http\Controllers\Admin\ArtikelController::class, 'destroy'])->name('admin.artikel.destroy');
         Route::get('/artikel/{id}/toggle', [App\Http\Controllers\Admin\ArtikelController::class, 'toggleStatus'])->name('admin.artikel.toggle');
+        
+        // Indikator Kelulusan Management Routes
+        Route::get('/indikator-kelulusan', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'index'])->name('admin.indikator-kelulusan.index');
+        Route::put('/indikator-kelulusan/settings', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'updateSettings'])->name('admin.indikator-kelulusan.update-settings');
+        
+        // Kategori Management
+        Route::get('/indikator-kelulusan/kategori/create', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'createKategori'])->name('admin.indikator-kelulusan.create-kategori');
+        Route::post('/indikator-kelulusan/kategori', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'storeKategori'])->name('admin.indikator-kelulusan.store-kategori');
+        Route::get('/indikator-kelulusan/kategori/{id}/edit', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'editKategori'])->name('admin.indikator-kelulusan.edit-kategori');
+        Route::put('/indikator-kelulusan/kategori/{id}', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'updateKategori'])->name('admin.indikator-kelulusan.update-kategori');
+        Route::delete('/indikator-kelulusan/kategori/{id}', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'destroyKategori'])->name('admin.indikator-kelulusan.destroy-kategori');
+        Route::get('/indikator-kelulusan/kategori/{id}/toggle', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'toggleKategoriStatus'])->name('admin.indikator-kelulusan.toggle-kategori-status');
+        
+        // Indikator Management
+        Route::get('/indikator-kelulusan/indikator/create', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'createIndikator'])->name('admin.indikator-kelulusan.create-indikator');
+        Route::post('/indikator-kelulusan/indikator', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'storeIndikator'])->name('admin.indikator-kelulusan.store-indikator');
+        Route::get('/indikator-kelulusan/indikator/{id}/edit', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'editIndikator'])->name('admin.indikator-kelulusan.edit-indikator');
+        Route::put('/indikator-kelulusan/indikator/{id}', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'updateIndikator'])->name('admin.indikator-kelulusan.update-indikator');
+        Route::delete('/indikator-kelulusan/indikator/{id}', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'destroyIndikator'])->name('admin.indikator-kelulusan.destroy-indikator');
+        Route::get('/indikator-kelulusan/indikator/{id}/toggle', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'toggleIndikatorStatus'])->name('admin.indikator-kelulusan.toggle-indikator-status');
     });
 });
