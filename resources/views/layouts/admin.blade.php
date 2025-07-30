@@ -223,8 +223,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-newspaper"></i> Blog
+                        <a class="nav-link {{ request()->is('adminpanel/artikel*') ? 'active' : '' }}" href="{{ route('admin.artikel.index') }}">
+                            <i class="fas fa-newspaper"></i> Artikel
                         </a>
                     </li>
                     <li class="nav-item">
@@ -235,6 +235,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="fas fa-chalkboard-teacher"></i> Guru
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('adminpanel/alumni*') ? 'active' : '' }}" href="{{ route('admin.alumni.index') }}">
+                            <i class="fas fa-user-graduate"></i> Alumni
                         </a>
                     </li>
                     <div class="sidebar-divider"></div>

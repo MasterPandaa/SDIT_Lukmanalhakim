@@ -80,5 +80,23 @@ Route::prefix('adminpanel')->group(function () {
         Route::put('/kurikulum/item/{id}', [App\Http\Controllers\Admin\KurikulumController::class, 'updateItem'])->name('admin.kurikulum.update-item');
         Route::delete('/kurikulum/item/{id}', [App\Http\Controllers\Admin\KurikulumController::class, 'destroyItem'])->name('admin.kurikulum.destroy-item');
         Route::get('/kurikulum/item/{id}/toggle', [App\Http\Controllers\Admin\KurikulumController::class, 'toggleItemStatus'])->name('admin.kurikulum.toggle-item');
+        
+        // Alumni Management Routes
+        Route::get('/alumni', [App\Http\Controllers\Admin\AlumniController::class, 'index'])->name('admin.alumni.index');
+        Route::get('/alumni/create', [App\Http\Controllers\Admin\AlumniController::class, 'create'])->name('admin.alumni.create');
+        Route::post('/alumni', [App\Http\Controllers\Admin\AlumniController::class, 'store'])->name('admin.alumni.store');
+        Route::get('/alumni/{id}/edit', [App\Http\Controllers\Admin\AlumniController::class, 'edit'])->name('admin.alumni.edit');
+        Route::put('/alumni/{id}', [App\Http\Controllers\Admin\AlumniController::class, 'update'])->name('admin.alumni.update');
+        Route::delete('/alumni/{id}', [App\Http\Controllers\Admin\AlumniController::class, 'destroy'])->name('admin.alumni.destroy');
+        Route::get('/alumni/{id}/toggle', [App\Http\Controllers\Admin\AlumniController::class, 'toggleStatus'])->name('admin.alumni.toggle');
+        
+        // Artikel Management Routes
+        Route::get('/artikel', [App\Http\Controllers\Admin\ArtikelController::class, 'index'])->name('admin.artikel.index');
+        Route::get('/artikel/create', [App\Http\Controllers\Admin\ArtikelController::class, 'create'])->name('admin.artikel.create');
+        Route::post('/artikel', [App\Http\Controllers\Admin\ArtikelController::class, 'store'])->name('admin.artikel.store');
+        Route::get('/artikel/{id}/edit', [App\Http\Controllers\Admin\ArtikelController::class, 'edit'])->name('admin.artikel.edit');
+        Route::put('/artikel/{id}', [App\Http\Controllers\Admin\ArtikelController::class, 'update'])->name('admin.artikel.update');
+        Route::delete('/artikel/{id}', [App\Http\Controllers\Admin\ArtikelController::class, 'destroy'])->name('admin.artikel.destroy');
+        Route::get('/artikel/{id}/toggle', [App\Http\Controllers\Admin\ArtikelController::class, 'toggleStatus'])->name('admin.artikel.toggle');
     });
 });

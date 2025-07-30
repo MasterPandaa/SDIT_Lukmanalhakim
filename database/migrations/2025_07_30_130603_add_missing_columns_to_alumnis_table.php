@@ -11,8 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alumnis', function (Blueprint $table) {
-            $table->id();
+        Schema::table('alumnis', function (Blueprint $table) {
             $table->string('nama');
             $table->string('foto')->nullable();
             $table->integer('tahun_lulus');
@@ -21,7 +20,6 @@ return new class extends Migration
             $table->text('prestasi')->nullable();
             $table->text('testimoni')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->timestamps();
         });
     }
 
@@ -30,6 +28,17 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alumnis');
+        Schema::table('alumnis', function (Blueprint $table) {
+            $table->dropColumn([
+                'nama',
+                'foto',
+                'tahun_lulus',
+                'pendidikan_lanjutan',
+                'pekerjaan',
+                'prestasi',
+                'testimoni',
+                'is_active'
+            ]);
+        });
     }
 };

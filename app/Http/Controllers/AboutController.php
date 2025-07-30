@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Alumni;
 
 class AboutController extends Controller
 {
@@ -137,7 +138,8 @@ class AboutController extends Controller
         return view('about.galeri', compact('galeri'));
     }
     public function alumni() {
-        return view('about.alumni');
+        $alumni = Alumni::where('is_active', true)->orderBy('tahun_lulus', 'desc')->get();
+        return view('about.alumni', compact('alumni'));
     }
     public function artikel() {
         return view('about.artikel');
