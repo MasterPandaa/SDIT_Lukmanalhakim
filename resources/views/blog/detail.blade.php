@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Berita')
+@section('title', $artikel->judul)
 
 @section('content')
 <!-- Page Header Section Start -->
@@ -9,12 +9,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="pageheader-content text-center">
-                    <h2>Kegiatan Ramadhan SDIT Lukmanalhakim</h2>
+                    <h2>{{ $artikel->judul }}</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('blog') }}">Berita</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Detail Berita</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $artikel->judul }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -35,43 +35,40 @@
                             <div class="col">
                                 <div class="post-item style-2">
                                     <div class="post-inner">
+                                        @if($artikel->gambar)
                                         <div class="post-thumb">
-                                            <img src="{{ asset('assets/images/blog/single/01.jpg') }}" alt="blog" class="w-100">
+                                            <img src="{{ asset('storage/artikel/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" class="w-100">
                                         </div>
+                                        @endif
                                         <div class="post-content">
-                                            <h2>Kegiatan Ramadhan SDIT Lukmanalhakim</h2>
+                                            <h2>{{ $artikel->judul }}</h2>
                                             <div class="meta-post">
                                                 <ul class="lab-ul">
-                                                    <li><a href="#"><i class="icofont-calendar"></i> 15 Juni 2025</a></li>
-                                                    <li><a href="#"><i class="icofont-ui-user"></i> Admin</a></li>
-                                                    <li><a href="#"><i class="icofont-speech-comments"></i> 5 Komentar</a></li>
+                                                    <li><a href="#"><i class="icofont-calendar"></i> {{ $artikel->formatted_published_at }}</a></li>
+                                                    <li><a href="#"><i class="icofont-ui-user"></i> {{ $artikel->penulis ?? 'Admin' }}</a></li>
+                                                    @if($artikel->kategori)
+                                                        <li><a href="#"><i class="icofont-tag"></i> {{ $artikel->kategori }}</a></li>
+                                                    @endif
+                                                    <li><a href="#"><i class="icofont-speech-comments"></i> 0 Komentar</a></li>
                                                 </ul>
                                             </div>
-                                            <p>Bulan Ramadhan adalah bulan yang penuh berkah dan merupakan kesempatan emas untuk meningkatkan keimanan dan ketakwaan kepada Allah SWT. SDIT Lukmanalhakim telah menyelenggarakan berbagai kegiatan Ramadhan yang bertujuan untuk menumbuhkan semangat ibadah dan menanamkan nilai-nilai Islam kepada siswa-siswi.</p>
+                                            
+                                            @if($artikel->ringkasan)
+                                                <div class="article-summary">
+                                                    <p class="lead">{{ $artikel->ringkasan }}</p>
+                                                </div>
+                                            @endif
 
-                                            <blockquote>
-                                                <p>"Ramadhan adalah bulan yang penuh berkah, bulan Al-Qur'an, dan bulan untuk meningkatkan ketakwaan. Mari kita manfaatkan dengan sebaik-baiknya untuk mendidik generasi Qur'ani."</p>
-                                                <cite><a href="#">...Kepala Sekolah SDIT Lukmanalhakim</a></cite>
-                                            </blockquote>
-
-                                            <p>Selama bulan Ramadhan, SDIT Lukmanalhakim mengadakan berbagai kegiatan yang dirancang khusus untuk siswa-siswi. Kegiatan-kegiatan tersebut antara lain Program Tahfidz Intensif, Pesantren Ramadhan, Buka Puasa Bersama, Santunan Anak Yatim dan Dhuafa, serta Lomba Ramadhan.</p>
-
-                                            <img src="{{ asset('assets/images/blog/single/02.jpg') }}" alt="blog">
-
-                                            <p>Program Tahfidz Intensif bertujuan untuk meningkatkan hafalan Al-Qur'an siswa. Setiap siswa memiliki target hafalan yang disesuaikan dengan kemampuannya. Pesantren Ramadhan diisi dengan berbagai aktivitas seperti tadarus Al-Qur'an, kajian Islam, shalat berjamaah, dan berbuka puasa bersama.</p>
-
-                                            <div class="video-thumb">
-                                                <img src="{{ asset('assets/images/blog/single/03.jpg') }}" alt="video">
-                                                <a href="https://www.youtube-nocookie.com/embed/jP649ZHA8Tg" class="video-button" data-rel="lightcase"><i class="icofont-ui-play"></i></a>
+                                            <div class="article-content">
+                                                {!! $artikel->konten !!}
                                             </div>
 
-                                            <p>Kegiatan Ramadhan yang diselenggarakan oleh SDIT Lukmanalhakim memberikan banyak manfaat bagi siswa-siswi, di antaranya meningkatkan keimanan dan ketakwaan kepada Allah SWT, menumbuhkan semangat ibadah dan disiplin dalam beribadah, memahami makna dan hikmah puasa Ramadhan, mengembangkan kepedulian sosial dan sikap berbagi, serta memperkuat ukhuwah Islamiyah antar siswa, guru, dan karyawan.</p>
-
+                                            @if($artikel->kategori)
                                             <div class="tags-section">
                                                 <ul class="tags lab-ul">
-                                                    <li><a href="#">Ramadhan</a></li>
-                                                    <li><a href="#">Kegiatan Sekolah</a></li>
-                                                    <li><a href="#">Ibadah</a></li>
+                                                    <li><a href="#">{{ $artikel->kategori }}</a></li>
+                                                    <li><a href="#">Berita Sekolah</a></li>
+                                                    <li><a href="#">SDIT Lukmanalhakim</a></li>
                                                 </ul>
                                                 <ul class="lab-ul social-icons">
                                                     <li>
@@ -91,103 +88,64 @@
                                                     </li>
                                                 </ul> 
                                             </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
 
+                                @if($relatedArticles->count() > 0)
                                 <div class="navigations-part">
                                     <div class="left">
-                                        <a href="#" class="prev"><i class="icofont-double-left"></i>Berita Sebelumnya</a>
-                                        <a href="#" class="title">Prestasi Olimpiade Matematika Tingkat Kota</a>
+                                        @if($relatedArticles->first())
+                                        <a href="{{ route('blog-single', $relatedArticles->first()->slug) }}" class="prev">
+                                            <i class="icofont-double-left"></i>Artikel Sebelumnya
+                                        </a>
+                                        @endif
                                     </div>
                                     <div class="right">
-                                        <a href="#" class="prev">Berita Selanjutnya<i class="icofont-double-right"></i></a>
-                                        <a href="#" class="title">PPDB Tahun Ajaran 2025/2026 Telah Dibuka</a>
+                                        @if($relatedArticles->count() > 1)
+                                        <a href="{{ route('blog-single', $relatedArticles[1]->slug) }}" class="next">
+                                            Artikel Selanjutnya<i class="icofont-double-right"></i>
+                                        </a>
+                                        @endif
                                     </div>
                                 </div>
+                                @endif
 
-                                <div class="authors">
-                                    <div class="author-thumb">
-                                        <img src="{{ asset('assets/images/author/01.jpg') }}" alt="author">
+                                @if($relatedArticles->count() > 0)
+                                <div class="releted-post">
+                                    <div class="title">
+                                        <h5>Artikel Terkait</h5>
                                     </div>
-                                    <div class="author-content">
-                                        <h5>Admin SDIT Lukmanalhakim</h5>
-                                        <span>Humas Sekolah</span>
-                                        <p>Tim Humas SDIT Lukmanalhakim bertugas untuk menyampaikan informasi terkini tentang kegiatan dan prestasi sekolah kepada masyarakat luas. Kami berkomitmen untuk memberikan informasi yang akurat dan bermanfaat.</p>
-                                        <ul class="lab-ul social-icons">
-                                            <li>
-                                                <a href="#" class="facebook"><i class="icofont-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="twitter"><i class="icofont-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="linkedin"><i class="icofont-linkedin"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="instagram"><i class="icofont-instagram"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="pinterest"><i class="icofont-pinterest"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div id="comments" class="comments">
-                                    <h4 class="title-border">02 Komentar</h4>
-                                    <ul class="comment-list">
-                                        <li class="comment">
-                                            <div class="com-thumb">
-                                                <img alt="author" src="{{ asset('assets/images/author/02.jpg') }}">          
-                                            </div>
-                                            <div class="com-content">
-                                                <div class="com-title">
-                                                    <div class="com-title-meta">
-                                                        <h6>Ahmad Fauzi</h6>
-                                                        <span>15 Juni 2025, 10:30 WIB</span>
+                                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center g-4">
+                                        @foreach($relatedArticles->take(3) as $relatedArticle)
+                                        <div class="col">
+                                            <div class="post-item">
+                                                <div class="post-inner">
+                                                    <div class="post-thumb">
+                                                        <a href="{{ route('blog-single', $relatedArticle->slug) }}">
+                                                            @if($relatedArticle->gambar)
+                                                                <img src="{{ asset('storage/artikel/' . $relatedArticle->gambar) }}" alt="{{ $relatedArticle->judul }}">
+                                                            @else
+                                                                <img src="{{ asset('assets/images/blog/default.jpg') }}" alt="{{ $relatedArticle->judul }}">
+                                                            @endif
+                                                        </a>
                                                     </div>
-                                                    <span class="reply">
-                                                        <a class="comment-reply-link" href="#"><i class="icofont-reply-all"></i>Balas</a>
-                                                    </span>
-                                                </div>
-                                                <p>Alhamdulillah, kegiatan Ramadhan di SDIT Lukmanalhakim berjalan dengan lancar dan sukses. Semoga kegiatan ini memberikan manfaat bagi siswa-siswi dalam meningkatkan keimanan dan ketakwaan kepada Allah SWT.</p>
-                                            </div>
-                                            <ul class="comment-list">
-                                                <li class="comment">
-                                                    <div class="com-thumb">
-                                                        <img alt="author" src="{{ asset('assets/images/author/03.jpg') }}">  
-                                                    </div>
-                                                    <div class="com-content">
-                                                        <div class="com-title">
-                                                            <div class="com-title-meta">
-                                                                <h6>Siti Aminah</h6>
-                                                                <span>15 Juni 2025, 11:15 WIB</span>
-                                                            </div>
-                                                            <span class="reply">
-                                                                <a class="comment-reply-link" href="#"><i class="icofont-reply-all"></i>Balas</a>                        
-                                                            </span>
+                                                    <div class="post-content">
+                                                        <a href="{{ route('blog-single', $relatedArticle->slug) }}"><h6>{{ $relatedArticle->judul }}</h6></a>
+                                                        <div class="meta-post">
+                                                            <ul class="lab-ul">
+                                                                <li><i class="icofont-calendar"></i> {{ $relatedArticle->formatted_published_at }}</li>
+                                                            </ul>
                                                         </div>
-                                                        <p>Sangat bangga dengan kegiatan Ramadhan yang diselenggarakan oleh SDIT Lukmanalhakim. Anak saya sangat antusias mengikuti kegiatan-kegiatan tersebut, terutama program tahfidz intensif.</p>
                                                     </div>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
                                 </div>
-
-                                <div id="respond" class="comment-respond mb-lg-0">
-                                    <h4 class="title-border">Tinggalkan Komentar</h4>
-                                    <div class="add-comment">
-                                        <form action="#" method="post" id="commentform" class="comment-form">
-                                            <input name="name" type="text" value="" placeholder="Nama">
-                                            <input name="email" type="text" value="" placeholder="Email">
-                                            <input name="url" type="text" value="" placeholder="Subjek">
-                                            <textarea id="comment-reply" name="comment" rows="5" placeholder="Tulis komentar Anda di sini"></textarea>
-                                            <button type="submit" class="lab-btn"><span>Kirim Komentar</span></button>
-                                        </form>
-                                    </div>			
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
