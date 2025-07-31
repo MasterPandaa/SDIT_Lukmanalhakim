@@ -23,6 +23,21 @@
 </div>
 <!-- Page Header Section Ending -->
 
+<!-- Debug Information (Remove this in production) -->
+@if(isset($debug))
+<div class="container mt-3">
+    <div class="alert alert-info">
+        <h6>Debug Info:</h6>
+        <ul class="mb-0">
+            <li>Total Articles: {{ $debug['total_articles'] }}</li>
+            <li>Active Articles: {{ $debug['active_articles'] }}</li>
+            <li>Published Articles: {{ $debug['published_articles'] }}</li>
+            <li>Showing Articles: {{ $debug['showing_articles'] }}</li>
+        </ul>
+    </div>
+</div>
+@endif
+
 <!-- Blog Section Start -->
 <div class="blog-section padding-tb section-bg">
     <div class="container">
@@ -47,7 +62,7 @@
                                     <div class="meta-post">
                                         <ul class="lab-ul">
                                             <li><i class="icofont-ui-user"></i> {{ $artikel->penulis ?? 'Admin' }}</li>
-                                            <li><i class="icofont-calendar"></i> {{ $artikel->formatted_published_at }}</li>
+                                            <li><i class="icofont-calendar"></i> {{ $artikel->formatted_published_at ?? $artikel->created_at->format('d F Y') }}</li>
                                             @if($artikel->kategori)
                                                 <li><i class="icofont-tag"></i> {{ $artikel->kategori }}</li>
                                             @endif
@@ -84,6 +99,15 @@
                         <i class="icofont-newspaper" style="font-size: 4rem; color: #ccc;"></i>
                         <h4 class="mt-3">Belum ada artikel</h4>
                         <p class="text-muted">Artikel akan ditampilkan di sini setelah dipublikasikan.</p>
+                        @if(isset($debug))
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    Debug: Total {{ $debug['total_articles'] }} artikel di database, 
+                                    {{ $debug['active_articles'] }} aktif, 
+                                    {{ $debug['published_articles'] }} published
+                                </small>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @endif

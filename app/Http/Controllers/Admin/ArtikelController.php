@@ -44,9 +44,13 @@ class ArtikelController extends Controller
             $data['gambar'] = $imageName;
         }
 
-        // Set published_at if not provided but article is active
-        if (empty($data['published_at']) && $data['is_active']) {
-            $data['published_at'] = now();
+        // Set default values for immediate visibility
+        if (!isset($data['is_active'])) {
+            $data['is_active'] = true; // Default to active
+        }
+        
+        if (empty($data['published_at'])) {
+            $data['published_at'] = now(); // Default to now
         }
 
         Artikel::create($data);
@@ -91,8 +95,8 @@ class ArtikelController extends Controller
             $data['gambar'] = $imageName;
         }
 
-        // Set published_at if not provided but article is active
-        if (empty($data['published_at']) && $data['is_active'] && !$artikel->published_at) {
+        // Ensure published_at is set if article is active
+        if (!empty($data['is_active']) && empty($data['published_at']) && !$artikel->published_at) {
             $data['published_at'] = now();
         }
 

@@ -92,7 +92,8 @@
                                 <div class="mb-3">
                                     <label for="published_at" class="form-label">Tanggal Publikasi</label>
                                     <input type="datetime-local" class="form-control @error('published_at') is-invalid @enderror" 
-                                           id="published_at" name="published_at" value="{{ old('published_at') }}">
+                                           id="published_at" name="published_at" 
+                                           value="{{ old('published_at', now()->format('Y-m-d\TH:i')) }}">
                                     @error('published_at')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -106,7 +107,7 @@
                                         <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" 
                                                {{ old('is_active', true) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_active">
-                                            Aktifkan artikel
+                                            Aktifkan artikel (akan langsung muncul di halaman publik)
                                         </label>
                                     </div>
                                 </div>
