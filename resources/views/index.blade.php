@@ -89,75 +89,87 @@
                 <h2 class="title">Bangun Generasi Berkarakter bersama Kami</h2>
             </div>
             <div class="section-wrapper">
-                <div class="row g-2 justify-content-center row-cols-xl-6 row-cols-md-3 row-cols-sm-2 row-cols-1">
+                <div class="row g-4 justify-content-center row-cols-xl-6 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
                     <div class="col">
-                        <div class="category-item text-center">
+                        <div class="category-item">
                             <div class="category-inner">
                                 <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/01.jpg') }}" alt="category">
+                                    <img src="{{ asset('assets/images/category/icon/01.jpg') }}" alt="Tahfiz Quran">
                                 </div>
                                 <div class="category-content">
-                                    <a href="{{ route('course') }}"><h6>Tahfiz Quran 10 juz</h6></a>
+                                    <a href="{{ route('course') }}">
+                                        <h6>Tahfiz Quran 10 juz</h6>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="category-item text-center">
+                        <div class="category-item">
                             <div class="category-inner">
                                 <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/02.jpg') }}" alt="category">
+                                    <img src="{{ asset('assets/images/category/icon/02.jpg') }}" alt="Pendidikan Karakter">
                                 </div>
                                 <div class="category-content">
-                                    <a href="{{ route('course') }}"><h6>Pendidikan Karakter</h6></a>
+                                    <a href="{{ route('course') }}">
+                                        <h6>Pendidikan Karakter</h6>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="category-item text-center">
+                        <div class="category-item">
                             <div class="category-inner">
                                 <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/03.jpg') }}" alt="category">
+                                    <img src="{{ asset('assets/images/category/icon/03.jpg') }}" alt="Fasih Membaca Quran">
                                 </div>
                                 <div class="category-content">
-                                    <a href="{{ route('course') }}"><h6>Fasih Membaca Quran</h6></a>
+                                    <a href="{{ route('course') }}">
+                                        <h6>Fasih Membaca Quran</h6>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="category-item text-center">
+                        <div class="category-item">
                             <div class="category-inner">
                                 <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/04.jpg') }}" alt="category">
+                                    <img src="{{ asset('assets/images/category/icon/04.jpg') }}" alt="Hafal Hadis">
                                 </div>
                                 <div class="category-content">
-                                    <a href="{{ route('course') }}"><h6>Hafal 20 Hadis Pilihan</h6></a>
+                                    <a href="{{ route('course') }}">
+                                        <h6>Hafal 20 Hadis Pilihan</h6>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="category-item text-center">
+                        <div class="category-item">
                             <div class="category-inner">
                                 <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/05.jpg') }}" alt="category">
+                                    <img src="{{ asset('assets/images/category/icon/05.jpg') }}" alt="Asessmen AKM">
                                 </div>
                                 <div class="category-content">
-                                    <a href="{{ route('course') }}"><h6>Sukses Asessmen AKM</h6></a>
+                                    <a href="{{ route('course') }}">
+                                        <h6>Sukses Asessmen AKM</h6>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="category-item text-center">
+                        <div class="category-item">
                             <div class="category-inner">
                                 <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/06.jpg') }}" alt="category">
+                                    <img src="{{ asset('assets/images/category/icon/06.jpg') }}" alt="Program Kepesantrenan">
                                 </div>
                                 <div class="category-content">
-                                    <a href="{{ route('course') }}"><h6>Program Kepesantrenan</h6></a>
+                                    <a href="{{ route('course') }}">
+                                        <h6>Program Kepesantrenan</h6>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -550,4 +562,347 @@
         </div>
     </div>
     <!-- Clients Section Ending Here -->
-@endsection 
+
+    <!-- WhatsApp Floating Button -->
+    @if(config('whatsapp.enabled', true))
+    <div class="whatsapp-float" onclick="toggleWhatsAppPopup()">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+    @endif
+
+    <!-- WhatsApp Popup -->
+    @if(config('whatsapp.enabled', true))
+    <div id="whatsapp-popup" class="whatsapp-popup">
+        <div class="whatsapp-popup-content">
+            <div class="whatsapp-popup-header">
+                <div class="whatsapp-popup-title">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>{{ config('whatsapp.admin_name', 'Admin eLHaeS') }}</span>
+                </div>
+                <button class="whatsapp-popup-close" onclick="closeWhatsAppPopup()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="whatsapp-popup-body">
+                <div class="whatsapp-message">
+                    <p>{{ config('whatsapp.popup_message', 'Assalamualikum, ada yang bisa kami bantu?') }}</p>
+                </div>
+                <button class="whatsapp-open-chat" onclick="openWhatsAppChat()">
+                    <i class="fas fa-paper-plane"></i>
+                    Open chat
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+@endsection
+
+@push('styles')
+<style>
+/* Program Unggulan Cards - Position and Size Fix */
+.category-section {
+    background: #f8f9fa;
+}
+
+.category-item {
+    margin-bottom: 15px;
+}
+
+.category-inner {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    text-align: center;
+}
+
+.category-thumb {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.category-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.category-content h6 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.category-content a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.category-content a:hover {
+    text-decoration: none;
+}
+
+/* Section Header Improvements */
+.section-header .subtitle {
+    color: #ff6b35;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.section-header .title {
+    color: #333;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 0;
+    line-height: 1.3;
+}
+
+/* WhatsApp Floating Button */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+/* WhatsApp Popup */
+.whatsapp-popup {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 300px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+    display: none;
+    animation: slideInUp 0.3s ease;
+}
+
+.whatsapp-popup.show {
+    display: block;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.whatsapp-popup-header {
+    background: #25D366;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.whatsapp-popup-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.whatsapp-popup-title i {
+    font-size: 18px;
+}
+
+.whatsapp-popup-close {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.whatsapp-popup-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.whatsapp-popup-body {
+    padding: 20px;
+}
+
+.whatsapp-message {
+    background: #f0f0f0;
+    padding: 12px 16px;
+    border-radius: 18px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.whatsapp-message::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #f0f0f0;
+}
+
+.whatsapp-message p {
+    margin: 0;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.whatsapp-open-chat {
+    width: 100%;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.whatsapp-open-chat:hover {
+    background: #128C7E;
+}
+
+.whatsapp-open-chat i {
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .category-inner {
+        min-height: 120px;
+        padding: 15px 10px;
+    }
+    
+    .category-thumb {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+    }
+    
+    .category-content h6 {
+        font-size: 12px;
+    }
+    
+    .section-header .title {
+        font-size: 24px;
+    }
+    
+    .whatsapp-popup {
+        width: 280px;
+        right: 20px;
+        bottom: 90px;
+    }
+    
+    .whatsapp-float {
+        bottom: 20px;
+        right: 20px;
+        width: 55px;
+        height: 55px;
+        font-size: 28px;
+    }
+}
+</style>
+@endpush
+
+@push('scripts')
+<script>
+// WhatsApp Popup Functions
+function toggleWhatsAppPopup() {
+    const popup = document.getElementById('whatsapp-popup');
+    popup.classList.toggle('show');
+}
+
+function closeWhatsAppPopup() {
+    const popup = document.getElementById('whatsapp-popup');
+    popup.classList.remove('show');
+}
+
+function openWhatsAppChat() {
+    // Menggunakan konfigurasi dari backend
+    const phoneNumber = '{{ config("whatsapp.phone_number") }}';
+    const message = '{{ config("whatsapp.default_message") }}';
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+    closeWhatsAppPopup();
+}
+
+// Auto show popup after delay dari konfigurasi
+document.addEventListener('DOMContentLoaded', function() {
+    const delay = {{ config("whatsapp.popup_delay", 3) }} * 1000; // Convert to milliseconds
+    setTimeout(function() {
+        const popup = document.getElementById('whatsapp-popup');
+        popup.classList.add('show');
+    }, delay);
+});
+
+// Close popup when clicking outside
+document.addEventListener('click', function(event) {
+    const popup = document.getElementById('whatsapp-popup');
+    const float = document.querySelector('.whatsapp-float');
+    
+    if (!popup.contains(event.target) && !float.contains(event.target)) {
+        popup.classList.remove('show');
+    }
+});
+</script>
+@endpush 

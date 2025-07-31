@@ -88,6 +88,19 @@ Route::prefix('adminpanel')->group(function () {
         Route::delete('/alumni/{id}', [App\Http\Controllers\Admin\AlumniController::class, 'destroy'])->name('admin.alumni.destroy');
         Route::get('/alumni/{id}/toggle', [App\Http\Controllers\Admin\AlumniController::class, 'toggleStatus'])->name('admin.alumni.toggle');
         
+        // Guru Management Routes
+        Route::get('/guru', [App\Http\Controllers\Admin\GuruController::class, 'index'])->name('admin.guru.index');
+        Route::get('/guru/create', [App\Http\Controllers\Admin\GuruController::class, 'create'])->name('admin.guru.create');
+        Route::post('/guru', [App\Http\Controllers\Admin\GuruController::class, 'store'])->name('admin.guru.store');
+        Route::get('/guru/{id}/edit', [App\Http\Controllers\Admin\GuruController::class, 'edit'])->name('admin.guru.edit');
+        Route::put('/guru/{id}', [App\Http\Controllers\Admin\GuruController::class, 'update'])->name('admin.guru.update');
+        Route::delete('/guru/{id}', [App\Http\Controllers\Admin\GuruController::class, 'destroy'])->name('admin.guru.destroy');
+        Route::get('/guru/{id}/toggle', [App\Http\Controllers\Admin\GuruController::class, 'toggleStatus'])->name('admin.guru.toggle');
+        
+        // WhatsApp Settings Routes
+        Route::get('/whatsapp', [App\Http\Controllers\Admin\WhatsAppController::class, 'index'])->name('admin.whatsapp.index');
+        Route::put('/whatsapp', [App\Http\Controllers\Admin\WhatsAppController::class, 'update'])->name('admin.whatsapp.update');
+        
         // Artikel Management Routes
         Route::get('/artikel', [App\Http\Controllers\Admin\ArtikelController::class, 'index'])->name('admin.artikel.index');
         Route::get('/artikel/create', [App\Http\Controllers\Admin\ArtikelController::class, 'create'])->name('admin.artikel.create');

@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Guru;
 
 class GuruController extends Controller
 {
     public function index()
     {
-        // Di sini nantinya akan mengambil data guru dari database
-        return view('guru.index');
+        $gurus = Guru::where('is_active', true)->orderBy('jabatan', 'asc')->get();
+        return view('guru.index', compact('gurus'));
     }
 
     public function show($id)
     {
-        // Di sini nantinya akan mengambil detail guru berdasarkan id dari database
-        return view('guru.detail');
+        $guru = Guru::where('is_active', true)->findOrFail($id);
+        return view('guru.detail', compact('guru'));
     }
 }
