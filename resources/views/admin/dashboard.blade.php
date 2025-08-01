@@ -92,7 +92,7 @@
         <div class="col-lg-8">
             <div class="card border-0 shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 fw-bold text-white">Blog Posts Terbaru</h6>
+                    <h6 class="m-0 fw-bold text-success">Blog Posts Terbaru</h6>
                     <a href="#" class="btn btn-sm btn-light">
                         <i class="fas fa-plus me-1"></i> Tambah Post
                     </a>
@@ -113,7 +113,7 @@
                                     <td class="align-middle">
                                         <div class="d-flex align-items-center">
                                             <div class="bg-light rounded p-2 me-3">
-                                                <i class="fas fa-file-alt text-primary"></i>
+                                                <i class="fas fa-file-alt text-success"></i>
                                             </div>
                                             <span>Kegiatan Ramadhan SDIT Lukmanalhakim</span>
                                         </div>
@@ -131,7 +131,7 @@
                                     <td class="align-middle">
                                         <div class="d-flex align-items-center">
                                             <div class="bg-light rounded p-2 me-3">
-                                                <i class="fas fa-file-alt text-primary"></i>
+                                                <i class="fas fa-file-alt text-success"></i>
                                             </div>
                                             <span>Prestasi Siswa dalam Lomba Matematika</span>
                                         </div>
@@ -149,7 +149,7 @@
                                     <td class="align-middle">
                                         <div class="d-flex align-items-center">
                                             <div class="bg-light rounded p-2 me-3">
-                                                <i class="fas fa-file-alt text-primary"></i>
+                                                <i class="fas fa-file-alt text-success"></i>
                                             </div>
                                             <span>Persiapan Ujian Akhir Semester</span>
                                         </div>
@@ -168,7 +168,7 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white text-center py-2">
-                    <a href="#" class="text-decoration-none text-primary">Lihat Semua Posts <i class="fas fa-arrow-right ms-1"></i></a>
+                    <a href="#" class="text-decoration-none text-success">Lihat Semua Posts <i class="fas fa-arrow-right ms-1"></i></a>
                 </div>
             </div>
         </div>
@@ -178,13 +178,13 @@
             <!-- Quick Links -->
             <div class="card border-0 shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 fw-bold text-white">Menu Cepat</h6>
+                    <h6 class="m-0 fw-bold text-success">Menu Cepat</h6>
                 </div>
                 <div class="card-body">
                     <div class="list-group list-group-flush">
                         <a href="#" class="list-group-item list-group-item-action d-flex align-items-center border-0 py-3">
-                            <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
-                                <i class="fas fa-cog text-primary"></i>
+                            <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                                <i class="fas fa-cog text-success"></i>
                             </div>
                             <div>
                                 <h6 class="mb-0">Pengaturan Umum</h6>
@@ -225,7 +225,7 @@
             <!-- Activity Log -->
             <div class="card border-0 shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 fw-bold text-white">Aktivitas Terbaru</h6>
+                    <h6 class="m-0 fw-bold text-success">Aktivitas Terbaru</h6>
                 </div>
                 <div class="card-body">
                     <div class="timeline-item mb-4">
@@ -244,8 +244,8 @@
                             <i class="fas fa-clock me-1"></i> Kemarin, 15:45
                         </p>
                         <div class="d-flex">
-                            <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
-                                <i class="fas fa-edit text-primary"></i>
+                            <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                                <i class="fas fa-edit text-success"></i>
                             </div>
                             <p class="mb-0">Data guru diperbarui</p>
                         </div>
@@ -263,7 +263,7 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white text-center py-2">
-                    <a href="#" class="text-decoration-none text-primary">Lihat Semua Aktivitas <i class="fas fa-arrow-right ms-1"></i></a>
+                    <a href="#" class="text-decoration-none text-success">Lihat Semua Aktivitas <i class="fas fa-arrow-right ms-1"></i></a>
                 </div>
             </div>
         </div>
@@ -276,11 +276,11 @@
     }
     
     .bg-gradient-success {
-        background: linear-gradient(135deg, #f39c12, #f1c40f);
+        background: linear-gradient(135deg, #27ae60, #2ecc71);
     }
     
     .bg-gradient-info {
-        background: linear-gradient(135deg, #3498db, #2980b9);
+        background: linear-gradient(135deg, #27ae60, #2ecc71);
     }
     
     .card {

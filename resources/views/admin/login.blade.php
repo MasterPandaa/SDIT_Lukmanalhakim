@@ -14,13 +14,13 @@
         :root {
             --primary-color: #27ae60;
             --secondary-color: #2ecc71;
-            --accent-color: #f39c12;
+            --accent-color: #27ae60;
         }
         
         body {
             font-family: 'Nunito', sans-serif;
             height: 100vh;
-            background: linear-gradient(135deg, #27ae60, #2ecc71, #3498db);
+            background: linear-gradient(135deg, #27ae60, #2ecc71, #27ae60);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -169,14 +169,14 @@
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-user text-primary"></i></span>
+                            <span class="input-group-text"><i class="fas fa-user text-success"></i></span>
                             <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username" required autofocus>
                         </div>
                     </div>
                     <div class="mb-4">
                         <label for="password" class="form-label">Password</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-lock text-primary"></i></span>
+                            <span class="input-group-text"><i class="fas fa-lock text-success"></i></span>
                             <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password" required>
                         </div>
                     </div>

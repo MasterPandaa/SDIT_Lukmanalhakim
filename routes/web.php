@@ -132,5 +132,33 @@ Route::prefix('adminpanel')->group(function () {
         Route::put('/indikator-kelulusan/indikator/{id}', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'updateIndikator'])->name('admin.indikator-kelulusan.update-indikator');
         Route::delete('/indikator-kelulusan/indikator/{id}', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'destroyIndikator'])->name('admin.indikator-kelulusan.destroy-indikator');
         Route::get('/indikator-kelulusan/indikator/{id}/toggle', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'toggleIndikatorStatus'])->name('admin.indikator-kelulusan.toggle-indikator-status');
+        
+        // Website Management Routes
+        Route::get('/website/home', [App\Http\Controllers\Admin\WebsiteController::class, 'home'])->name('admin.website.home');
+        Route::get('/website/header', [App\Http\Controllers\Admin\WebsiteController::class, 'header'])->name('admin.website.header');
+        Route::get('/website/footer', [App\Http\Controllers\Admin\WebsiteController::class, 'footer'])->name('admin.website.footer');
+        
+        // Profil Management Routes
+        Route::get('/profil/visi-misi', [App\Http\Controllers\Admin\ProfilController::class, 'visiMisi'])->name('admin.profil.visi-misi.index');
+        Route::get('/profil/sambutan-kepsek', [App\Http\Controllers\Admin\ProfilController::class, 'sambutanKepsek'])->name('admin.profil.sambutan-kepsek');
+        Route::get('/profil/kurikulum', [App\Http\Controllers\Admin\ProfilController::class, 'kurikulum'])->name('admin.profil.kurikulum');
+        Route::get('/profil/indikator-kelulusan', [App\Http\Controllers\Admin\ProfilController::class, 'indikatorKelulusan'])->name('admin.profil.indikator-kelulusan.index');
+        Route::get('/profil/guru-karyawan', [App\Http\Controllers\Admin\ProfilController::class, 'guruKaryawan'])->name('admin.profil.guru-karyawan.index');
+        
+        // About Management Routes
+        Route::get('/about/prestasi', [App\Http\Controllers\Admin\AboutController::class, 'prestasi'])->name('admin.about.prestasi.index');
+        Route::get('/about/ekstrakurikuler', [App\Http\Controllers\Admin\AboutController::class, 'ekstrakurikuler'])->name('admin.about.ekstrakurikuler.index');
+        Route::get('/about/fasilitas', [App\Http\Controllers\Admin\AboutController::class, 'fasilitas'])->name('admin.about.fasilitas.index');
+        Route::get('/about/galeri', [App\Http\Controllers\Admin\AboutController::class, 'galeri'])->name('admin.about.galeri.index');
+        Route::get('/about/alumni', [App\Http\Controllers\Admin\AboutController::class, 'alumni'])->name('admin.about.alumni.index');
+        Route::get('/about/artikel', [App\Http\Controllers\Admin\AboutController::class, 'artikel'])->name('admin.about.artikel.index');
+        Route::get('/about/guru', [App\Http\Controllers\Admin\AboutController::class, 'guru'])->name('admin.about.guru.index');
+        
+        // Contact Management Routes
+        Route::get('/contact', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('admin.contact.index');
+        
+        // Log Management Routes
+        Route::get('/log/system', [App\Http\Controllers\Admin\LogController::class, 'system'])->name('admin.log.system');
+        Route::get('/log/database', [App\Http\Controllers\Admin\LogController::class, 'database'])->name('admin.log.database');
     });
 });
