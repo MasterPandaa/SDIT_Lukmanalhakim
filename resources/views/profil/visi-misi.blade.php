@@ -3,16 +3,49 @@
 @section('title', 'Visi & Misi')
 
 @section('content')
-<!-- banner section start here -->
-<section class="banner-section style-7">
+<style>
+/* Custom fix for banner-section.style-7 margin issue */
+.banner-section.style-7 {
+    margin-top: 0 !important;
+}
+@media (min-width: 992px) {
+    .banner-section.style-7 {
+        margin-top: 0 !important;
+    }
+}
+</style>
+
+<!-- Pageheader section start here -->
+<div class="pageheader-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="pageheader-content text-center">
+                    <h2>Visi & Misi</h2>
+                    <p class="desc">Mengenal visi dan misi SDIT Luqman Al Hakim Sleman</p>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Visi & Misi</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Pageheader section ending here -->
+
+<!-- Banner section start here -->
+<section class="banner-section style-7" style="padding-top: 50px; padding-bottom: 50px;">
     <div class="container">
         <div class="section-wrapper">
             <div class="banner-top">
                 <div class="row justify-content-center">
                     <div class="offset-xl-6 col-xl-6">
                         <div class="banner-content">
-                            <h2 class="title">Faith is the Light of Life</h2>
-                            <p class="desc">Yuk, jadikan pendidikan agama sebagai panduan hidup untuk masa depan yang lebih bermakna!</p>
+                            <h2 class="title">{{ $visiMisi->judul_header }}</h2>
+                            <p class="desc">{{ $visiMisi->deskripsi_header }}</p>
                         </div>
                     </div>
                 </div>
@@ -20,14 +53,14 @@
         </div>
     </div>
 </section>
-<!-- banner section ending here -->
+<!-- Banner section ending here -->
 
 <!-- Features Start Here -->
 <section class="feature-section style-2 style-4 padding-tb pb-0">
     <div class="container">
         <div class="section-header text-center">
             <span class="subtitle yellow-color">Visi Sekolah</span>
-            <h2 class="title">Terwujudnya Generasi Unggul yang Qur'ani, Berakhlaq Mulia, Berprestasi, Peduli, Berbudaya Lingkungan, dan Berwawasan Global.​</h2>
+            <h2 class="title">{{ $visiMisi->visi }}</h2>
         </div>
         <div class="section-header text-center">
             <span class="subtitle yellow-color">Misi Sekolah</span>
@@ -36,82 +69,42 @@
             <div class="row g-4 justify-content-center align-items-center">
                 <div class="col-lg-4 col-sm-6 col-12 order-lg-0">
                     <div class="left text-lg-end">
+                        @foreach(array_slice($visiMisi->misi_items, 0, 3) as $item)
                         <div class="feature-item">
                             <div class="feature-inner flex-lg-row-reverse">
                                 <div class="feature-icon">
-                                    <i class="icofont-credit-card"></i>
+                                    <i class="{{ $item['icon'] }}"></i>
                                 </div>
                                 <div class="feature-content">
-                                    <h5>Al Quran​</h5>
-                                    <p>Menyelenggarakan pendidikan Al Qur'an yang handal dan integratif.​</p>
+                                    <h5>{{ $item['judul'] }}</h5>
+                                    <p>{{ $item['deskripsi'] }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="feature-item">
-                            <div class="feature-inner flex-lg-row-reverse">
-                                <div class="feature-icon">
-                                    <i class="icofont-light-bulb"></i>
-                                </div>
-                                <div class="feature-content">
-                                    <h5>Pendidikan Karakter</h5>
-                                    <p>Menyelenggarakan pendidikan yang menumbuhkan kesadaran untuk menjadi pribadi yang beriman, bertaqwa, berakhlaq mulia, manidiri, dan bertanggung jawab.​</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-inner flex-lg-row-reverse">
-                                <div class="feature-icon">
-                                    <i class="icofont-graduate"></i>
-                                </div>
-                                <div class="feature-content">
-                                    <h5>Active Deep Learner</h5>
-                                    <p>Menyelenggarakan pembelajaran yang menyenangkan, dengan pendekatan ADLX (Active, Deep, Learner, Experience), INTROFLEX (Individualiasi, Interaksi, Observasi, Refleksi) TERPADU (Telaah, Eksplorasi, Rumuskan, Presentasikan, Aplikasikan, Dunia, Ukhrowi)</p>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6 col-12 order-lg-2">
                     <div class="right">
+                        @foreach(array_slice($visiMisi->misi_items, 3, 3) as $item)
                         <div class="feature-item">
                             <div class="feature-inner">
                                 <div class="feature-icon">
-                                    <i class="icofont-paper-plane"></i>
+                                    <i class="{{ $item['icon'] }}"></i>
                                 </div>
                                 <div class="feature-content">
-                                    <h5>Prestasi</h5>
-                                    <p>Menyelenggarakan pembinaan peserta didik secara intensif dan efektif untuk merah prestasi.</p>
+                                    <h5>{{ $item['judul'] }}</h5>
+                                    <p>{{ $item['deskripsi'] }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="feature-item">
-                            <div class="feature-inner">
-                                <div class="feature-icon">
-                                    <i class="icofont-site-map"></i>
-                                </div>
-                                <div class="feature-content">
-                                    <h5>Budaya</h5>
-                                    <p>Menyelenggarakan program pelestarian budaya lokal, nasional, dan internasional</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-inner">
-                                <div class="feature-icon">
-                                    <i class="icofont-users-alt-3"></i>
-                                </div>
-                                <div class="feature-content">
-                                    <h5>Peduli Lingkungan</h5>
-                                    <p>Menyelenggarakan program yang membangkitkan kepedulian lingkungan secara terpadu</p>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6 col-12 order-lg-1">
                     <div class="feature-thumb">
                         <div class="abs-thumb">
-                            <img src="{{ asset('assets/images/feature/10.png') }}" alt="education">
+                            <img src="{{ $visiMisi->gambar_header_url ?? asset('assets/images/feature/10.png') }}" alt="education">
                         </div>
                     </div>
                 </div>

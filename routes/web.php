@@ -20,9 +20,7 @@ Route::get('/', function () {
 })->name('home');
 
 // Profil routes
-Route::get('/visi-misi', function () {
-    return view('profil.visi-misi');
-})->name('visi-misi');
+Route::get('/visi-misi', [App\Http\Controllers\VisiMisiController::class, 'index'])->name('visi-misi');
 
 Route::get('/sambutan-kepsek', [App\Http\Controllers\ProfilController::class, 'sambutanKepsek'])->name('sambutan-kepsek');
 
@@ -109,6 +107,11 @@ Route::prefix('adminpanel')->group(function () {
         Route::put('/artikel/{id}', [App\Http\Controllers\Admin\ArtikelController::class, 'update'])->name('admin.artikel.update');
         Route::delete('/artikel/{id}', [App\Http\Controllers\Admin\ArtikelController::class, 'destroy'])->name('admin.artikel.destroy');
         Route::get('/artikel/{id}/toggle', [App\Http\Controllers\Admin\ArtikelController::class, 'toggleStatus'])->name('admin.artikel.toggle');
+        
+        // Visi Misi Management Routes
+        Route::get('/visi-misi', [App\Http\Controllers\Admin\VisiMisiController::class, 'index'])->name('admin.visi-misi.index');
+        Route::put('/visi-misi', [App\Http\Controllers\Admin\VisiMisiController::class, 'update'])->name('admin.visi-misi.update');
+        Route::get('/visi-misi/toggle', [App\Http\Controllers\Admin\VisiMisiController::class, 'toggleStatus'])->name('admin.visi-misi.toggle');
         
         // Indikator Kelulusan Management Routes
         Route::get('/indikator-kelulusan', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'index'])->name('admin.indikator-kelulusan.index');
