@@ -40,6 +40,7 @@
                                 <a href="#0">Profil</a>
                                 <ul class="lab-ul">
                                     <li><a href="{{ route('visi-misi') }}">Visi Misi</a></li>
+                                    <li><a href="{{ route('guru') }}">Guru & Karyawan</a></li>
                                     <li><a href="{{ route('sambutan-kepsek') }}">Sambutan Kepala Sekolah</a></li>
                                     <li><a href="{{ route('kurikulum') }}">Kurikulum</a></li>
                                     <li><a href="{{ route('indikator-kelulusan') }}">Indikator kelulusan</a></li>
