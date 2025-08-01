@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class KurikulumItem extends Model
 {
@@ -16,39 +15,21 @@ class KurikulumItem extends Model
         'kurikulum_id',
         'judul',
         'deskripsi',
-        'gambar'
+        'gambar',
+        'urutan',
+        'is_active'
     ];
 
     protected $casts = [
-        'extra_data' => 'array',
-        'is_active' => 'boolean',
-        'urutan' => 'integer'
+        'is_active' => 'boolean'
     ];
 
     /**
-     * Relasi dengan Kurikulum
+     * Relationship dengan Kurikulum
      */
     public function kurikulum()
     {
         return $this->belongsTo(Kurikulum::class);
-    }
-
-    /**
-     * Accessor untuk URL gambar
-     */
-    public function getGambarUrlAttribute()
-    {
-        if ($this->gambar) {
-            if (str_starts_with($this->gambar, 'http')) {
-                return $this->gambar;
-            }
-            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($this->gambar)) {
-                return \Illuminate\Support\Facades\Storage::disk('public')->url($this->gambar);
-            }
-            return asset($this->gambar);
-        }
-        // Gambar default jika kosong
-        return asset('assets/images/category/icon/15.jpg');
     }
 
     /**
@@ -64,26 +45,28 @@ class KurikulumItem extends Model
      */
     public function scopeOrdered($query)
     {
-        return $query->orderBy('urutan');
+        return $query->orderBy('urutan', 'asc');
     }
 
     /**
-     * Method untuk mendapatkan urutan selanjutnya
+     * Get gambar URL
      */
-    public static function getNextUrutan($kurikulumId = null)
+    public function getGambarUrlAttribute()
     {
-        $query = self::query();
-        
-        if ($kurikulumId) {
-            $query->where('kurikulum_id', $kurikulumId);
+        if (!$this->gambar) {
+            return asset('assets/images/default/kurikulum-item-default.jpg');
         }
-        
-        $maxUrutan = $query->max('urutan');
-        return $maxUrutan ? $maxUrutan + 1 : 1;
+
+        // Jika file ada di public/assets/images, return URL
+        if (file_exists(public_path('assets/images/kurikulum/items/' . $this->gambar))) {
+            return asset('assets/images/kurikulum/items/' . $this->gambar);
+        }
+
+        return asset('assets/images/default/kurikulum-item-default.jpg');
     }
 
     /**
-     * Method untuk reorder items setelah delete
+     * Reorder items setelah delete
      */
     public static function reorderAfterDelete($kurikulumId, $deletedUrutan)
     {

@@ -7,7 +7,6 @@ use App\Models\IndikatorKelulusan;
 use App\Models\IndikatorKelulusanKategori;
 use App\Models\IndikatorKelulusanSetting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class IndikatorKelulusanController extends Controller
@@ -59,27 +58,27 @@ class IndikatorKelulusanController extends Controller
             // Handle gambar header upload
             if ($request->hasFile('gambar_header')) {
                 $setting = IndikatorKelulusanSetting::first();
-                if ($setting && $setting->gambar_header && Storage::disk('public')->exists($setting->gambar_header)) {
-                    Storage::disk('public')->delete($setting->gambar_header);
+                if ($setting && $setting->gambar_header && file_exists(public_path('assets/images/indikator-kelulusan/' . $setting->gambar_header))) {
+                    unlink(public_path('assets/images/indikator-kelulusan/' . $setting->gambar_header));
                 }
 
                 $file = $request->file('gambar_header');
                 $filename = time() . '_header_' . $file->getClientOriginalName();
-                $path = $file->storeAs('indikator-kelulusan', $filename, 'public');
-                $data['gambar_header'] = $path;
+                $file->move(public_path('assets/images/indikator-kelulusan'), $filename);
+                $data['gambar_header'] = $filename;
             }
 
             // Handle foto pembicara upload
             if ($request->hasFile('foto_pembicara')) {
                 $setting = IndikatorKelulusanSetting::first();
-                if ($setting && $setting->foto_pembicara && Storage::disk('public')->exists($setting->foto_pembicara)) {
-                    Storage::disk('public')->delete($setting->foto_pembicara);
+                if ($setting && $setting->foto_pembicara && file_exists(public_path('assets/images/indikator-kelulusan/' . $setting->foto_pembicara))) {
+                    unlink(public_path('assets/images/indikator-kelulusan/' . $setting->foto_pembicara));
                 }
 
                 $file = $request->file('foto_pembicara');
                 $filename = time() . '_pembicara_' . $file->getClientOriginalName();
-                $path = $file->storeAs('indikator-kelulusan', $filename, 'public');
-                $data['foto_pembicara'] = $path;
+                $file->move(public_path('assets/images/indikator-kelulusan'), $filename);
+                $data['foto_pembicara'] = $filename;
             }
 
             IndikatorKelulusanSetting::updateOrCreateData($data);

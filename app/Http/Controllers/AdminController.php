@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\SambutanKepsek;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Kurikulum;
 
 class AdminController extends Controller
@@ -90,21 +89,23 @@ class AdminController extends Controller
         $sambutan->tahun_berdiri = $request->tahun_berdiri;
 
         if ($request->hasFile('foto_kepsek')) {
-            if ($sambutan->foto_kepsek) {
-                Storage::delete('public/' . $sambutan->foto_kepsek);
+            if ($sambutan->foto_kepsek && file_exists(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek))) {
+                unlink(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek));
             }
             $foto = $request->file('foto_kepsek');
-            $path = $foto->store('sambutan-kepsek', 'public');
-            $sambutan->foto_kepsek = $path;
+            $fotoName = time() . '_foto_kepsek.' . $foto->getClientOriginalExtension();
+            $foto->move(public_path('assets/images/sambutan-kepsek'), $fotoName);
+            $sambutan->foto_kepsek = $fotoName;
         }
 
         if ($request->hasFile('foto_kepsek2')) {
-            if ($sambutan->foto_kepsek2) {
-                Storage::delete('public/' . $sambutan->foto_kepsek2);
+            if ($sambutan->foto_kepsek2 && file_exists(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek2))) {
+                unlink(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek2));
             }
             $foto2 = $request->file('foto_kepsek2');
-            $path2 = $foto2->store('sambutan-kepsek', 'public');
-            $sambutan->foto_kepsek2 = $path2;
+            $fotoName2 = time() . '_foto_kepsek2.' . $foto2->getClientOriginalExtension();
+            $foto2->move(public_path('assets/images/sambutan-kepsek'), $fotoName2);
+            $sambutan->foto_kepsek2 = $fotoName2;
         }
 
         $sambutan->save();

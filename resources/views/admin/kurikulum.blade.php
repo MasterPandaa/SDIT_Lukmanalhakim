@@ -173,7 +173,7 @@ $(document).on('click', '.edit-item-btn', function() {
     // Show current image if exists
     if (gambar) {
         $('#current_image_container').removeClass('d-none');
-        $('#current_image').attr('src', '{{ asset("storage") }}/' + gambar);
+        $('#current_image').attr('src', gambar ? '{{ asset("assets/images/kurikulum/items") }}/' + gambar : '{{ asset("assets/images/default/kurikulum-item-default.jpg") }}');
     } else {
         $('#current_image_container').addClass('d-none');
     }

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Kurikulum;
 use App\Models\KurikulumItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -49,15 +48,15 @@ class KurikulumController extends Controller
             if ($request->hasFile('gambar_header')) {
                 // Hapus gambar lama jika ada
                 $kurikulum = Kurikulum::first();
-                if ($kurikulum && $kurikulum->gambar_header && Storage::disk('public')->exists($kurikulum->gambar_header)) {
-                    Storage::disk('public')->delete($kurikulum->gambar_header);
+                if ($kurikulum && $kurikulum->gambar_header && file_exists(public_path('assets/images/kurikulum/header/' . $kurikulum->gambar_header))) {
+                    unlink(public_path('assets/images/kurikulum/header/' . $kurikulum->gambar_header));
                 }
 
                 // Upload gambar baru
                 $file = $request->file('gambar_header');
                 $filename = 'kurikulum-header-' . time() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('kurikulum/header', $filename, 'public');
-                $data['gambar_header'] = $path;
+                $file->move(public_path('assets/images/kurikulum/header'), $filename);
+                $data['gambar_header'] = $filename;
             }
 
             $kurikulum = Kurikulum::updateOrCreateData($data);
@@ -127,8 +126,8 @@ class KurikulumController extends Controller
             if ($request->hasFile('gambar')) {
                 $file = $request->file('gambar');
                 $filename = 'kurikulum-item-' . Str::slug($request->judul) . '-' . time() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('kurikulum/items', $filename, 'public');
-                $data['gambar'] = $path;
+                $file->move(public_path('assets/images/kurikulum/items'), $filename);
+                $data['gambar'] = $filename;
             }
 
             KurikulumItem::create($data);
@@ -163,13 +162,13 @@ class KurikulumController extends Controller
             $data = $request->only(['judul', 'deskripsi']);
 
             if ($request->hasFile('gambar')) {
-                if ($item->gambar && Storage::disk('public')->exists($item->gambar)) {
-                    Storage::disk('public')->delete($item->gambar);
+                if ($item->gambar && file_exists(public_path('assets/images/kurikulum/items/' . $item->gambar))) {
+                    unlink(public_path('assets/images/kurikulum/items/' . $item->gambar));
                 }
                 $file = $request->file('gambar');
                 $filename = 'kurikulum-item-' . Str::slug($request->judul) . '-' . time() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('kurikulum/items', $filename, 'public');
-                $data['gambar'] = $path;
+                $file->move(public_path('assets/images/kurikulum/items'), $filename);
+                $data['gambar'] = $filename;
             }
 
             $item->update($data);
@@ -195,8 +194,8 @@ class KurikulumController extends Controller
             $urutan = $item->urutan;
 
             // Hapus gambar jika ada
-            if ($item->gambar && Storage::disk('public')->exists($item->gambar)) {
-                Storage::disk('public')->delete($item->gambar);
+            if ($item->gambar && file_exists(public_path('assets/images/kurikulum/items/' . $item->gambar))) {
+                unlink(public_path('assets/images/kurikulum/items/' . $item->gambar));
             }
 
             $item->delete();

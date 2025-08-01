@@ -2,9 +2,7 @@
 
 @section('title', 'Sambutan Kepala Sekolah')
 
-@php
-use Illuminate\Support\Facades\Storage;
-@endphp
+
 
 @section('content')
 <style>
@@ -91,10 +89,10 @@ use Illuminate\Support\Facades\Storage;
             <div class="col">
                 <div class="about-left">
                     <div class="about-thumb">
-                        <img src="{{ $sambutan && $sambutan->foto_kepsek ? Storage::url($sambutan->foto_kepsek) : asset('assets/images/about/01.jpg') }}" alt="about">
+                        <img src="{{ $sambutan ? $sambutan->foto_kepsek_url : asset('assets/images/about/01.jpg') }}" alt="about">
                     </div>
                     <div class="abs-thumb">
-                        <img src="{{ $sambutan && $sambutan->foto_kepsek2 ? Storage::url($sambutan->foto_kepsek2) : asset('assets/images/about/02.jpg') }}" alt="about">
+                        <img src="{{ $sambutan ? $sambutan->foto_kepsek2_url : asset('assets/images/about/02.jpg') }}" alt="about">
                     </div>
                     <div class="about-left-content">
                         <h3>{{ $sambutan->tahun_berdiri ?? '11' }} Th</h3>

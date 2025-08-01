@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Artikel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ArtikelController extends Controller
@@ -40,7 +39,7 @@ class ArtikelController extends Controller
         if ($request->hasFile('gambar')) {
             $image = $request->file('gambar');
             $imageName = time() . '_' . Str::slug($request->judul) . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/artikel', $imageName);
+            $image->move(public_path('assets/images/artikel'), $imageName);
             $data['gambar'] = $imageName;
         }
 
@@ -81,13 +80,13 @@ class ArtikelController extends Controller
         // Handle image upload
         if ($request->hasFile('gambar')) {
             // Delete old image if exists
-            if ($artikel->gambar && Storage::exists('public/artikel/' . $artikel->gambar)) {
-                Storage::delete('public/artikel/' . $artikel->gambar);
+            if ($artikel->gambar && file_exists(public_path('assets/images/artikel/' . $artikel->gambar))) {
+                unlink(public_path('assets/images/artikel/' . $artikel->gambar));
             }
 
             $image = $request->file('gambar');
             $imageName = time() . '_' . Str::slug($request->judul) . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/artikel', $imageName);
+            $image->move(public_path('assets/images/artikel'), $imageName);
             $data['gambar'] = $imageName;
         }
 
@@ -107,8 +106,8 @@ class ArtikelController extends Controller
         $artikel = Artikel::findOrFail($id);
 
         // Delete image if exists
-        if ($artikel->gambar && Storage::exists('public/artikel/' . $artikel->gambar)) {
-            Storage::delete('public/artikel/' . $artikel->gambar);
+        if ($artikel->gambar && file_exists(public_path('assets/images/artikel/' . $artikel->gambar))) {
+            unlink(public_path('assets/images/artikel/' . $artikel->gambar));
         }
 
         $artikel->delete();

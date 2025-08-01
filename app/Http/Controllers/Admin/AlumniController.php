@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Alumni;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AlumniController extends Controller
@@ -62,8 +61,8 @@ class AlumniController extends Controller
             if ($request->hasFile('foto')) {
                 $file = $request->file('foto');
                 $filename = 'alumni-' . time() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('alumni', $filename, 'public');
-                $data['foto'] = $path;
+                $file->move(public_path('assets/images/alumni'), $filename);
+                $data['foto'] = $filename;
             }
 
             Alumni::create($data);
@@ -123,14 +122,14 @@ class AlumniController extends Controller
             // Handle foto upload
             if ($request->hasFile('foto')) {
                 // Delete old foto if exists
-                if ($alumni->foto && Storage::disk('public')->exists($alumni->foto)) {
-                    Storage::disk('public')->delete($alumni->foto);
+                if ($alumni->foto && file_exists(public_path('assets/images/alumni/' . $alumni->foto))) {
+                    unlink(public_path('assets/images/alumni/' . $alumni->foto));
                 }
 
                 $file = $request->file('foto');
                 $filename = 'alumni-' . time() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('alumni', $filename, 'public');
-                $data['foto'] = $path;
+                $file->move(public_path('assets/images/alumni'), $filename);
+                $data['foto'] = $filename;
             }
 
             $alumni->update($data);
@@ -154,8 +153,8 @@ class AlumniController extends Controller
             $alumni = Alumni::findOrFail($id);
 
             // Delete foto if exists
-            if ($alumni->foto && Storage::disk('public')->exists($alumni->foto)) {
-                Storage::disk('public')->delete($alumni->foto);
+            if ($alumni->foto && file_exists(public_path('assets/images/alumni/' . $alumni->foto))) {
+                unlink(public_path('assets/images/alumni/' . $alumni->foto));
             }
 
             $alumni->delete();

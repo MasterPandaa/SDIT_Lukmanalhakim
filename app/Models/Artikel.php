@@ -72,4 +72,21 @@ class Artikel extends Model
     {
         return Str::limit(strip_tags($this->konten), 150);
     }
+
+    /**
+     * Get gambar URL
+     */
+    public function getGambarUrlAttribute()
+    {
+        if (!$this->gambar) {
+            return asset('assets/images/default/artikel-default.jpg');
+        }
+
+        // Jika file ada di public/assets/images, return URL
+        if (file_exists(public_path('assets/images/artikel/' . $this->gambar))) {
+            return asset('assets/images/artikel/' . $this->gambar);
+        }
+
+        return asset('assets/images/default/artikel-default.jpg');
+    }
 }

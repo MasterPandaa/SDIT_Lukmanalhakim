@@ -153,7 +153,7 @@
                                             @if($sambutan && $sambutan->foto_kepsek)
                                                 <div class="card shadow-sm">
                                                     <div class="card-body p-2 text-center bg-light">
-                                                        <img src="{{ Storage::url($sambutan->foto_kepsek) }}" 
+                                                        <img src="{{ $sambutan->foto_kepsek_url }}" 
                                                             alt="Foto Kepala Sekolah" 
                                                             class="img-fluid rounded" 
                                                             style="max-height: 200px">
@@ -189,7 +189,7 @@
                                             @if($sambutan && $sambutan->foto_kepsek2)
                                                 <div class="card shadow-sm">
                                                     <div class="card-body p-2 text-center bg-light">
-                                                        <img src="{{ Storage::url($sambutan->foto_kepsek2) }}" 
+                                                        <img src="{{ $sambutan->foto_kepsek2_url }}" 
                                                             alt="Foto Kepala Sekolah 2" 
                                                             class="img-fluid rounded" 
                                                             style="max-height: 200px">

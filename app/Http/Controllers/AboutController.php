@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Alumni;
+use App\Models\Artikel;
 
 class AboutController extends Controller
 {
@@ -142,6 +143,12 @@ class AboutController extends Controller
         return view('about.alumni', compact('alumni'));
     }
     public function artikel() {
-        return view('about.artikel');
+        $artikels = Artikel::where('is_active', true)
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->orderBy('published_at', 'desc')
+            ->paginate(12);
+        
+        return view('about.artikel', compact('artikels'));
     }
 } 

@@ -59,7 +59,7 @@
                                     @if($artikel->gambar)
                                         <div class="mt-2">
                                             <label class="form-label">Gambar Saat Ini:</label>
-                                            <img src="{{ asset('storage/artikel/' . $artikel->gambar) }}" 
+                                            <img src="{{ $artikel->gambar_url }}" 
                                                  alt="{{ $artikel->judul }}" 
                                                  class="img-thumbnail d-block" 
                                                  style="max-width: 200px;">

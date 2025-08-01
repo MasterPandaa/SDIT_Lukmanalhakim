@@ -43,7 +43,7 @@
                                     <td>{{ $index + 1 + ($artikels->currentPage() - 1) * $artikels->perPage() }}</td>
                                     <td>
                                         @if($artikel->gambar)
-                                            <img src="{{ asset('storage/artikel/' . $artikel->gambar) }}" 
+                                            <img src="{{ $artikel->gambar_url }}" 
                                                  alt="{{ $artikel->judul }}" 
                                                  class="img-thumbnail" 
                                                  style="width: 60px; height: 60px; object-fit: cover;">

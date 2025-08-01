@@ -90,7 +90,7 @@
                                     <div class="form-group">
                                         <label class="font-weight-bold">Foto Saat Ini</label>
                                         <div class="mb-2">
-                                            <img src="{{ asset('storage/' . $alumni->foto) }}" alt="{{ $alumni->nama }}" class="img-thumbnail" style="max-height: 150px;">
+                                            <img src="{{ $alumni->foto_url }}" alt="{{ $alumni->nama }}" class="img-thumbnail" style="max-height: 150px;">
                                         </div>
                                     </div>
                                 @endif

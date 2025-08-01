@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class IndikatorKelulusanSetting extends Model
 {
@@ -30,63 +29,15 @@ class IndikatorKelulusanSetting extends Model
     ];
 
     /**
-     * Accessor untuk URL gambar header
-     */
-    public function getGambarHeaderUrlAttribute()
-    {
-        if ($this->gambar_header) {
-            // Jika path dimulai dengan http/https, return as is
-            if (str_starts_with($this->gambar_header, 'http')) {
-                return $this->gambar_header;
-            }
-            
-            // Jika file ada di storage, return storage URL
-            if (Storage::disk('public')->exists($this->gambar_header)) {
-                return Storage::disk('public')->url($this->gambar_header);
-            }
-            
-            // Fallback ke asset
-            return asset($this->gambar_header);
-        }
-        
-        // Default image
-        return asset('assets/images/pageheader/02.jpg');
-    }
-
-    /**
-     * Accessor untuk URL foto pembicara
-     */
-    public function getFotoPembicaraUrlAttribute()
-    {
-        if ($this->foto_pembicara) {
-            // Jika path dimulai dengan http/https, return as is
-            if (str_starts_with($this->foto_pembicara, 'http')) {
-                return $this->foto_pembicara;
-            }
-            
-            // Jika file ada di storage, return storage URL
-            if (Storage::disk('public')->exists($this->foto_pembicara)) {
-                return Storage::disk('public')->url($this->foto_pembicara);
-            }
-            
-            // Fallback ke asset
-            return asset($this->foto_pembicara);
-        }
-        
-        // Default image
-        return asset('assets/images/pageheader/03.jpg');
-    }
-
-    /**
-     * Method untuk mendapatkan instance setting aktif
+     * Get active setting
      */
     public static function getActive()
     {
-        return self::where('is_active', true)->first() ?? new self();
+        return self::where('is_active', true)->first();
     }
 
     /**
-     * Method untuk update atau create data setting
+     * Update or create data
      */
     public static function updateOrCreateData($data)
     {
@@ -99,5 +50,39 @@ class IndikatorKelulusanSetting extends Model
         }
         
         return $setting;
+    }
+
+    /**
+     * Get gambar header URL
+     */
+    public function getGambarHeaderUrlAttribute()
+    {
+        if (!$this->gambar_header) {
+            return asset('assets/images/default/indikator-kelulusan-header.jpg');
+        }
+
+        // Jika file ada di public/assets/images, return URL
+        if (file_exists(public_path('assets/images/indikator-kelulusan/' . $this->gambar_header))) {
+            return asset('assets/images/indikator-kelulusan/' . $this->gambar_header);
+        }
+
+        return asset('assets/images/default/indikator-kelulusan-header.jpg');
+    }
+
+    /**
+     * Get foto pembicara URL
+     */
+    public function getFotoPembicaraUrlAttribute()
+    {
+        if (!$this->foto_pembicara) {
+            return asset('assets/images/default/pembicara-default.jpg');
+        }
+
+        // Jika file ada di public/assets/images, return URL
+        if (file_exists(public_path('assets/images/indikator-kelulusan/' . $this->foto_pembicara))) {
+            return asset('assets/images/indikator-kelulusan/' . $this->foto_pembicara);
+        }
+
+        return asset('assets/images/default/pembicara-default.jpg');
     }
 }

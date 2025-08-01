@@ -36,7 +36,7 @@
                                 <div class="post-thumb">
                                     <a href="{{ route('blog-single', $artikel->slug) }}">
                                         @if($artikel->gambar)
-                                            <img src="{{ asset('storage/artikel/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}">
+                                            <img src="{{ $artikel->gambar_url }}" alt="{{ $artikel->judul }}">
                                         @else
                                             <img src="{{ asset('assets/images/blog/default.jpg') }}" alt="{{ $artikel->judul }}">
                                         @endif

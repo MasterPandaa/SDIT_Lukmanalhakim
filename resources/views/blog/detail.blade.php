@@ -37,7 +37,7 @@
                                     <div class="post-inner">
                                         @if($artikel->gambar)
                                         <div class="post-thumb">
-                                            <img src="{{ asset('storage/artikel/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" class="w-100">
+                                            <img src="{{ $artikel->gambar_url }}" alt="{{ $artikel->judul }}" class="w-100">
                                         </div>
                                         @endif
                                         <div class="post-content">
@@ -125,7 +125,7 @@
                                                     <div class="post-thumb">
                                                         <a href="{{ route('blog-single', $relatedArticle->slug) }}">
                                                             @if($relatedArticle->gambar)
-                                                                <img src="{{ asset('storage/artikel/' . $relatedArticle->gambar) }}" alt="{{ $relatedArticle->judul }}">
+                                                                <img src="{{ $relatedArticle->gambar_url }}" alt="{{ $relatedArticle->judul }}">
                                                             @else
                                                                 <img src="{{ asset('assets/images/blog/default.jpg') }}" alt="{{ $relatedArticle->judul }}">
                                                             @endif

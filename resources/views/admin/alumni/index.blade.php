@@ -77,7 +77,7 @@
                                         <tr>
                                             <td class="text-center">
                                                 @if($item->foto)
-                                                    <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                                    <img src="{{ $item->foto_url }}" alt="{{ $item->nama }}" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
                                                 @else
                                                     <div class="bg-secondary rounded d-flex align-items-center justify-content-center text-white" style="width: 50px; height: 50px;">
                                                         <i class="fas fa-user"></i>

@@ -29,7 +29,7 @@
                 <div class="col">
                     <div class="card h-100">
                         @if($item->foto)
-                            <img src="{{ asset('storage/' . $item->foto) }}" class="card-img-top" alt="{{ $item->nama }}">
+                            <img src="{{ $item->foto_url }}" class="card-img-top" alt="{{ $item->nama }}">
                         @else
                             <img src="{{ asset('assets/images/instructor/01.jpg') }}" class="card-img-top" alt="Default Alumni">
                         @endif

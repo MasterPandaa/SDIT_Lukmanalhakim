@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Kurikulum extends Model
 {
@@ -17,53 +16,27 @@ class Kurikulum extends Model
         'subtitle',
         'deskripsi',
         'gambar_header',
-        'meta_data',
         'is_active'
     ];
 
     protected $casts = [
-        'meta_data' => 'array',
         'is_active' => 'boolean'
     ];
 
     /**
-     * Relasi dengan KurikulumItem
+     * Relationship dengan KurikulumItem
      */
     public function items()
     {
-        return $this->hasMany(KurikulumItem::class);
+        return $this->hasMany(KurikulumItem::class)->ordered();
     }
 
     /**
-     * Semua items termasuk yang tidak aktif
+     * Relationship dengan semua KurikulumItem (termasuk yang tidak aktif)
      */
     public function allItems()
     {
-        return $this->hasMany(KurikulumItem::class);
-    }
-
-    /**
-     * Accessor untuk URL gambar header
-     */
-    public function getGambarHeaderUrlAttribute()
-    {
-        if ($this->gambar_header) {
-            // Jika path dimulai dengan http/https, return as is
-            if (str_starts_with($this->gambar_header, 'http')) {
-                return $this->gambar_header;
-            }
-            
-            // Jika file ada di storage, return storage URL
-            if (Storage::disk('public')->exists($this->gambar_header)) {
-                return Storage::disk('public')->url($this->gambar_header);
-            }
-            
-            // Fallback ke asset
-            return asset($this->gambar_header);
-        }
-        
-        // Default image
-        return asset('assets/images/default/kurikulum-header.jpg');
+        return $this->hasMany(KurikulumItem::class)->ordered();
     }
 
     /**
@@ -75,15 +48,15 @@ class Kurikulum extends Model
     }
 
     /**
-     * Method untuk mendapatkan instance kurikulum aktif
+     * Get active kurikulum
      */
     public static function getActive()
     {
-        return self::active()->first() ?? new self();
+        return self::active()->first();
     }
 
     /**
-     * Method untuk update atau create data kurikulum
+     * Update or create data
      */
     public static function updateOrCreateData($data)
     {
@@ -96,5 +69,22 @@ class Kurikulum extends Model
         }
         
         return $kurikulum;
+    }
+
+    /**
+     * Get gambar header URL
+     */
+    public function getGambarHeaderUrlAttribute()
+    {
+        if (!$this->gambar_header) {
+            return asset('assets/images/default/kurikulum-header-default.jpg');
+        }
+
+        // Jika file ada di public/assets/images, return URL
+        if (file_exists(public_path('assets/images/kurikulum/header/' . $this->gambar_header))) {
+            return asset('assets/images/kurikulum/header/' . $this->gambar_header);
+        }
+
+        return asset('assets/images/default/kurikulum-header-default.jpg');
     }
 }
