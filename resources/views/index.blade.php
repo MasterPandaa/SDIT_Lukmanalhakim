@@ -332,61 +332,263 @@
                 <h2 class="title">Temukan informasi tentang guru dan staf kami</h2>
             </div>
             <div class="section-wrapper">
-                <div class="row g-4 justify-content-center row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
-                    <div class="col">
-                        <div class="instructor-item">
-                            <div class="instructor-inner">
-                                <div class="instructor-thumb">
-                                    <img src="{{ asset('assets/images/instructor/01.jpg') }}" alt="instructor">
+                <div class="instructor-slider overflow-hidden">
+                    <div class="swiper-wrapper">
+                        @if(isset($gurus) && $gurus->count() > 0)
+                            @foreach($gurus as $guru)
+                                <div class="swiper-slide">
+                                    <div class="instructor-item">
+                                        <div class="instructor-inner">
+                                            <div class="instructor-thumb">
+                                                <img src="{{ $guru->foto_url }}" alt="{{ $guru->nama }}">
+                                            </div>
+                                            <div class="instructor-content">
+                                                <a href="{{ route('guru.detail', $guru->id) }}"><h4>{{ $guru->nama_lengkap }}</h4></a>
+                                                <p>{{ $guru->jabatan }}</p>
+                                                <span class="ratting">
+                                                    @for($i = 1; $i <= 5; $i++)
+                                                        <i class="icofont-ui-rating{{ $i <= $guru->rating ? '' : ' icofont-ui-rating-disabled' }}"></i>
+                                                    @endfor
+                                                </span>
+                                                <div class="social-media-icons mt-2">
+                                                    @if($guru->whatsapp)
+                                                        <a href="https://wa.me/{{ $guru->whatsapp }}" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+                                                            <i class="icofont-whatsapp"></i>
+                                                        </a>
+                                                    @endif
+                                                    @if($guru->instagram)
+                                                        <a href="https://instagram.com/{{ $guru->instagram }}" target="_blank" class="social-icon instagram" title="Instagram">
+                                                            <i class="icofont-instagram"></i>
+                                                        </a>
+                                                    @endif
+                                                    @if($guru->facebook)
+                                                        <a href="https://facebook.com/{{ $guru->facebook }}" target="_blank" class="social-icon facebook" title="Facebook">
+                                                            <i class="icofont-facebook"></i>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="instructor-footer">
+                                            <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                                <li><i class="icofont-book-alt"></i> {{ $guru->pengalaman_mengajar }} Tahun Mengajar</li>
+                                                <li><i class="icofont-users-alt-3"></i> {{ $guru->jumlah_siswa }} Siswa</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="instructor-content">
-                                    <a href="{{ route('guru') }}"><h4>Ahmad Faizal Bhakti Islami, S.Pd.</h4></a>
-                                    <p>Guru Mupel PAIBP</p>
+                            @endforeach
+                        @else
+                            <!-- Fallback static content jika belum ada data dari database -->
+                            <div class="swiper-slide">
+                                <div class="instructor-item">
+                                    <div class="instructor-inner">
+                                        <div class="instructor-thumb">
+                                            <img src="{{ asset('assets/images/instructor/01.jpg') }}" alt="instructor">
+                                        </div>
+                                        <div class="instructor-content">
+                                            <a href="{{ route('guru') }}"><h4>Ahmad Faizal Bhakti Islami, S.Pd.</h4></a>
+                                            <p>Guru Mupel PAIBP</p>
+                                            <span class="ratting">
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="instructor-footer">
+                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                            <li><i class="icofont-book-alt"></i> 5 Tahun Mengajar</li>
+                                            <li><i class="icofont-users-alt-3"></i> 120 Siswa</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="instructor-item">
-                            <div class="instructor-inner">
-                                <div class="instructor-thumb">
-                                    <img src="{{ asset('assets/images/instructor/02.jpg') }}" alt="instructor">
-                                </div>
-                                <div class="instructor-content">
-                                    <a href="{{ route('guru') }}"><h4>Atika Nurmaningtyas,
-                                        S.Pd., Gr.</h4></a>
-                                    <p>Guru Tema Kelas 6B</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="instructor-item">
-                            <div class="instructor-inner">
-                                <div class="instructor-thumb">
-                                    <img src="{{ asset('assets/images/instructor/03.jpg') }}" alt="instructor">
-                                </div>
-                                <div class="instructor-content">
-                                    <a href="{{ route('guru') }}"><h4>Rofidah Qonitah
-                                        Taqqiyah, S.Psi.
-                                        </h4></a>
-                                    <p>Guru Bimbingan Konseling</p>
+                            <div class="swiper-slide">
+                                <div class="instructor-item">
+                                    <div class="instructor-inner">
+                                        <div class="instructor-thumb">
+                                            <img src="{{ asset('assets/images/instructor/02.jpg') }}" alt="instructor">
+                                        </div>
+                                        <div class="instructor-content">
+                                            <a href="{{ route('guru') }}"><h4>Atika Nurmaningtyas, S.Pd., Gr.</h4></a>
+                                            <p>Guru Tema Kelas 6B</p>
+                                            <span class="ratting">
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="instructor-footer">
+                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                            <li><i class="icofont-book-alt"></i> 8 Tahun Mengajar</li>
+                                            <li><i class="icofont-users-alt-3"></i> 150 Siswa</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="instructor-item">
-                            <div class="instructor-inner">
-                                <div class="instructor-thumb">
-                                    <img src="{{ asset('assets/images/instructor/04.jpg') }}" alt="instructor">
-                                </div>
-                                <div class="instructor-content">
-                                    <a href="{{ route('guru') }}"><h4>Muhammad FajarKholilulloh, S.Pd</h4></a>
-                                    <p>Guru Tahfidz Kelas 6A</p>
+                            <div class="swiper-slide">
+                                <div class="instructor-item">
+                                    <div class="instructor-inner">
+                                        <div class="instructor-thumb">
+                                            <img src="{{ asset('assets/images/instructor/03.jpg') }}" alt="instructor">
+                                        </div>
+                                        <div class="instructor-content">
+                                            <a href="{{ route('guru') }}"><h4>Rofidah Qonitah Taqqiyah, S.Psi.</h4></a>
+                                            <p>Guru Bimbingan Konseling</p>
+                                            <span class="ratting">
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="instructor-footer">
+                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                            <li><i class="icofont-book-alt"></i> 6 Tahun Mengajar</li>
+                                            <li><i class="icofont-users-alt-3"></i> 200 Siswa</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="swiper-slide">
+                                <div class="instructor-item">
+                                    <div class="instructor-inner">
+                                        <div class="instructor-thumb">
+                                            <img src="{{ asset('assets/images/instructor/04.jpg') }}" alt="instructor">
+                                        </div>
+                                        <div class="instructor-content">
+                                            <a href="{{ route('guru') }}"><h4>Muhammad FajarKholilulloh, S.Pd</h4></a>
+                                            <p>Guru Tahfidz Kelas 6A</p>
+                                            <span class="ratting">
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="instructor-footer">
+                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                            <li><i class="icofont-book-alt"></i> 10 Tahun Mengajar</li>
+                                            <li><i class="icofont-users-alt-3"></i> 180 Siswa</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="instructor-item">
+                                    <div class="instructor-inner">
+                                        <div class="instructor-thumb">
+                                            <img src="{{ asset('assets/images/instructor/05.jpg') }}" alt="instructor">
+                                        </div>
+                                        <div class="instructor-content">
+                                            <a href="{{ route('guru') }}"><h4>Nurul Hidayah, S.Pd</h4></a>
+                                            <p>Guru Kelas 1A</p>
+                                            <span class="ratting">
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="instructor-footer">
+                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                            <li><i class="icofont-book-alt"></i> 7 Tahun Mengajar</li>
+                                            <li><i class="icofont-users-alt-3"></i> 100 Siswa</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="instructor-item">
+                                    <div class="instructor-inner">
+                                        <div class="instructor-thumb">
+                                            <img src="{{ asset('assets/images/instructor/06.jpg') }}" alt="instructor">
+                                        </div>
+                                        <div class="instructor-content">
+                                            <a href="{{ route('guru') }}"><h4>Ahmad Rizki, S.Pd</h4></a>
+                                            <p>Guru Kelas 2B</p>
+                                            <span class="ratting">
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="instructor-footer">
+                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                            <li><i class="icofont-book-alt"></i> 4 Tahun Mengajar</li>
+                                            <li><i class="icofont-users-alt-3"></i> 90 Siswa</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="instructor-item">
+                                    <div class="instructor-inner">
+                                        <div class="instructor-thumb">
+                                            <img src="{{ asset('assets/images/instructor/07.jpg') }}" alt="instructor">
+                                        </div>
+                                        <div class="instructor-content">
+                                            <a href="{{ route('guru') }}"><h4>Siti Aminah, S.Pd</h4></a>
+                                            <p>Guru Kelas 3A</p>
+                                            <span class="ratting">
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="instructor-footer">
+                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                            <li><i class="icofont-book-alt"></i> 9 Tahun Mengajar</li>
+                                            <li><i class="icofont-users-alt-3"></i> 140 Siswa</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="instructor-item">
+                                    <div class="instructor-inner">
+                                        <div class="instructor-thumb">
+                                            <img src="{{ asset('assets/images/instructor/08.jpg') }}" alt="instructor">
+                                        </div>
+                                        <div class="instructor-content">
+                                            <a href="{{ route('guru') }}"><h4>Muhammad Yusuf, S.Pd</h4></a>
+                                            <p>Guru Kelas 4B</p>
+                                            <span class="ratting">
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                                <i class="icofont-ui-rating"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="instructor-footer">
+                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
+                                            <li><i class="icofont-book-alt"></i> 6 Tahun Mengajar</li>
+                                            <li><i class="icofont-users-alt-3"></i> 110 Siswa</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="text-center footer-btn">
@@ -826,6 +1028,189 @@
     font-size: 14px;
 }
 
+/* Instructor Slider Styles */
+.instructor-slider {
+    position: relative;
+    padding: 0 10px;
+}
+
+.instructor-slider .swiper-wrapper {
+    align-items: stretch;
+}
+
+.instructor-slider .swiper-slide {
+    width: 280px;
+    height: auto;
+    margin-right: 20px;
+    display: flex;
+}
+
+.instructor-item {
+    background: white;
+    border-radius: 15px;
+    padding: 25px 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 320px;
+}
+
+.instructor-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.instructor-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.instructor-thumb {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 20px;
+    border: 3px solid #f0f0f0;
+}
+
+.instructor-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.instructor-content {
+    text-align: center;
+    margin-bottom: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.instructor-content h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+    line-height: 1.3;
+}
+
+.instructor-content p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.ratting {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    margin-bottom: 15px;
+}
+
+.ratting i {
+    color: #ffc107;
+    font-size: 16px;
+}
+
+.ratting i.icofont-ui-rating-disabled {
+    color: #ddd;
+}
+
+.social-media-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.social-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.social-icon.whatsapp {
+    background: #25D366;
+}
+
+.social-icon.instagram {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.social-icon.facebook {
+    background: #1877F2;
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+}
+
+.instructor-footer {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: auto;
+}
+
+.instructor-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.instructor-footer li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+.instructor-footer i {
+    color: #ff6b35;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+/* Additional fixes for consistent sizing */
+.instructor-slider .swiper-slide:last-child {
+    margin-right: 0;
+}
+
+.instructor-item {
+    box-sizing: border-box;
+}
+
+/* Ensure consistent text wrapping */
+.instructor-content h4,
+.instructor-content p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Fix for social media icons alignment */
+.social-media-icons {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .category-inner {
@@ -845,6 +1230,40 @@
     
     .section-header .title {
         font-size: 24px;
+    }
+    
+    .instructor-slider .swiper-slide {
+        width: 260px;
+        margin-right: 15px;
+    }
+    
+    .instructor-item {
+        padding: 20px 15px;
+        min-height: 300px;
+    }
+    
+    .instructor-thumb {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 15px;
+    }
+    
+    .instructor-content h4 {
+        font-size: 15px;
+    }
+    
+    .instructor-content p {
+        font-size: 13px;
+    }
+    
+    .social-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .ratting i {
+        font-size: 14px;
     }
     
     .whatsapp-popup {
@@ -903,6 +1322,37 @@ document.addEventListener('click', function(event) {
     if (!popup.contains(event.target) && !float.contains(event.target)) {
         popup.classList.remove('show');
     }
+});
+
+// Initialize Instructor Slider
+document.addEventListener('DOMContentLoaded', function() {
+    const instructorSlider = new Swiper('.instructor-slider', {
+        slidesPerView: 'auto',
+        spaceBetween: 20,
+        grabCursor: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        breakpoints: {
+            576: {
+                slidesPerView: 'auto',
+                spaceBetween: 15,
+            },
+            768: {
+                slidesPerView: 'auto',
+                spaceBetween: 20,
+            },
+            1024: {
+                slidesPerView: 'auto',
+                spaceBetween: 25,
+            },
+            1200: {
+                slidesPerView: 'auto',
+                spaceBetween: 30,
+            }
+        }
+    });
 });
 </script>
 @endpush 
