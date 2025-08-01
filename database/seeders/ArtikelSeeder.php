@@ -66,6 +66,68 @@ class ArtikelSeeder extends Seeder
                 'is_active' => true,
                 'published_at' => now()->subDays(1),
             ],
+            [
+                'judul' => 'Program Tahfidz Al-Quran SDIT Lukmanalhakim',
+                'konten' => '<p>SDIT Lukmanalhakim memiliki program unggulan Tahfidz Al-Quran yang bertujuan untuk mencetak generasi penghafal Al-Quran. Program ini meliputi:</p>
+                <h4>Target Hafalan:</h4>
+                <ul>
+                    <li>Kelas 1-2: Juz 30 (Juz Amma)</li>
+                    <li>Kelas 3-4: Juz 29 + Juz 28</li>
+                    <li>Kelas 5-6: Juz 27 + Juz 26</li>
+                </ul>
+                <h4>Metode Pembelajaran:</h4>
+                <ul>
+                    <li>Hafalan per ayat dengan tajwid</li>
+                    <li>Murojaah harian</li>
+                    <li>Evaluasi mingguan</li>
+                    <li>Khatam Al-Quran bersama</li>
+                </ul>
+                <p>Program ini telah berhasil mencetak ratusan penghafal Al-Quran yang berkualitas.</p>',
+                'ringkasan' => 'Program unggulan Tahfidz Al-Quran untuk mencetak generasi penghafal Al-Quran yang berkualitas.',
+                'penulis' => 'Tim Tahfidz SDIT Lukmanalhakim',
+                'kategori' => 'Tahfidz',
+                'is_active' => true,
+                'published_at' => now()->subDays(2),
+            ],
+            [
+                'judul' => 'Kunjungan Edukatif ke Museum Nasional',
+                'konten' => '<p>Siswa kelas 4 SDIT Lukmanalhakim mengadakan kunjungan edukatif ke Museum Nasional Jakarta. Kegiatan ini bertujuan untuk:</p>
+                <ul>
+                    <li>Mengenalkan sejarah Indonesia</li>
+                    <li>Meningkatkan pengetahuan budaya</li>
+                    <li>Mengembangkan rasa cinta tanah air</li>
+                    <li>Mengamati benda-benda bersejarah</li>
+                </ul>
+                <p>Kunjungan ini memberikan pengalaman belajar yang menyenangkan dan mendalam bagi siswa.</p>',
+                'ringkasan' => 'Siswa kelas 4 mengadakan kunjungan edukatif ke Museum Nasional untuk mengenal sejarah dan budaya Indonesia.',
+                'penulis' => 'Tim Kurikulum SDIT Lukmanalhakim',
+                'kategori' => 'Kegiatan Sekolah',
+                'is_active' => true,
+                'published_at' => now()->subDays(4),
+            ],
+            [
+                'judul' => 'Ekstrakurikuler Robotik SDIT Lukmanalhakim',
+                'konten' => '<p>SDIT Lukmanalhakim menyelenggarakan ekstrakurikuler robotik untuk mengembangkan kreativitas dan kemampuan teknologi siswa. Program ini meliputi:</p>
+                <h4>Materi Pembelajaran:</h4>
+                <ul>
+                    <li>Dasar-dasar robotik</li>
+                    <li>Pemrograman sederhana</li>
+                    <li>Merakit robot</li>
+                    <li>Kompetisi robotik</li>
+                </ul>
+                <h4>Prestasi:</h4>
+                <ul>
+                    <li>Juara 1 Kompetisi Robotik Tingkat SD</li>
+                    <li>Juara 2 Lomba Inovasi Teknologi</li>
+                    <li>Peserta Terbaik Robotik Competition</li>
+                </ul>
+                <p>Ekstrakurikuler ini telah berhasil mengembangkan minat dan bakat siswa dalam bidang teknologi.</p>',
+                'ringkasan' => 'Ekstrakurikuler robotik untuk mengembangkan kreativitas dan kemampuan teknologi siswa.',
+                'penulis' => 'Tim Ekstrakurikuler SDIT Lukmanalhakim',
+                'kategori' => 'Ekstrakurikuler',
+                'is_active' => true,
+                'published_at' => now()->subDays(6),
+            ],
         ];
 
         foreach ($artikels as $artikel) {

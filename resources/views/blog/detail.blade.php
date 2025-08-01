@@ -13,8 +13,8 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('blog') }}">Berita</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ $artikel->judul }}</li>
+                            <li class="breadcrumb-item"><a href="{{ route('about.artikel') }}">Artikel</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($artikel->judul, 30) }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -29,7 +29,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-12">
-                <article>
+                <article class="blog-article">
                     <div class="section-wrapper">
                         <div class="row row-cols-1 justify-content-center g-4">
                             <div class="col">
@@ -37,25 +37,42 @@
                                     <div class="post-inner">
                                         @if($artikel->gambar)
                                         <div class="post-thumb">
-                                            <img src="{{ $artikel->gambar_url }}" alt="{{ $artikel->judul }}" class="w-100">
+                                            <img src="{{ $artikel->gambar_url }}" alt="{{ $artikel->judul }}" class="w-100 rounded shadow-sm">
+                                        </div>
+                                        @else
+                                        <div class="post-thumb bg-light d-flex align-items-center justify-content-center" style="height: 300px;">
+                                            <i class="fas fa-newspaper fa-4x text-muted"></i>
                                         </div>
                                         @endif
+                                        
                                         <div class="post-content">
-                                            <h2>{{ $artikel->judul }}</h2>
-                                            <div class="meta-post">
-                                                <ul class="lab-ul">
-                                                    <li><a href="#"><i class="icofont-calendar"></i> {{ $artikel->formatted_published_at }}</a></li>
-                                                    <li><a href="#"><i class="icofont-ui-user"></i> {{ $artikel->penulis ?? 'Admin' }}</a></li>
+                                            <div class="article-header">
+                                                <h1 class="article-title">{{ $artikel->judul }}</h1>
+                                                
+                                                <div class="article-meta">
+                                                    <div class="meta-item">
+                                                        <i class="icofont-calendar"></i>
+                                                        <span>{{ $artikel->formatted_published_at }}</span>
+                                                    </div>
+                                                    <div class="meta-item">
+                                                        <i class="icofont-ui-user"></i>
+                                                        <span>{{ $artikel->penulis ?? 'Admin' }}</span>
+                                                    </div>
                                                     @if($artikel->kategori)
-                                                        <li><a href="#"><i class="icofont-tag"></i> {{ $artikel->kategori }}</a></li>
+                                                    <div class="meta-item">
+                                                        <i class="icofont-tag"></i>
+                                                        <span class="badge bg-primary">{{ $artikel->kategori }}</span>
+                                                    </div>
                                                     @endif
-                                                    <li><a href="#"><i class="icofont-speech-comments"></i> 0 Komentar</a></li>
-                                                </ul>
+                                                </div>
                                             </div>
                                             
                                             @if($artikel->ringkasan)
                                                 <div class="article-summary">
-                                                    <p class="lead">{{ $artikel->ringkasan }}</p>
+                                                    <div class="alert alert-info">
+                                                        <i class="fas fa-info-circle me-2"></i>
+                                                        <strong>Ringkasan:</strong> {{ $artikel->ringkasan }}
+                                                    </div>
                                                 </div>
                                             @endif
 
@@ -64,29 +81,33 @@
                                             </div>
 
                                             @if($artikel->kategori)
-                                            <div class="tags-section">
-                                                <ul class="tags lab-ul">
-                                                    <li><a href="#">{{ $artikel->kategori }}</a></li>
-                                                    <li><a href="#">Berita Sekolah</a></li>
-                                                    <li><a href="#">SDIT Lukmanalhakim</a></li>
-                                                </ul>
-                                                <ul class="lab-ul social-icons">
-                                                    <li>
-                                                        <a href="#" class="facebook"><i class="icofont-facebook"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="twitter"><i class="icofont-twitter"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="linkedin"><i class="icofont-linkedin"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="instagram"><i class="icofont-instagram"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="pinterest"><i class="icofont-pinterest"></i></a>
-                                                    </li>
-                                                </ul> 
+                                            <div class="article-footer">
+                                                <div class="tags-section">
+                                                    <h6><i class="fas fa-tags me-2"></i>Tags:</h6>
+                                                    <div class="tags">
+                                                        <span class="badge bg-secondary me-2">{{ $artikel->kategori }}</span>
+                                                        <span class="badge bg-secondary me-2">Berita Sekolah</span>
+                                                        <span class="badge bg-secondary me-2">SDIT Lukmanalhakim</span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="social-share">
+                                                    <h6><i class="fas fa-share-alt me-2"></i>Bagikan:</h6>
+                                                    <div class="social-icons">
+                                                        <a href="#" class="btn btn-sm btn-outline-primary me-2" title="Facebook">
+                                                            <i class="icofont-facebook"></i>
+                                                        </a>
+                                                        <a href="#" class="btn btn-sm btn-outline-info me-2" title="Twitter">
+                                                            <i class="icofont-twitter"></i>
+                                                        </a>
+                                                        <a href="#" class="btn btn-sm btn-outline-primary me-2" title="LinkedIn">
+                                                            <i class="icofont-linkedin"></i>
+                                                        </a>
+                                                        <a href="#" class="btn btn-sm btn-outline-danger me-2" title="Instagram">
+                                                            <i class="icofont-instagram"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                             @endif
                                         </div>
@@ -94,50 +115,78 @@
                                 </div>
 
                                 @if($relatedArticles->count() > 0)
-                                <div class="navigations-part">
-                                    <div class="left">
-                                        @if($relatedArticles->first())
-                                        <a href="{{ route('blog-single', $relatedArticles->first()->slug) }}" class="prev">
-                                            <i class="icofont-double-left"></i>Artikel Sebelumnya
-                                        </a>
-                                        @endif
-                                    </div>
-                                    <div class="right">
-                                        @if($relatedArticles->count() > 1)
-                                        <a href="{{ route('blog-single', $relatedArticles[1]->slug) }}" class="next">
-                                            Artikel Selanjutnya<i class="icofont-double-right"></i>
-                                        </a>
-                                        @endif
+                                <div class="navigation-section">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @if($relatedArticles->first())
+                                            <a href="{{ route('blog-single', $relatedArticles->first()->slug) }}" class="btn btn-outline-primary w-100">
+                                                <i class="icofont-double-left me-2"></i>
+                                                <div class="nav-text">
+                                                    <small>Artikel Sebelumnya</small>
+                                                    <div>{{ Str::limit($relatedArticles->first()->judul, 30) }}</div>
+                                                </div>
+                                            </a>
+                                            @endif
+                                        </div>
+                                        <div class="col-md-6">
+                                            @if($relatedArticles->count() > 1)
+                                            <a href="{{ route('blog-single', $relatedArticles[1]->slug) }}" class="btn btn-outline-primary w-100">
+                                                <div class="nav-text">
+                                                    <small>Artikel Selanjutnya</small>
+                                                    <div>{{ Str::limit($relatedArticles[1]->judul, 30) }}</div>
+                                                </div>
+                                                <i class="icofont-double-right ms-2"></i>
+                                            </a>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                                 @endif
 
                                 @if($relatedArticles->count() > 0)
-                                <div class="releted-post">
-                                    <div class="title">
-                                        <h5>Artikel Terkait</h5>
+                                <div class="related-articles">
+                                    <div class="section-title">
+                                        <h4><i class="fas fa-newspaper me-2"></i>Artikel Terkait</h4>
                                     </div>
                                     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center g-4">
                                         @foreach($relatedArticles->take(3) as $relatedArticle)
                                         <div class="col">
-                                            <div class="post-item">
-                                                <div class="post-inner">
-                                                    <div class="post-thumb">
+                                            <div class="card h-100 shadow-sm">
+                                                <div class="card-body">
+                                                    <div class="related-thumb mb-3">
                                                         <a href="{{ route('blog-single', $relatedArticle->slug) }}">
                                                             @if($relatedArticle->gambar)
-                                                                <img src="{{ $relatedArticle->gambar_url }}" alt="{{ $relatedArticle->judul }}">
+                                                                <img src="{{ $relatedArticle->gambar_url }}" 
+                                                                     alt="{{ $relatedArticle->judul }}"
+                                                                     class="img-fluid rounded">
                                                             @else
-                                                                <img src="{{ asset('assets/images/blog/default.jpg') }}" alt="{{ $relatedArticle->judul }}">
+                                                                <div class="bg-light d-flex align-items-center justify-content-center rounded" 
+                                                                     style="height: 150px;">
+                                                                    <i class="fas fa-newspaper fa-2x text-muted"></i>
+                                                                </div>
                                                             @endif
                                                         </a>
                                                     </div>
-                                                    <div class="post-content">
-                                                        <a href="{{ route('blog-single', $relatedArticle->slug) }}"><h6>{{ $relatedArticle->judul }}</h6></a>
+                                                    <div class="related-content">
+                                                        <h6 class="card-title">
+                                                            <a href="{{ route('blog-single', $relatedArticle->slug) }}" 
+                                                               class="text-decoration-none">
+                                                                {{ $relatedArticle->judul }}
+                                                            </a>
+                                                        </h6>
                                                         <div class="meta-post">
-                                                            <ul class="lab-ul">
-                                                                <li><i class="icofont-calendar"></i> {{ $relatedArticle->formatted_published_at }}</li>
-                                                            </ul>
+                                                            <small class="text-muted">
+                                                                <i class="icofont-calendar me-1"></i>
+                                                                {{ $relatedArticle->formatted_published_at }}
+                                                            </small>
                                                         </div>
+                                                        @if($relatedArticle->ringkasan)
+                                                            <p class="card-text mt-2">
+                                                                <small class="text-muted">
+                                                                    {{ Str::limit($relatedArticle->ringkasan, 80) }}
+                                                                </small>
+                                                            </p>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -151,130 +200,154 @@
                     </div>
                 </article>
             </div>
+            
             <div class="col-lg-4 col-12">
-                <aside>
-                    <div class="widget widget-search">
-                        <form action="/" class="search-wrapper">
-                            <input type="text" name="s" placeholder="Cari...">
-                            <button type="submit"><i class="icofont-search-2"></i></button>
-                        </form>
-                    </div>
-                    <div class="widget widget-category">
-                        <div class="widget-header">
-                            <h5 class="title">Kategori Berita</h5>
+                <aside class="blog-sidebar">
+                    <div class="widget widget-search mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-search me-2"></i>Cari Artikel</h6>
+                                <form action="{{ route('about.artikel') }}" method="GET" class="search-wrapper">
+                                    <div class="input-group">
+                                        <input type="text" name="search" class="form-control" placeholder="Cari artikel..." value="{{ request('search') }}">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="icofont-search-2"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <ul class="widget-wrapper">
-                            <li>
-                                <a href="#" class="d-flex flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>Kegiatan Sekolah</span><span>12</span></a>
-                            </li>
-                            <li>
-                                <a href="#" class="d-flex flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>Prestasi</span><span>08</span></a>
-                            </li>
-                            <li>
-                                <a href="#" class="d-flex active flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>Pengumuman</span><span>05</span></a>
-                            </li>
-                            <li>
-                                <a href="#" class="d-flex flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>Tahfidz</span><span>07</span></a>
-                            </li>
-                            <li>
-                                <a href="#" class="d-flex flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>Ekstrakurikuler</span><span>03</span></a>
-                            </li>
-                            <li>
-                                <a href="#" class="d-flex flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>PPDB</span><span>02</span></a>
-                            </li>
-                        </ul>
                     </div>
 
-                    <div class="widget widget-post">
-                        <div class="widget-header">
-                            <h5 class="title">Berita Populer</h5>
+                    <div class="widget widget-category mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-folder me-2"></i>Kategori Artikel</h6>
+                                <ul class="list-unstyled">
+                                    @php
+                                        $categories = \App\Models\Artikel::where('is_active', true)
+                                            ->whereNotNull('published_at')
+                                            ->where('published_at', '<=', now())
+                                            ->whereNotNull('kategori')
+                                            ->selectRaw('kategori, COUNT(*) as count')
+                                            ->groupBy('kategori')
+                                            ->get();
+                                    @endphp
+                                    
+                                    @foreach($categories as $category)
+                                    <li class="mb-2">
+                                        <a href="{{ route('about.artikel') }}?kategori={{ urlencode($category->kategori) }}" 
+                                           class="d-flex justify-content-between align-items-center text-decoration-none">
+                                            <span><i class="icofont-double-right me-2"></i>{{ $category->kategori }}</span>
+                                            <span class="badge bg-primary">{{ $category->count }}</span>
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
-                        <ul class="widget-wrapper">
-                            <li class="d-flex flex-wrap justify-content-between">
-                                <div class="post-thumb">
-                                    <a href="{{ route('blog-single', 'kegiatan-ramadhan-sdit-lukmanalhakim') }}"><img src="{{ asset('assets/images/blog/01.jpg') }}" alt="post"></a>
-                                </div>
-                                <div class="post-content">
-                                    <a href="{{ route('blog-single', 'kegiatan-ramadhan-sdit-lukmanalhakim') }}"><h6>Kegiatan Ramadhan SDIT Lukmanalhakim</h6></a>
-                                    <p>15 Juni 2025</p>
-                                </div>
-                            </li>
-                            <li class="d-flex flex-wrap justify-content-between">
-                                <div class="post-thumb">
-                                    <a href="{{ route('blog-single', 'prestasi-olimpiade-matematika') }}"><img src="{{ asset('assets/images/blog/02.jpg') }}" alt="post"></a>
-                                </div>
-                                <div class="post-content">
-                                    <a href="{{ route('blog-single', 'prestasi-olimpiade-matematika') }}"><h6>Prestasi Olimpiade Matematika</h6></a>
-                                    <p>10 Juni 2025</p>
-                                </div>
-                            </li>
-                            <li class="d-flex flex-wrap justify-content-between">
-                                <div class="post-thumb">
-                                    <a href="{{ route('blog-single', 'ppdb-tahun-ajaran-2025-2026') }}"><img src="{{ asset('assets/images/blog/03.jpg') }}" alt="post"></a>
-                                </div>
-                                <div class="post-content">
-                                    <a href="{{ route('blog-single', 'ppdb-tahun-ajaran-2025-2026') }}"><h6>PPDB Tahun Ajaran 2025/2026</h6></a>
-                                    <p>5 Juni 2025</p>
-                                </div>
-                            </li>
-                            <li class="d-flex flex-wrap justify-content-between">
-                                <div class="post-thumb">
-                                    <a href="{{ route('blog-single', 'kunjungan-edukatif-ke-museum') }}"><img src="{{ asset('assets/images/blog/04.jpg') }}" alt="post"></a>
-                                </div>
-                                <div class="post-content">
-                                    <a href="{{ route('blog-single', 'kunjungan-edukatif-ke-museum') }}"><h6>Kunjungan Edukatif ke Museum</h6></a>
-                                    <p>1 Juni 2025</p>
-                                </div>
-                            </li>
-                        </ul>
                     </div>
 
-                    <div class="widget widget-archive">
-                        <div class="widget-header">
-                            <h5 class="title">Arsip Berita</h5>
+                    <div class="widget widget-post mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-fire me-2"></i>Artikel Populer</h6>
+                                @php
+                                    $popularArticles = \App\Models\Artikel::where('is_active', true)
+                                        ->whereNotNull('published_at')
+                                        ->where('published_at', '<=', now())
+                                        ->orderBy('published_at', 'desc')
+                                        ->limit(5)
+                                        ->get();
+                                @endphp
+                                
+                                @foreach($popularArticles as $popularArticle)
+                                <div class="popular-post-item d-flex mb-3">
+                                    <div class="post-thumb me-3">
+                                        <a href="{{ route('blog-single', $popularArticle->slug) }}">
+                                            @if($popularArticle->gambar)
+                                                <img src="{{ $popularArticle->gambar_url }}" 
+                                                     alt="{{ $popularArticle->judul }}"
+                                                     class="rounded" 
+                                                     style="width: 60px; height: 60px; object-fit: cover;">
+                                            @else
+                                                <div class="bg-light d-flex align-items-center justify-content-center rounded" 
+                                                     style="width: 60px; height: 60px;">
+                                                    <i class="fas fa-newspaper text-muted"></i>
+                                                </div>
+                                            @endif
+                                        </a>
+                                    </div>
+                                    <div class="post-content">
+                                        <h6 class="mb-1">
+                                            <a href="{{ route('blog-single', $popularArticle->slug) }}" 
+                                               class="text-decoration-none">
+                                                {{ Str::limit($popularArticle->judul, 40) }}
+                                            </a>
+                                        </h6>
+                                        <small class="text-muted">
+                                            <i class="icofont-calendar me-1"></i>
+                                            {{ $popularArticle->formatted_published_at }}
+                                        </small>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
                         </div>
-                        <ul class="widget-wrapper">
-                            <li><a href="archive.html" class="d-flex flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>Juni</span><span>2025</span></a> </li>
-                            <li><a href="archive.html" class="d-flex flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>Mei</span><span>2025</span></a></li>
-                            <li><a href="archive.html" class="d-flex active flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>April</span><span>2025</span></a></li>
-                            <li><a href="archive.html" class="d-flex flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>Maret</span><span>2025</span></a></li>
-                            <li><a href="archive.html" class="d-flex flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>Februari</span><span>2025</span></a></li>
-                            <li><a href="archive.html" class="d-flex flex-wrap justify-content-between"><span><i class="icofont-double-right"></i>Januari</span><span>2025</span></a></li>
-                        </ul>
                     </div>
 
-                    <div class="widget widget-instagram">
-                        <div class="widget-header">
-                            <h5 class="title">Galeri Foto</h5>
+                    <div class="widget widget-archive mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-archive me-2"></i>Arsip Artikel</h6>
+                                @php
+                                    $archives = \App\Models\Artikel::where('is_active', true)
+                                        ->whereNotNull('published_at')
+                                        ->where('published_at', '<=', now())
+                                        ->selectRaw('YEAR(published_at) as year, MONTH(published_at) as month, COUNT(*) as count')
+                                        ->groupBy('year', 'month')
+                                        ->orderBy('year', 'desc')
+                                        ->orderBy('month', 'desc')
+                                        ->limit(6)
+                                        ->get();
+                                @endphp
+                                
+                                <ul class="list-unstyled">
+                                    @foreach($archives as $archive)
+                                    <li class="mb-2">
+                                        <a href="{{ route('about.artikel') }}?year={{ $archive->year }}&month={{ $archive->month }}" 
+                                           class="d-flex justify-content-between align-items-center text-decoration-none">
+                                            <span>
+                                                <i class="icofont-double-right me-2"></i>
+                                                {{ \Carbon\Carbon::createFromDate($archive->year, $archive->month, 1)->format('F Y') }}
+                                            </span>
+                                            <span class="badge bg-secondary">{{ $archive->count }}</span>
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
-                        <ul class="widget-wrapper d-flex flex-wrap justify-content-center">
-                            <li><a data-rel="lightcase" href="{{ asset('assets/images/blog/01.jpg') }}"><img src="{{ asset('assets/images/blog/01.jpg') }}" alt="product"></a></li>
-                            <li><a data-rel="lightcase" href="{{ asset('assets/images/blog/02.jpg') }}"><img src="{{ asset('assets/images/blog/02.jpg') }}" alt="product"></a></li>
-                            <li><a data-rel="lightcase" href="{{ asset('assets/images/blog/03.jpg') }}"><img src="{{ asset('assets/images/blog/03.jpg') }}" alt="product"></a></li>
-                            <li><a data-rel="lightcase" href="{{ asset('assets/images/blog/04.jpg') }}"><img src="{{ asset('assets/images/blog/04.jpg') }}" alt="product"></a></li>
-                            <li><a data-rel="lightcase" href="{{ asset('assets/images/blog/05.jpg') }}"><img src="{{ asset('assets/images/blog/05.jpg') }}" alt="product"></a></li>
-                            <li><a data-rel="lightcase" href="{{ asset('assets/images/blog/06.jpg') }}"><img src="{{ asset('assets/images/blog/06.jpg') }}" alt="product"></a></li>
-                            <li><a data-rel="lightcase" href="{{ asset('assets/images/blog/07.jpg') }}"><img src="{{ asset('assets/images/blog/07.jpg') }}" alt="product"></a></li>
-                            <li><a data-rel="lightcase" href="{{ asset('assets/images/blog/08.jpg') }}"><img src="{{ asset('assets/images/blog/08.jpg') }}" alt="product"></a></li>
-                            <li><a data-rel="lightcase" href="{{ asset('assets/images/blog/09.jpg') }}"><img src="{{ asset('assets/images/blog/09.jpg') }}" alt="product"></a></li>
-                        </ul>
                     </div>
 
-                    <div class="widget widget-tags">
-                        <div class="widget-header">
-                            <h5 class="title">Tags Populer</h5>
+                    <div class="widget widget-tags mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-tags me-2"></i>Tags Populer</h6>
+                                <div class="tags">
+                                    @php
+                                        $tags = ['Ramadhan', 'Tahfidz', 'Olimpiade', 'PPDB', 'Prestasi', 'Kegiatan', 'Ekstrakurikuler', 'Pendidikan', 'Al-Qur\'an'];
+                                    @endphp
+                                    
+                                    @foreach($tags as $tag)
+                                    <a href="{{ route('about.artikel') }}?tag={{ urlencode($tag) }}" 
+                                       class="badge bg-light text-dark text-decoration-none me-1 mb-1">
+                                        {{ $tag }}
+                                    </a>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
-                        <ul class="widget-wrapper">
-                            <li><a href="#">Ramadhan</a></li>
-                            <li><a href="#" class="active">Tahfidz</a></li>
-                            <li><a href="#">Olimpiade</a></li>
-                            <li><a href="#">PPDB</a></li>
-                            <li><a href="#">Prestasi</a></li>
-                            <li><a href="#">Kegiatan</a></li>
-                            <li><a href="#">Ekstrakurikuler</a></li>
-                            <li><a href="#">Pendidikan</a></li>
-                            <li><a href="#">Al-Qur'an</a></li>
-                        </ul>
                     </div>
                 </aside>
             </div>
@@ -282,4 +355,160 @@
     </div>
 </div>
 <!-- Blog Single Section Ending -->
+
+<style>
+.blog-article .article-header {
+    margin-bottom: 2rem;
+}
+
+.blog-article .article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.blog-article .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.blog-article .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.blog-article .article-summary {
+    margin-bottom: 2rem;
+}
+
+.blog-article .article-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.blog-article .article-content h1, 
+.blog-article .article-content h2, 
+.blog-article .article-content h3, 
+.blog-article .article-content h4, 
+.blog-article .article-content h5, 
+.blog-article .article-content h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.blog-article .article-content p {
+    margin-bottom: 1.5rem;
+}
+
+.blog-article .article-content ul, 
+.blog-article .article-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.blog-article .article-content li {
+    margin-bottom: 0.5rem;
+}
+
+.blog-article .article-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.blog-article .tags-section,
+.blog-article .social-share {
+    margin-bottom: 1.5rem;
+}
+
+.blog-article .tags-section h6,
+.blog-article .social-share h6 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.blog-article .social-icons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.navigation-section {
+    margin: 3rem 0;
+    padding: 2rem 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.navigation-section .nav-text {
+    text-align: left;
+}
+
+.navigation-section .btn {
+    text-align: left;
+    padding: 1rem;
+    height: auto;
+}
+
+.related-articles {
+    margin-top: 3rem;
+}
+
+.related-articles .section-title {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.related-articles .section-title h4 {
+    color: #333;
+    font-weight: 600;
+}
+
+.blog-sidebar .card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.blog-sidebar .card-title {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.blog-sidebar .popular-post-item:hover {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin: -0.5rem;
+}
+
+.blog-sidebar .tags .badge:hover {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+@media (max-width: 768px) {
+    .blog-article .article-title {
+        font-size: 2rem;
+    }
+    
+    .blog-article .article-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .navigation-section .btn {
+        margin-bottom: 1rem;
+    }
+}
+</style>
 @endsection 
