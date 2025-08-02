@@ -8,7 +8,7 @@
     <div class="alert alert-success alert-dismissible fade show mb-4 border-0 shadow-sm" style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(46, 204, 113, 0.1)); border-left: 4px solid #27ae60 !important;">
         <div class="d-flex align-items-center">
             <div class="me-3">
-                <i class="fas fa-user-circle fa-2x text-success"></i>
+                <i class="fas fa-user-circle fa-lg text-success"></i>
             </div>
             <div>
                 <h5 class="alert-heading mb-1">Selamat Datang, {{ session('admin_name') ?? 'Admin' }}!</h5>
@@ -26,7 +26,7 @@
                     <div class="row align-items-center">
                         <div class="col-auto">
                             <div class="bg-gradient-primary text-white p-3 rounded">
-                                <i class="fas fa-newspaper fa-2x"></i>
+                                <i class="fas fa-newspaper fa-lg"></i>
                             </div>
                         </div>
                         <div class="col">
@@ -48,7 +48,7 @@
                     <div class="row align-items-center">
                         <div class="col-auto">
                             <div class="bg-gradient-success text-white p-3 rounded">
-                                <i class="fas fa-graduation-cap fa-2x"></i>
+                                <i class="fas fa-graduation-cap fa-lg"></i>
                             </div>
                         </div>
                         <div class="col">
@@ -70,7 +70,7 @@
                     <div class="row align-items-center">
                         <div class="col-auto">
                             <div class="bg-gradient-info text-white p-3 rounded">
-                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                                <i class="fas fa-chalkboard-teacher fa-lg"></i>
                             </div>
                         </div>
                         <div class="col">

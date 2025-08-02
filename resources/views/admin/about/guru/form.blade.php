@@ -4,12 +4,12 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-12 col-lg-10">
             <!-- Header -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">
-                    <i class="fas fa-chalkboard-teacher fa-2x text-success mr-2"></i>
+                    <i class="fas fa-chalkboard-teacher fa-lg text-success mr-2"></i>
                     {{ $title ?? 'Form Guru' }}
                 </h1>
                 <a href="{{ route('admin.guru.index') }}" class="btn btn-secondary shadow-sm">
@@ -21,7 +21,7 @@
             @if($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show mb-4">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-circle fa-2x mr-3"></i>
+                        <i class="fas fa-exclamation-circle fa-lg mr-3"></i>
                         <div>
                             <strong>Error!</strong> Terdapat kesalahan pada form.
                             <ul class="mb-0 mt-1">

@@ -4,12 +4,12 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-lg-8">
             <!-- Header -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">
-                    <i class="fas fa-plus fa-2x text-info mr-2"></i>
+                    <i class="fas fa-plus fa-lg text-info mr-2"></i>
                     Tambah Indikator Kelulusan
                 </h1>
                 <a href="{{ route('admin.indikator-kelulusan.index') }}" class="btn btn-secondary shadow-sm">
@@ -21,7 +21,7 @@
             @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show mb-4">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-circle fa-2x mr-3"></i>
+                        <i class="fas fa-exclamation-circle fa-lg mr-3"></i>
                         <div>
                             <strong>Error!</strong> {{ session('error') }}
                         </div>
@@ -35,7 +35,7 @@
             @if(count($kategoris) == 0)
                 <div class="alert alert-warning">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-triangle fa-2x mr-3"></i>
+                        <i class="fas fa-exclamation-triangle fa-lg mr-3"></i>
                         <div>
                             <strong>Peringatan!</strong> Belum ada kategori aktif. 
                             <a href="{{ route('admin.indikator-kelulusan.create-kategori') }}" class="alert-link">Buat kategori terlebih dahulu</a>.

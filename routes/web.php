@@ -140,6 +140,7 @@ Route::prefix('adminpanel')->group(function () {
         
         // Profil Management Routes
         Route::get('/profil/visi-misi', [App\Http\Controllers\Admin\ProfilController::class, 'visiMisi'])->name('admin.profil.visi-misi.index');
+        Route::put('/profil/visi-misi', [App\Http\Controllers\Admin\ProfilController::class, 'updateVisiMisi'])->name('admin.profil.visi-misi.update');
         Route::get('/profil/sambutan-kepsek', [App\Http\Controllers\Admin\ProfilController::class, 'sambutanKepsek'])->name('admin.profil.sambutan-kepsek');
         Route::get('/profil/kurikulum', [App\Http\Controllers\Admin\ProfilController::class, 'kurikulum'])->name('admin.profil.kurikulum');
         Route::get('/profil/indikator-kelulusan', [App\Http\Controllers\Admin\ProfilController::class, 'indikatorKelulusan'])->name('admin.profil.indikator-kelulusan.index');

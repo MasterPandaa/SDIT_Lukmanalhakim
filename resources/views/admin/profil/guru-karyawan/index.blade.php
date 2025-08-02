@@ -31,7 +31,7 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
-                                            <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                                            <i class="fas fa-chalkboard-teacher fa-lg"></i>
                                         </div>
                                         <div>
                                             <h4 class="mb-0">25</h4>
@@ -46,7 +46,7 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
-                                            <i class="fas fa-user-tie fa-2x"></i>
+                                            <i class="fas fa-user-tie fa-lg"></i>
                                         </div>
                                         <div>
                                             <h4 class="mb-0">12</h4>
@@ -61,7 +61,7 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
-                                            <i class="fas fa-user-check fa-2x"></i>
+                                            <i class="fas fa-user-check fa-lg"></i>
                                         </div>
                                         <div>
                                             <h4 class="mb-0">35</h4>
@@ -76,7 +76,7 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
-                                            <i class="fas fa-user-clock fa-2x"></i>
+                                            <i class="fas fa-user-clock fa-lg"></i>
                                         </div>
                                         <div>
                                             <h4 class="mb-0">2</h4>
