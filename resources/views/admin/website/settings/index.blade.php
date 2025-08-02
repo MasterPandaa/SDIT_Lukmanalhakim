@@ -9,17 +9,17 @@
             <!-- Header -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">
-                    <i class="fas fa-cogs fa-lg text-success mr-2"></i>
+                    <i class="fas fa-cogs fa-lg text-success me-2"></i>
                     Pengaturan Website
                 </h1>
                 @if(Route::has('admin.website.settings.index'))
                     <a href="{{ url('/') }}" target="_blank" class="btn btn-primary shadow-sm">
-                        <i class="fas fa-eye mr-2"></i>
+                        <i class="fas fa-eye me-2"></i>
                         Lihat Website
                     </a>
                 @else
                     <div class="alert alert-warning mb-0">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <i class="fas fa-exclamation-triangle me-2"></i>
                         Route tidak ditemukan
                     </div>
                 @endif
@@ -28,7 +28,7 @@
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show mb-4">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-check-circle fa-lg mr-3"></i>
+                        <i class="fas fa-check-circle fa-lg me-3"></i>
                         <div>
                             <strong>Berhasil!</strong> {{ session('success') }}
                         </div>
@@ -42,7 +42,7 @@
             @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show mb-4">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-circle fa-lg mr-3"></i>
+                        <i class="fas fa-exclamation-circle fa-lg me-3"></i>
                         <div>
                             <strong>Error!</strong> {{ session('error') }}
                         </div>
@@ -56,7 +56,7 @@
             @if(!isset($settings) || !$settings)
                 <div class="alert alert-warning alert-dismissible fade show mb-4">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-triangle fa-lg mr-3"></i>
+                        <i class="fas fa-exclamation-triangle fa-lg me-3"></i>
                         <div>
                             <strong>Peringatan!</strong> Data pengaturan website tidak dapat dimuat. Silakan coba lagi atau hubungi administrator.
                         </div>
@@ -71,29 +71,29 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <ul class="nav nav-tabs card-header-tabs" id="settingsTabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="header-tab" data-toggle="tab" href="#header" role="tab">
-                                <i class="fas fa-heading mr-2"></i>Header
-                            </a>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="header-tab" data-bs-toggle="tab" data-bs-target="#header" type="button" role="tab">
+                                <i class="fas fa-heading me-2"></i>Header
+                            </button>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="footer-tab" data-toggle="tab" href="#footer" role="tab">
-                                <i class="fas fa-shoe-prints mr-2"></i>Footer
-                            </a>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="footer-tab" data-bs-toggle="tab" data-bs-target="#footer" type="button" role="tab">
+                                <i class="fas fa-shoe-prints me-2"></i>Footer
+                            </button>
                         </li>
                     </ul>
                 </div>
                 <div class="card-body">
                     <div class="tab-content" id="settingsTabContent">
                         <!-- Header Settings -->
-                        <div class="tab-pane fade show active" id="header" role="tabpanel">
+                        <div class="tab-pane fade show active" id="header" role="tabpanel" aria-labelledby="header-tab">
                             @if(isset($settings) && $settings)
                                 @if(View::exists('admin.website.settings.partials.header-form'))
                                     @include('admin.website.settings.partials.header-form')
                                 @else
                                     <div class="alert alert-danger">
-                                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                                        <strong>Error!</strong> View header form tidak ditemukan.
+                                                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <strong>Error!</strong> View header form tidak ditemukan.
                                     </div>
                                 @endif
                             @else
@@ -102,20 +102,20 @@
                                     <h5>Data tidak tersedia</h5>
                                     <p class="text-muted">Pengaturan website tidak dapat dimuat. Silakan refresh halaman atau hubungi administrator.</p>
                                     <button class="btn btn-primary" onclick="location.reload()">
-                                        <i class="fas fa-refresh mr-2"></i>Refresh Halaman
+                                        <i class="fas fa-refresh me-2"></i>Refresh Halaman
                                     </button>
                                 </div>
                             @endif
                         </div>
                         
                         <!-- Footer Settings -->
-                        <div class="tab-pane fade" id="footer" role="tabpanel">
+                        <div class="tab-pane fade" id="footer" role="tabpanel" aria-labelledby="footer-tab">
                             @if(isset($settings) && $settings)
                                 @if(View::exists('admin.website.settings.partials.footer-form'))
                                     @include('admin.website.settings.partials.footer-form')
                                 @else
                                     <div class="alert alert-danger">
-                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
                                         <strong>Error!</strong> View footer form tidak ditemukan.
                                     </div>
                                 @endif
@@ -125,7 +125,7 @@
                                     <h5>Data tidak tersedia</h5>
                                     <p class="text-muted">Pengaturan website tidak dapat dimuat. Silakan refresh halaman atau hubungi administrator.</p>
                                     <button class="btn btn-primary" onclick="location.reload()">
-                                        <i class="fas fa-refresh mr-2"></i>Refresh Halaman
+                                        <i class="fas fa-refresh me-2"></i>Refresh Halaman
                                     </button>
                                 </div>
                             @endif
@@ -200,7 +200,10 @@ $(document).ready(function() {
     
     // Initialize tooltips
     try {
-        $('[data-toggle="tooltip"]').tooltip();
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
     } catch (e) {
         console.warn('Tooltip initialization failed:', e);
     }
@@ -238,7 +241,7 @@ $(document).ready(function() {
             const originalText = submitBtn.html();
             
             submitBtn.prop('disabled', true);
-            submitBtn.html('<i class="fas fa-spinner fa-spin mr-2"></i>Menyimpan...');
+            submitBtn.html('<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...');
             
             // Re-enable after 5 seconds if still processing
             setTimeout(function() {
@@ -251,13 +254,23 @@ $(document).ready(function() {
     });
     
     // Tab switching
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        try {
-            // Refresh any components if needed
-            $('[data-toggle="tooltip"]').tooltip('dispose').tooltip();
-        } catch (e) {
-            console.warn('Tab switching error:', e);
-        }
+    var tabElements = document.querySelectorAll('button[data-bs-toggle="tab"]');
+    tabElements.forEach(function(tabElement) {
+        tabElement.addEventListener('shown.bs.tab', function (e) {
+            try {
+                // Refresh any components if needed
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.forEach(function(tooltipTriggerEl) {
+                    var tooltip = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
+                    if (tooltip) {
+                        tooltip.dispose();
+                        new bootstrap.Tooltip(tooltipTriggerEl);
+                    }
+                });
+            } catch (e) {
+                console.warn('Tab switching error:', e);
+            }
+        });
     });
     
     // Auto-save draft (optional feature)

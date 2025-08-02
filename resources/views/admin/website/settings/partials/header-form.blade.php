@@ -65,8 +65,6 @@
                             @enderror
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="header_youtube" class="font-weight-bold">YouTube</label>
@@ -97,16 +95,20 @@
             <!-- PSB Link -->
             <div class="form-section">
                 <h5><i class="fas fa-users mr-2 mt-4"></i>Link Pendaftaran</h5>
-                <div class="form-group">
-                    <label for="header_psb_link" class="font-weight-bold">Link PSB (Pendaftaran Siswa Baru)</label>
-                    <input type="url" class="form-control @error('header_psb_link') is-invalid @enderror" 
-                           id="header_psb_link" name="header_psb_link" 
-                           value="{{ old('header_psb_link', $settings->header_psb_link ?? 'https://psb.luqmanalhakim.sch.id/') }}"
-                           placeholder="https://psb.luqmanalhakim.sch.id/">
-                    @error('header_psb_link')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                    <small class="form-text text-muted">Link ini akan digunakan untuk tombol "DAFTAR" di header</small>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="header_psb_link" class="font-weight-bold">Link PSB (Pendaftaran Siswa Baru)</label>
+                            <input type="url" class="form-control @error('header_psb_link') is-invalid @enderror" 
+                                   id="header_psb_link" name="header_psb_link" 
+                                   value="{{ old('header_psb_link', $settings->header_psb_link ?? 'https://psb.luqmanalhakim.sch.id/') }}"
+                                   placeholder="https://psb.luqmanalhakim.sch.id/">
+                            @error('header_psb_link')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">Link ini akan digunakan untuk tombol "DAFTAR" di header</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -115,45 +117,53 @@
             <!-- Logo Upload -->
             <div class="form-section">
                 <h5><i class="fas fa-image mr-2 mt-4"></i>Logo Website</h5>
-                <div class="form-group">
-                    <label for="header_logo" class="font-weight-bold">Upload Logo Baru</label>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input @error('header_logo') is-invalid @enderror" 
-                               id="header_logo" name="header_logo" accept="image/*">
-                        <label class="custom-file-label" for="header_logo">Pilih file logo</label>
-                    </div>
-                    @error('header_logo')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                    <small class="form-text text-muted">Format: JPG, JPEG, PNG, GIF. Maks: 2MB</small>
-                </div>
-                
-                @if($settings->header_logo)
-                    <div class="form-group">
-                        <label class="font-weight-bold">Logo Saat Ini</label>
-                        <div class="mb-2">
-                            @php
-                                $logoPath = 'storage/' . $settings->header_logo;
-                                $logoExists = file_exists(public_path($logoPath));
-                            @endphp
-                            @if($logoExists)
-                                <img src="{{ asset($logoPath) }}" 
-                                     alt="Logo Website" class="img-thumbnail" style="max-height: 100px;">
-                            @else
-                                <div class="alert alert-warning">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <strong>Peringatan!</strong> File logo tidak ditemukan di server.
-                                </div>
-                            @endif
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="header_logo" class="font-weight-bold">Upload Logo Baru</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input @error('header_logo') is-invalid @enderror" 
+                                       id="header_logo" name="header_logo" accept="image/*">
+                                <label class="custom-file-label" for="header_logo">Pilih file logo</label>
+                            </div>
+                            @error('header_logo')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">Format: JPG, JPEG, PNG, GIF. Maks: 2MB</small>
                         </div>
                     </div>
-                @endif
-                
-                <div class="form-group">
-                    <label class="font-weight-bold">Preview Logo Baru</label>
-                    <div class="logo-preview-container">
-                        <img id="logoPreview" src="#" alt="Preview Logo" class="logo-preview" 
-                             style="display: none;">
+                    
+                    @if($settings->header_logo)
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Logo Saat Ini</label>
+                                <div class="mb-2">
+                                    @php
+                                        $logoPath = 'storage/' . $settings->header_logo;
+                                        $logoExists = file_exists(public_path($logoPath));
+                                    @endphp
+                                    @if($logoExists)
+                                        <img src="{{ asset($logoPath) }}" 
+                                             alt="Logo Website" class="img-thumbnail" style="max-height: 100px;">
+                                    @else
+                                        <div class="alert alert-warning">
+                                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                                            <strong>Peringatan!</strong> File logo tidak ditemukan di server.
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    
+                    <div class="col-md-12 mb-4">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Preview Logo Baru</label>
+                            <div class="logo-preview-container">
+                                <img id="logoPreview" src="#" alt="Preview Logo" class="logo-preview" 
+                                     style="display: none;">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
