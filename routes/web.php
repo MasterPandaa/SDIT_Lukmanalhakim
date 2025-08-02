@@ -135,8 +135,11 @@ Route::prefix('adminpanel')->group(function () {
         
         // Website Management Routes
         Route::get('/website/home', [App\Http\Controllers\Admin\WebsiteController::class, 'home'])->name('admin.website.home');
-        Route::get('/website/header', [App\Http\Controllers\Admin\WebsiteController::class, 'header'])->name('admin.website.header');
-        Route::get('/website/footer', [App\Http\Controllers\Admin\WebsiteController::class, 'footer'])->name('admin.website.footer');
+        
+        // Website Settings Routes
+        Route::get('/website/settings', [App\Http\Controllers\Admin\WebsiteSettingController::class, 'index'])->name('admin.website.settings.index');
+        Route::put('/website/settings/header', [App\Http\Controllers\Admin\WebsiteSettingController::class, 'updateHeader'])->name('admin.website.settings.updateHeader');
+        Route::put('/website/settings/footer', [App\Http\Controllers\Admin\WebsiteSettingController::class, 'updateFooter'])->name('admin.website.settings.updateFooter');
         
         // Profil Management Routes
         Route::get('/profil/visi-misi', [App\Http\Controllers\Admin\ProfilController::class, 'visiMisi'])->name('admin.profil.visi-misi.index');

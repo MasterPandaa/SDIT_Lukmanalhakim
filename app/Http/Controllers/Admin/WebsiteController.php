@@ -12,13 +12,5 @@ class WebsiteController extends Controller
         return view('admin.website.home.index');
     }
 
-    public function header()
-    {
-        return view('admin.website.header.index');
-    }
 
-    public function footer()
-    {
-        return view('admin.website.footer.index');
-    }
 } 

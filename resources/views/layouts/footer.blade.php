@@ -1,3 +1,11 @@
+@php
+    try {
+        $websiteSettings = App\Http\Controllers\Admin\WebsiteSettingController::getWebsiteSettings();
+    } catch (\Exception $e) {
+        $websiteSettings = new App\Models\WebsiteSetting();
+    }
+@endphp
+
 <!-- Footer Section Start -->
 <footer class="style-2 yellow-color-section">
     <div class="footer-top padding-tb">
@@ -11,28 +19,46 @@
                                     <img src="{{ asset('assets/images/logo/01.png') }}" alt="education">
                                 </div>
                                 <div class="content">
-                                    <p>SDIT Luqman Al Hakim Sleman is a leading Islamic elementary school that integrates the national curriculum with Qur'anic values and Islamic character education.<br>We are committed to nurturing a Qur'anic generation—intelligent, noble in character, independent, and ready to face the future.</p>
+                                    @if($websiteSettings->footer_description)
+                                        <p>{!! nl2br(e($websiteSettings->footer_description)) !!}</p>
+                                    @endif
                                     <ul class="lab-ul office-address">
-                                        <li><i class="icofont-google-map"></i>Sleman, Yogyakarta</li>
-                                        <li><i class="icofont-phone"></i>+62 857-4725-5761</li>
-                                        <li><i class="icofont-envelope"></i>info@luqmanalhakim.sch.id</li>
+                                        @if($websiteSettings->footer_address)
+                                            <li><i class="icofont-google-map"></i>{{ $websiteSettings->footer_address }}</li>
+                                        @endif
+                                        @if($websiteSettings->footer_phone)
+                                            <li><i class="icofont-phone"></i>{{ $websiteSettings->footer_phone }}</li>
+                                        @endif
+                                        @if($websiteSettings->footer_email)
+                                            <li><i class="icofont-envelope"></i>{{ $websiteSettings->footer_email }}</li>
+                                        @endif
                                     </ul>
                                     <ul class="lab-ul social-icons">
-                                        <li>
-                                            <a href="#" class="facebook"><i class="icofont-facebook"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="twitter"><i class="icofont-twitter"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="linkedin"><i class="icofont-linkedin"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="instagram"><i class="icofont-instagram"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="pinterest"><i class="icofont-pinterest"></i></a>
-                                        </li>
+                                        @if($websiteSettings->footer_facebook)
+                                            <li>
+                                                <a href="{{ $websiteSettings->footer_facebook }}" class="facebook" target="_blank"><i class="icofont-facebook"></i></a>
+                                            </li>
+                                        @endif
+                                        @if($websiteSettings->footer_twitter)
+                                            <li>
+                                                <a href="{{ $websiteSettings->footer_twitter }}" class="twitter" target="_blank"><i class="icofont-twitter"></i></a>
+                                            </li>
+                                        @endif
+                                        @if($websiteSettings->footer_linkedin)
+                                            <li>
+                                                <a href="{{ $websiteSettings->footer_linkedin }}" class="linkedin" target="_blank"><i class="icofont-linkedin"></i></a>
+                                            </li>
+                                        @endif
+                                        @if($websiteSettings->footer_instagram)
+                                            <li>
+                                                <a href="{{ $websiteSettings->footer_instagram }}" class="instagram" target="_blank"><i class="icofont-instagram"></i></a>
+                                            </li>
+                                        @endif
+                                        @if($websiteSettings->footer_pinterest)
+                                            <li>
+                                                <a href="{{ $websiteSettings->footer_pinterest }}" class="pinterest" target="_blank"><i class="icofont-pinterest"></i></a>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
@@ -48,12 +74,9 @@
                                 </div>
                                 <div class="content">
                                     <ul class="lab-ul">
-                                        <li><a href="{{ route('course') }}">Semua Program</a></li>
-                                        <li><a href="#">Tahfidz Al-Qur'an</a></li>
-                                        <li><a href="#">Pendidikan Karakter</a></li>
-                                        <li><a href="#">Bahasa Arab & Inggris</a></li>
-                                        <li><a href="#">Sains & Teknologi</a></li>
-                                        <li><a href="#">Kepesantrenan</a></li>
+                                        @foreach($websiteSettings->getFooterPrograms() as $program)
+                                            <li><a href="{{ $program['url'] }}">{{ $program['text'] }}</a></li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -69,12 +92,9 @@
                                 </div>
                                 <div class="content">
                                     <ul class="lab-ul">
-                                        <li><a href="{{ route('home') }}">Beranda</a></li>
-                                        <li><a href="{{ route('visi-misi') }}">Visi & Misi</a></li>
-                                        <li><a href="{{ route('guru') }}">Guru</a></li>
-                                        <li><a href="{{ route('blog') }}">Berita</a></li>
-                                        <li><a href="{{ route('contact') }}">Kontak</a></li>
-                                        <li><a href="#">Galeri</a></li>
+                                        @foreach($websiteSettings->getFooterQuickLinks() as $link)
+                                            <li><a href="{{ $link['url'] }}">{{ $link['text'] }}</a></li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -90,14 +110,12 @@
                                 </div>
                                 <div class="content">
                                     <ul class="lab-ul">
-                                        <li>
-                                            <i class="icofont-twitter"></i>
-                                            <p>SDIT Luqman Al Hakim <a href="#">@sditlhsleman</a> Pendaftaran Siswa Baru Tahun Ajaran 2025/2026 telah dibuka!</p>
-                                        </li>
-                                        <li>
-                                            <i class="icofont-twitter"></i>
-                                            <p>SDIT Luqman Al Hakim <a href="#">@sditlhsleman</a> Selamat kepada siswa-siswi yang telah berhasil menyelesaikan hafalan Juz 30!</p>
-                                        </li>
+                                        @foreach($websiteSettings->getFooterNews() as $news)
+                                            <li>
+                                                <i class="icofont-twitter"></i>
+                                                <p>{!! nl2br(e($news)) !!}</p>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -110,12 +128,23 @@
     <div class="footer-bottom">
         <div class="container">
             <div class="section-wrapper">
-                <p>&copy; {{ date('Y') }} <a href="{{ route('home') }}">SDIT Luqman Al Hakim</a> Designed by <a href="#" target="_blank">TIM IT SDIT Luqman Al Hakim</a> </p>
+                <p>&copy; {{ date('Y') }} 
+                    @if($websiteSettings->footer_copyright_text)
+                        <a href="{{ route('home') }}">{{ $websiteSettings->footer_copyright_text }}</a>
+                    @else
+                        <a href="{{ route('home') }}">SDIT Luqman Al Hakim</a>
+                    @endif
+                    Designed by 
+                    @if($websiteSettings->footer_designer_link)
+                        <a href="{{ $websiteSettings->footer_designer_link }}" target="_blank">{{ $websiteSettings->footer_designer_text }}</a>
+                    @else
+                        <a href="#" target="_blank">{{ $websiteSettings->footer_designer_text ?? 'TIM IT SDIT Luqman Al Hakim' }}</a>
+                    @endif
+                </p>
                 <div class="footer-bottom-list">
-                    <a href="#">Guru</a>
-                    <a href="#">Staff</a>
-                    <a href="#">Siswa</a>
-                    <a href="#">Alumni</a>
+                    @foreach($websiteSettings->getFooterBottomLinks() as $link)
+                        <a href="{{ $link['url'] }}">{{ $link['text'] }}</a>
+                    @endforeach
                 </div>
             </div>
         </div>

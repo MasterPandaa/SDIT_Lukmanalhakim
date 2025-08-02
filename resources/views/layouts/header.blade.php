@@ -1,23 +1,42 @@
+@php
+    try {
+        $websiteSettings = App\Http\Controllers\Admin\WebsiteSettingController::getWebsiteSettings();
+    } catch (\Exception $e) {
+        $websiteSettings = new App\Models\WebsiteSetting();
+    }
+@endphp
+
 <!-- Header Section Start -->
 <header class="header-section">
     <div class="header-top">
         <div class="container">
             <div class="header-top-area">
                 <ul class="lab-ul left">
-                    <li>
-                        <i class="icofont-ui-call"></i> <span>+62 857-4725-5761</span>
-                    </li>
-                    <li>
-                        <i class="icofont-location-pin"></i> Sleman, Yogyakarta
-                    </li>
+                    @if($websiteSettings->header_phone)
+                        <li>
+                            <i class="icofont-ui-call"></i> <span>{{ $websiteSettings->header_phone }}</span>
+                        </li>
+                    @endif
+                    @if($websiteSettings->header_address)
+                        <li>
+                            <i class="icofont-location-pin"></i> {{ $websiteSettings->header_address }}
+                        </li>
+                    @endif
                 </ul>
                 <ul class="lab-ul social-icons d-flex align-items-center">
                     <li><p>Find us on : </p></li>
-                    <li><a href="#" class="fb"><i class="icofont-facebook"></i></a></li>
-                    <li><a href="#" class="twitter"><i class="icofont-instagram"></i></a></li>
-                    <li><a href="#" class="vimeo"><i class="icofont-youtube-play"></i></a></li>
-                    <li><a href="#" class="skype"><i class="icofont-google-map"></i></a></li>
-                    <!-- <li><a href="#" class="rss"><i class="icofont-rss-feed"></i></a></li> -->
+                    @if($websiteSettings->header_facebook)
+                        <li><a href="{{ $websiteSettings->header_facebook }}" class="fb" target="_blank"><i class="icofont-facebook"></i></a></li>
+                    @endif
+                    @if($websiteSettings->header_instagram)
+                        <li><a href="{{ $websiteSettings->header_instagram }}" class="twitter" target="_blank"><i class="icofont-instagram"></i></a></li>
+                    @endif
+                    @if($websiteSettings->header_youtube)
+                        <li><a href="{{ $websiteSettings->header_youtube }}" class="vimeo" target="_blank"><i class="icofont-youtube-play"></i></a></li>
+                    @endif
+                    @if($websiteSettings->header_google_map)
+                        <li><a href="{{ $websiteSettings->header_google_map }}" class="skype" target="_blank"><i class="icofont-google-map"></i></a></li>
+                    @endif
                 </ul>
             </div>
         </div>
@@ -27,7 +46,19 @@
             <div class="header-wrapper">
                 <div class="logo">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('assets/images/logo/01.png') }}" alt="logo">
+                        @if($websiteSettings->header_logo)
+                            @php
+                                $logoPath = 'storage/' . $websiteSettings->header_logo;
+                                $logoExists = file_exists(public_path($logoPath));
+                            @endphp
+                            @if($logoExists)
+                                <img src="{{ asset($logoPath) }}" alt="logo">
+                            @else
+                                <img src="{{ asset('assets/images/logo/01.png') }}" alt="logo">
+                            @endif
+                        @else
+                            <img src="{{ asset('assets/images/logo/01.png') }}" alt="logo">
+                        @endif
                     </a>
                 </div>
                 <div class="menu-area">
@@ -61,8 +92,9 @@
                         </ul>
                     </div>
                     
-                    <!-- <a href="login.html" class="login"><i class="icofont-user"></i> <span>LOG IN</span> </a> -->
-                    <a href="https://psb.luqmanalhakim.sch.id/" class="signup"><i class="icofont-users"></i> <span>DAFTAR</span> </a>
+                    @if($websiteSettings->header_psb_link)
+                        <a href="{{ $websiteSettings->header_psb_link }}" class="signup" target="_blank"><i class="icofont-users"></i> <span>DAFTAR</span> </a>
+                    @endif
 
                     <!-- toggle icons -->
                     <div class="header-bar d-lg-none">

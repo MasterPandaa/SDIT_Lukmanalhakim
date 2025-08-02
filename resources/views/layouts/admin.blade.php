@@ -1231,13 +1231,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ request()->is('adminpanel/website/header') ? 'active' : '' }}" href="{{ route('admin.website.header') }}">
-                                        <i class="fas fa-heading"></i> Header
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {{ request()->is('adminpanel/website/footer') ? 'active' : '' }}" href="{{ route('admin.website.footer') }}">
-                                        <i class="fas fa-shoe-prints"></i> Footer
+                                    <a class="nav-link {{ request()->is('adminpanel/website/settings*') ? 'active' : '' }}" href="{{ route('admin.website.settings.index') }}">
+                                        <i class="fas fa-cogs"></i> Pengaturan Website
                                     </a>
                                 </li>
                             </ul>
@@ -1414,6 +1409,8 @@
                                                     <li class="breadcrumb-item active">Header</li>
                                                 @elseif(request()->is('adminpanel/website/footer'))
                                                     <li class="breadcrumb-item active">Footer</li>
+                                                @elseif(request()->is('adminpanel/website/settings*'))
+                                                    <li class="breadcrumb-item active">Pengaturan Website</li>
                                                 @endif
                                             @elseif(request()->is('adminpanel/profil*'))
                                                 <li class="breadcrumb-item"><a href="#">Profil</a></li>
