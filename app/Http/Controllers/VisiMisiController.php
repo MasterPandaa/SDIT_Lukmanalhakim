@@ -18,7 +18,7 @@ class VisiMisiController extends Controller
                 'deskripsi_header' => 'Yuk, jadikan pendidikan agama sebagai panduan hidup untuk masa depan yang lebih bermakna!',
                 'visi' => 'Terwujudnya Generasi Unggul yang Qur\'ani, Berakhlaq Mulia, Berprestasi, Peduli, Berbudaya Lingkungan, dan Berwawasan Global.​',
                 'misi_items' => VisiMisi::getDefaultMisiItems(),
-                'gambar_header_url' => asset('assets/images/default/visi-misi-default.jpg')
+                'gambar_header_url' => asset('assets/images/feature/10.png')
             ];
         }
         

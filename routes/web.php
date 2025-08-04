@@ -142,9 +142,11 @@ Route::prefix('adminpanel')->group(function () {
         Route::put('/website/settings/footer', [App\Http\Controllers\Admin\WebsiteSettingController::class, 'updateFooter'])->name('admin.website.settings.updateFooter');
         
         // Profil Management Routes
-        Route::get('/profil/visi-misi', [App\Http\Controllers\Admin\ProfilController::class, 'visiMisi'])->name('admin.profil.visi-misi.index');
-        Route::put('/profil/visi-misi', [App\Http\Controllers\Admin\ProfilController::class, 'updateVisiMisi'])->name('admin.profil.visi-misi.update');
-        Route::get('/profil/sambutan-kepsek', [App\Http\Controllers\Admin\ProfilController::class, 'sambutanKepsek'])->name('admin.profil.sambutan-kepsek');
+        Route::get('/profil/visi-misi', [App\Http\Controllers\Admin\VisiMisiController::class, 'index'])->name('admin.profil.visi-misi.index');
+        Route::put('/profil/visi-misi', [App\Http\Controllers\Admin\VisiMisiController::class, 'update'])->name('admin.profil.visi-misi.update');
+        Route::get('/profil/visi-misi/toggle', [App\Http\Controllers\Admin\VisiMisiController::class, 'toggleStatus'])->name('admin.profil.visi-misi.toggle');
+        Route::get('/profil/sambutan-kepsek', [App\Http\Controllers\Admin\SambutanKepsekController::class, 'index'])->name('admin.profil.sambutan-kepsek');
+        Route::put('/profil/sambutan-kepsek', [App\Http\Controllers\Admin\SambutanKepsekController::class, 'update'])->name('admin.profil.sambutan-kepsek.update');
         Route::get('/profil/kurikulum', [App\Http\Controllers\Admin\ProfilController::class, 'kurikulum'])->name('admin.profil.kurikulum');
         Route::get('/profil/indikator-kelulusan', [App\Http\Controllers\Admin\ProfilController::class, 'indikatorKelulusan'])->name('admin.profil.indikator-kelulusan.index');
         Route::get('/profil/guru-karyawan', [App\Http\Controllers\Admin\ProfilController::class, 'guruKaryawan'])->name('admin.profil.guru-karyawan.index');
