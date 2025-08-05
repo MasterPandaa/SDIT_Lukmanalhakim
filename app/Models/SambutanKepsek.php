@@ -9,13 +9,14 @@ class SambutanKepsek extends Model
     protected $table = 'sambutan_kepsek';
     
     protected $fillable = [
-        'judul',
-        'subtitle',
+        'judul_header',
+        'deskripsi_header',
         'sambutan',
         'video_url',
         'tahun_berdiri',
         'foto_kepsek',
-        'foto_kepsek2'
+        'gambar_header',
+        'is_active'
     ];
 
     /**

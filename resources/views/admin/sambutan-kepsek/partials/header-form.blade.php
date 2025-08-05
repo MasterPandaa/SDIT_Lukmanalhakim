@@ -1,5 +1,5 @@
-@if(isset($visiMisi) && $visiMisi)
-<form action="{{ route('admin.profil.visi-misi.update') }}" method="POST" enctype="multipart/form-data">
+@if(isset($sambutanKepsek) && $sambutanKepsek)
+<form action="{{ route('admin.sambutan-kepsek.update') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     
@@ -14,12 +14,12 @@
                             <label for="judul_header" class="font-weight-bold">Judul Header <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('judul_header') is-invalid @enderror" 
                                    id="judul_header" name="judul_header" 
-                                   value="{{ old('judul_header', $visiMisi->judul_header ?? 'Faith is the Light of Life') }}"
-                                   placeholder="Faith is the Light of Life">
+                                   value="{{ old('judul_header', $sambutanKepsek->judul_header ?? 'Mewujudkan Generasi Unggul Berakhlak Mulia') }}"
+                                   placeholder="Mewujudkan Generasi Unggul Berakhlak Mulia">
                             @error('judul_header')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <small class="form-text text-muted">Judul yang akan ditampilkan di bagian header halaman visi misi</small>
+                            <small class="form-text text-muted">Judul yang akan ditampilkan di bagian header halaman sambutan kepala sekolah</small>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -27,7 +27,7 @@
                             <label for="deskripsi_header" class="font-weight-bold">Deskripsi Header <span class="text-danger">*</span></label>
                             <textarea class="form-control @error('deskripsi_header') is-invalid @enderror" 
                                       id="deskripsi_header" name="deskripsi_header" rows="3"
-                                      placeholder="Yuk, jadikan pendidikan agama sebagai panduan hidup untuk masa depan yang lebih bermakna!">{{ old('deskripsi_header', $visiMisi->deskripsi_header ?? 'Yuk, jadikan pendidikan agama sebagai panduan hidup untuk masa depan yang lebih bermakna!') }}</textarea>
+                                      placeholder="Cerdas, Berakhlak, Menginspirasi">{{ old('deskripsi_header', $sambutanKepsek->deskripsi_header ?? 'Cerdas, Berakhlak, Menginspirasi') }}</textarea>
                             @error('deskripsi_header')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -58,13 +58,13 @@
                         </div>
                     </div>
                     
-                    @if($visiMisi->gambar_header)
+                    @if($sambutanKepsek->gambar_header)
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="font-weight-bold">Gambar Saat Ini</label>
                                 <div class="mb-2">
                                     @php
-                                        $imagePath = 'assets/images/visi-misi/' . $visiMisi->gambar_header;
+                                        $imagePath = 'assets/images/sambutan-kepsek/' . $sambutanKepsek->gambar_header;
                                         $imageExists = file_exists(public_path($imagePath));
                                     @endphp
                                     @if($imageExists)
@@ -105,7 +105,7 @@
             </div>
         </div>
     </div>
-
+    
     <div class="form-group mb-0">
         <button type="submit" class="btn btn-success">
             <i class="fas fa-save me-2"></i>
@@ -117,6 +117,6 @@
 <div class="text-center py-5">
     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
     <h5>Data tidak tersedia</h5>
-    <p class="text-muted">Data visi misi tidak dapat dimuat.</p>
+    <p class="text-muted">Data sambutan kepala sekolah tidak dapat dimuat.</p>
 </div>
 @endif 

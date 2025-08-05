@@ -33,13 +33,13 @@
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         @if($visiMisi->is_active)
-                            <a href="{{ route('admin.profil.visi-misi.toggle') }}" 
+                            <a href="{{ route('admin.visi-misi.toggle') }}" 
                                class="btn btn-warning"
                                onclick="return confirm('Apakah Anda yakin ingin menonaktifkan konten visi misi?')">
                                 <i class="fas fa-eye-slash me-2"></i>Nonaktifkan Konten
                             </a>
                         @else
-                            <a href="{{ route('admin.profil.visi-misi.toggle') }}" 
+                            <a href="{{ route('admin.visi-misi.toggle') }}" 
                                class="btn btn-success"
                                onclick="return confirm('Apakah Anda yakin ingin mengaktifkan konten visi misi?')">
                                 <i class="fas fa-eye me-2"></i>Aktifkan Konten

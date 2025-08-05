@@ -91,7 +91,7 @@
                         <!-- Header Section -->
                         <div class="tab-pane fade show active" id="header" role="tabpanel" aria-labelledby="header-tab">
                             @if(isset($visiMisi) && $visiMisi)
-                                @include('admin.profil.visi-misi.partials.header-form')
+                                @include('admin.visi-misi.partials.header-form')
                             @else
                                 <div class="text-center py-5">
                                     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
@@ -107,7 +107,7 @@
                         <!-- Visi Section -->
                         <div class="tab-pane fade" id="visi" role="tabpanel" aria-labelledby="visi-tab">
                             @if(isset($visiMisi) && $visiMisi)
-                                @include('admin.profil.visi-misi.partials.visi-form')
+                                @include('admin.visi-misi.partials.visi-form')
                             @else
                                 <div class="text-center py-5">
                                     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
@@ -123,7 +123,7 @@
                         <!-- Misi Section -->
                         <div class="tab-pane fade" id="misi" role="tabpanel" aria-labelledby="misi-tab">
                             @if(isset($visiMisi) && $visiMisi)
-                                @include('admin.profil.visi-misi.partials.misi-form')
+                                @include('admin.visi-misi.partials.misi-form')
                             @else
                                 <div class="text-center py-5">
                                     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
@@ -139,7 +139,7 @@
                         <!-- Settings Section -->
                         <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
                             @if(isset($visiMisi) && $visiMisi)
-                                @include('admin.profil.visi-misi.partials.settings-form')
+                                @include('admin.visi-misi.partials.settings-form')
                             @else
                                 <div class="text-center py-5">
                                     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>

@@ -68,7 +68,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="pageheader-content text-center">
-                    <h2>{{ $sambutan->judul ?? 'Sambutan Kepala Sekolah' }}</h2>
+                    <h2>{{ $sambutanKepsek->judul_header ?? 'Sambutan Kepala Sekolah' }}</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
@@ -89,13 +89,35 @@
             <div class="col">
                 <div class="about-left">
                     <div class="about-thumb">
-                        <img src="{{ $sambutan ? $sambutan->foto_kepsek_url : asset('assets/images/about/01.jpg') }}" alt="about">
+                        @if($sambutanKepsek->foto_kepsek)
+                            @php
+                                $imagePath = 'assets/images/sambutan-kepsek/' . $sambutanKepsek->foto_kepsek;
+                                $imageExists = file_exists(public_path($imagePath));
+                            @endphp
+                            @if($imageExists)
+                                <img src="{{ asset($imagePath) }}" alt="Foto Kepala Sekolah">
+                            @else
+                                <img src="{{ asset('assets/images/default/kepsek-default.jpg') }}" alt="Foto Kepala Sekolah">
+                            @endif
+                        @else
+                            <img src="{{ asset('assets/images/default/kepsek-default.jpg') }}" alt="Foto Kepala Sekolah">
+                        @endif
                     </div>
-                    <div class="abs-thumb">
-                        <img src="{{ $sambutan ? $sambutan->foto_kepsek2_url : asset('assets/images/about/02.jpg') }}" alt="about">
-                    </div>
+                    @if($sambutanKepsek->gambar_header)
+                        <div class="abs-thumb">
+                            @php
+                                $headerImagePath = 'assets/images/sambutan-kepsek/' . $sambutanKepsek->gambar_header;
+                                $headerImageExists = file_exists(public_path($headerImagePath));
+                            @endphp
+                            @if($headerImageExists)
+                                <img src="{{ asset($headerImagePath) }}" alt="Gambar Header">
+                            @else
+                                <img src="{{ asset('assets/images/default/kepsek-default2.jpg') }}" alt="Gambar Header">
+                            @endif
+                        </div>
+                    @endif
                     <div class="about-left-content">
-                        <h3>{{ $sambutan->tahun_berdiri ?? '11' }} Th</h3>
+                        <h3>{{ $sambutanKepsek->tahun_berdiri ?? '11' }} Th</h3>
                         <p>eLHaeS Berdiri</p>
                     </div>
                 </div>
@@ -103,9 +125,9 @@
             <div class="col">
                 <div class="about-right">
                     <div class="section-header">
-                        <span class="subtitle">{{ $sambutan->subtitle ?? 'Cerdas, Berakhlak, Menginspirasi' }}</span>
-                        <h2 class="title">{{ $sambutan->judul ?? 'Mewujudkan Generasi Unggul Berakhlak Mulia' }}</h2>
-                        <p>{!! $sambutan->sambutan ?? 'Sambutan belum tersedia' !!}</p>
+                                            <span class="subtitle">{{ $sambutanKepsek->deskripsi_header ?? 'Cerdas, Berakhlak, Menginspirasi' }}</span>
+                    <h2 class="title">{{ $sambutanKepsek->judul_header ?? 'Mewujudkan Generasi Unggul Berakhlak Mulia' }}</h2>
+                    <p>{!! $sambutanKepsek->sambutan ?? 'Sambutan belum tersedia' !!}</p>
                     </div>
                 </div>
             </div>
@@ -123,7 +145,7 @@
                     <div class="sf-left">
                         <div class="sfl-thumb">
                             <img src="{{ asset('assets/images/feedback/01.jpg') }}" alt="student feedback">
-                            <a href="{{ $sambutan->video_url ?? 'https://www.youtube-nocookie.com/embed/jP649ZHA8Tg' }}" class="video-button" data-rel="lightcase"><i class="icofont-ui-play"></i></a>
+                            <a href="{{ $sambutanKepsek->video_url ?? 'https://www.youtube-nocookie.com/embed/jP649ZHA8Tg' }}" class="video-button" data-rel="lightcase"><i class="icofont-ui-play"></i></a>
                         </div>
                     </div>
                 </div>

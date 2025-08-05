@@ -1,5 +1,5 @@
 @if(isset($visiMisi) && $visiMisi)
-<form action="{{ route('admin.profil.visi-misi.update') }}" method="POST">
+<form action="{{ route('admin.visi-misi.update') }}" method="POST">
     @csrf
     @method('PUT')
     

@@ -11,143 +11,95 @@ class SambutanKepsekController extends Controller
 {
     public function index()
     {
-        $sambutan = SambutanKepsek::first();
+        $sambutanKepsek = SambutanKepsek::first();
         
-        if (!$sambutan) {
+        if (!$sambutanKepsek) {
             // Create default content if none exists
-            $sambutan = SambutanKepsek::create([
-                'judul' => 'Mewujudkan Generasi Unggul Berakhlak Mulia',
-                'subtitle' => 'Cerdas, Berakhlak, Menginspirasi',
-                'sambutan' => 'Assalamu\'alaikum Warrahmatullahi Wabarakatuh.<br><br>Puji syukur kehadirat Allah SWT yang telah memberikan rahmat dan karunia-Nya kepada kita semua. Shalawat dan salam semoga selalu tercurah kepada Nabi Muhammad SAW, keluarga, sahabat, dan seluruh umatnya.<br><br>SDIT Luqman Al Hakim Sleman hadir sebagai lembaga pendidikan yang berkomitmen untuk mengembangkan potensi peserta didik secara holistik, mengintegrasikan pendidikan akademik dengan nilai-nilai Islam, dan membentuk karakter yang unggul.<br><br>Kami percaya bahwa setiap anak memiliki potensi unik yang perlu dikembangkan dengan pendekatan yang tepat. Melalui kurikulum yang terintegrasi, metode pembelajaran yang inovatif, dan lingkungan yang kondusif, kami berusaha menciptakan generasi yang tidak hanya cerdas secara akademik, tetapi juga berakhlak mulia dan siap menghadapi tantangan masa depan.<br><br>Kepada seluruh orang tua, guru, dan stakeholder yang telah mendukung perjalanan kami, kami ucapkan terima kasih. Mari kita bersama-sama mewujudkan visi besar untuk menciptakan generasi unggul yang membanggakan bangsa dan agama.<br><br>Wassalamu\'alaikum Warrahmatullahi Wabarakatuh.',
+            $sambutanKepsek = SambutanKepsek::create([
+                'judul_header' => 'Mewujudkan Generasi Unggul Berakhlak Mulia',
+                'deskripsi_header' => 'Cerdas, Berakhlak, Menginspirasi',
+                'sambutan' => 'Assalamu\'alaikum Warrahmatullahi Wabarakatuh.<br><br>Puji syukur kehadirat Allah SWT yang telah memberikan rahmat dan karunia-Nya kepada kita semua. Shalawat dan salam semoga selalu tercurah kepada Nabi Muhammad SAW.',
                 'video_url' => 'https://www.youtube-nocookie.com/embed/jP649ZHA8Tg',
-                'tahun_berdiri' => 11, // Lama sekolah berdiri (11 tahun)
-                'foto_kepsek' => null,
-                'foto_kepsek2' => null
+                'tahun_berdiri' => 11,
+                'is_active' => true
             ]);
         }
-        
-        return view('admin.profil.sambutan-kepsek.index', compact('sambutan'));
+
+        return view('admin.sambutan-kepsek.index', compact('sambutanKepsek'));
     }
 
     public function update(Request $request)
     {
-        $sambutan = SambutanKepsek::first();
+        $sambutanKepsek = SambutanKepsek::first();
         
-        if (!$sambutan) {
-            $sambutan = new SambutanKepsek();
+        if (!$sambutanKepsek) {
+            $sambutanKepsek = new SambutanKepsek();
         }
 
-        // Determine which section is being updated based on the request data
-        $updateType = $this->determineUpdateType($request);
+        // Determine which section is being updated based on the request
+        $updateData = [];
         
-        // Validate based on update type
-        $this->validateByUpdateType($request, $updateType);
-
-        $data = [];
-
-        // Handle different update types
-        switch ($updateType) {
-            case 'header':
-                $data = $this->handleHeaderUpdate($request, $sambutan);
-                break;
-            case 'content':
-                $data = $this->handleContentUpdate($request);
-                break;
-            case 'media':
-                $data = $this->handleMediaUpdate($request, $sambutan);
-                break;
-            case 'all':
-                $data = $this->handleAllUpdate($request, $sambutan);
-                break;
-        }
-
-        $sambutan->fill($data);
-        $sambutan->save();
-
-        $sectionName = $this->getSectionName($updateType);
-        return redirect()->route('admin.profil.sambutan-kepsek')
-            ->with('success', "Konten {$sectionName} berhasil diperbarui!");
-    }
-
-    private function determineUpdateType(Request $request)
-    {
-        if ($request->has('judul') && $request->has('subtitle')) {
-            return 'header';
-        } elseif ($request->has('sambutan')) {
-            return 'content';
-        } elseif ($request->hasFile('foto_kepsek') || $request->hasFile('foto_kepsek2') || $request->has('video_url')) {
-            return 'media';
-        } else {
-            return 'all';
-        }
-    }
-
-    private function validateByUpdateType(Request $request, $updateType)
-    {
-        switch ($updateType) {
-            case 'header':
+        // Check if header section is being updated
+        if ($request->has('judul_header') || $request->has('deskripsi_header') || $request->hasFile('gambar_header')) {
                 $request->validate([
-                    'judul' => 'required|string|max:255',
-                    'subtitle' => 'required|string|max:255',
-                    'tahun_berdiri' => 'required|integer|min:1|max:100', // Lama sekolah berdiri (1-100 tahun)
-                ]);
-                break;
-            case 'content':
-                $request->validate([
-                    'sambutan' => 'required|string',
-                ]);
-                break;
-            case 'media':
-                $request->validate([
-                    'video_url' => 'nullable|url',
-                    'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'foto_kepsek2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                ]);
-                break;
-            case 'all':
-                $request->validate([
-                    'judul' => 'required|string|max:255',
-                    'subtitle' => 'required|string|max:255',
-                    'sambutan' => 'required|string',
-                    'video_url' => 'nullable|url',
-                    'tahun_berdiri' => 'required|integer|min:1|max:100', // Lama sekolah berdiri (1-100 tahun)
-                    'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'foto_kepsek2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                ]);
-                break;
+                'judul_header' => 'required|string|max:255',
+                'deskripsi_header' => 'required|string',
+                'gambar_header' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+            
+            $updateData['judul_header'] = $request->judul_header;
+            $updateData['deskripsi_header'] = $request->deskripsi_header;
+            
+            // Handle image upload
+            if ($request->hasFile('gambar_header')) {
+            // Delete old image if exists
+                if ($sambutanKepsek->gambar_header && file_exists(public_path('assets/images/sambutan-kepsek/' . $sambutanKepsek->gambar_header))) {
+                    unlink(public_path('assets/images/sambutan-kepsek/' . $sambutanKepsek->gambar_header));
+            }
+
+                $image = $request->file('gambar_header');
+                $imageName = time() . '_sambutan_kepsek_header.' . $image->getClientOriginalExtension();
+            
+            // Create directory if not exists
+            if (!file_exists(public_path('assets/images/sambutan-kepsek'))) {
+                mkdir(public_path('assets/images/sambutan-kepsek'), 0755, true);
+            }
+            
+            $image->move(public_path('assets/images/sambutan-kepsek'), $imageName);
+                $updateData['gambar_header'] = $imageName;
+            }
         }
-    }
-
-    private function handleHeaderUpdate(Request $request, $sambutan)
-    {
-        return [
-            'judul' => $request->judul,
-            'subtitle' => $request->subtitle,
-            'tahun_berdiri' => $request->tahun_berdiri,
-        ];
-    }
-
-    private function handleContentUpdate(Request $request)
-    {
-        return [
-            'sambutan' => $request->sambutan,
-        ];
-    }
-
-    private function handleMediaUpdate(Request $request, $sambutan)
-    {
-        $data = [];
-
-        // Handle video URL
-        if ($request->has('video_url')) {
-            $data['video_url'] = $request->video_url;
+        
+        // Check if content section is being updated
+        if ($request->has('sambutan')) {
+            $request->validate([
+                'sambutan' => 'required|string',
+            ]);
+            
+            $updateData['sambutan'] = $request->sambutan;
         }
+        
+        // Check if media section is being updated
+        if ($request->has('video_url') || $request->hasFile('foto_kepsek') || $request->has('tahun_berdiri')) {
+            $request->validate([
+                'video_url' => 'nullable|url',
+                'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'tahun_berdiri' => 'required|integer|min:1|max:100',
+            ]);
+            
+            if ($request->has('video_url')) {
+                $updateData['video_url'] = $request->video_url;
+            }
+            
+            if ($request->has('tahun_berdiri')) {
+                $updateData['tahun_berdiri'] = $request->tahun_berdiri;
+            }
 
         // Handle foto_kepsek upload
         if ($request->hasFile('foto_kepsek')) {
             // Delete old image if exists
-            if ($sambutan->foto_kepsek && file_exists(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek))) {
-                unlink(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek));
+                if ($sambutanKepsek->foto_kepsek && file_exists(public_path('assets/images/sambutan-kepsek/' . $sambutanKepsek->foto_kepsek))) {
+                    unlink(public_path('assets/images/sambutan-kepsek/' . $sambutanKepsek->foto_kepsek));
             }
 
             $image = $request->file('foto_kepsek');
@@ -159,95 +111,46 @@ class SambutanKepsekController extends Controller
             }
             
             $image->move(public_path('assets/images/sambutan-kepsek'), $imageName);
-            $data['foto_kepsek'] = $imageName;
+                $updateData['foto_kepsek'] = $imageName;
+            }
+        }
+        
+        // Check if status is being updated
+        if ($request->has('is_active')) {
+            $request->validate([
+                'is_active' => 'boolean'
+            ]);
+            
+            $updateData['is_active'] = $request->is_active;
         }
 
-        // Handle foto_kepsek2 upload
-        if ($request->hasFile('foto_kepsek2')) {
-            // Delete old image if exists
-            if ($sambutan->foto_kepsek2 && file_exists(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek2))) {
-                unlink(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek2));
-            }
-
-            $image2 = $request->file('foto_kepsek2');
-            $imageName2 = time() . '_foto_kepsek2.' . $image2->getClientOriginalExtension();
+        // Only update if there's data to update
+        if (!empty($updateData)) {
+            $sambutanKepsek->fill($updateData);
+            $sambutanKepsek->save();
             
-            // Create directory if not exists
-            if (!file_exists(public_path('assets/images/sambutan-kepsek'))) {
-                mkdir(public_path('assets/images/sambutan-kepsek'), 0755, true);
-            }
-            
-            $image2->move(public_path('assets/images/sambutan-kepsek'), $imageName2);
-            $data['foto_kepsek2'] = $imageName2;
+            return redirect()->route('admin.sambutan-kepsek.index')
+                ->with('success', 'Konten Sambutan Kepala Sekolah berhasil diperbarui!');
         }
 
-        return $data;
+        return redirect()->route('admin.sambutan-kepsek.index')
+            ->with('info', 'Tidak ada perubahan yang dilakukan.');
     }
 
-    private function handleAllUpdate(Request $request, $sambutan)
+    public function toggleStatus()
     {
-        $data = [
-            'judul' => $request->judul,
-            'subtitle' => $request->subtitle,
-            'sambutan' => $request->sambutan,
-            'video_url' => $request->video_url,
-            'tahun_berdiri' => $request->tahun_berdiri,
-        ];
-
-        // Handle foto_kepsek upload
-        if ($request->hasFile('foto_kepsek')) {
-            // Delete old image if exists
-            if ($sambutan->foto_kepsek && file_exists(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek))) {
-                unlink(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek));
-            }
-
-            $image = $request->file('foto_kepsek');
-            $imageName = time() . '_foto_kepsek.' . $image->getClientOriginalExtension();
-            
-            // Create directory if not exists
-            if (!file_exists(public_path('assets/images/sambutan-kepsek'))) {
-                mkdir(public_path('assets/images/sambutan-kepsek'), 0755, true);
-            }
-            
-            $image->move(public_path('assets/images/sambutan-kepsek'), $imageName);
-            $data['foto_kepsek'] = $imageName;
+        $sambutanKepsek = SambutanKepsek::first();
+        
+        if (!$sambutanKepsek) {
+            return redirect()->route('admin.sambutan-kepsek.index')
+                ->with('error', 'Konten Sambutan Kepala Sekolah tidak ditemukan!');
         }
 
-        // Handle foto_kepsek2 upload
-        if ($request->hasFile('foto_kepsek2')) {
-            // Delete old image if exists
-            if ($sambutan->foto_kepsek2 && file_exists(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek2))) {
-                unlink(public_path('assets/images/sambutan-kepsek/' . $sambutan->foto_kepsek2));
-            }
+        $sambutanKepsek->is_active = !$sambutanKepsek->is_active;
+        $sambutanKepsek->save();
 
-            $image2 = $request->file('foto_kepsek2');
-            $imageName2 = time() . '_foto_kepsek2.' . $image2->getClientOriginalExtension();
-            
-            // Create directory if not exists
-            if (!file_exists(public_path('assets/images/sambutan-kepsek'))) {
-                mkdir(public_path('assets/images/sambutan-kepsek'), 0755, true);
-            }
-            
-            $image2->move(public_path('assets/images/sambutan-kepsek'), $imageName2);
-            $data['foto_kepsek2'] = $imageName2;
-        }
-
-        return $data;
+        $status = $sambutanKepsek->is_active ? 'diaktifkan' : 'dinonaktifkan';
+        return redirect()->route('admin.sambutan-kepsek.index')
+            ->with('success', "Konten Sambutan Kepala Sekolah berhasil {$status}!");
     }
-
-    private function getSectionName($updateType)
-    {
-        switch ($updateType) {
-            case 'header':
-                return 'Header';
-            case 'content':
-                return 'Sambutan';
-            case 'media':
-                return 'Media';
-            case 'all':
-                return 'Sambutan Kepala Sekolah';
-            default:
-                return 'Konten';
-        }
-    }
-} 
+}

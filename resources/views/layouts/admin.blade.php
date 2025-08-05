@@ -1248,12 +1248,12 @@
                         <div class="collapse {{ request()->is('adminpanel/profil*') ? 'show' : '' }}" id="profilSubmenu">
                             <ul class="nav flex-column ms-3">
                                 <li class="nav-item">
-                                    <a class="nav-link {{ request()->is('adminpanel/profil/visi-misi*') ? 'active' : '' }}" href="{{ route('admin.profil.visi-misi.index') }}">
+                                    <a class="nav-link {{ request()->is('adminpanel/visi-misi*') ? 'active' : '' }}" href="{{ route('admin.visi-misi.index') }}">
                             <i class="fas fa-bullseye"></i> Visi Misi
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ request()->is('adminpanel/profil/sambutan-kepsek*') ? 'active' : '' }}" href="{{ route('admin.profil.sambutan-kepsek') }}">
+                                    <a class="nav-link {{ request()->is('adminpanel/sambutan-kepsek*') ? 'active' : '' }}" href="{{ route('admin.sambutan-kepsek.index') }}">
                                         <i class="fas fa-user-tie"></i> Sambutan Kepsek
                         </a>
                     </li>
