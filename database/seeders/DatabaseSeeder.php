@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             SambutanKepsekSeeder::class,
             KurikulumSeeder::class,
             VisiMisiSeeder::class,
+            ContactSettingSeeder::class,
         ]);
     }
 }

@@ -14,7 +14,7 @@
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
                             <li class="breadcrumb-item"><a href="#">Tentang</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Guru</li>
+                            <li class="breadcrumb-item active" aria-current="page">Guru & Karyawan  </li>
                         </ol>
                     </nav>
                 </div>
@@ -392,40 +392,7 @@
                 @endif
             </div>
             
-            <!-- Achieve Section Start -->
-            <div class="achieve-part mt-4">
-                <div class="row g-4 row-cols-1 row-cols-lg-2">
-                    <div class="col">
-                        <div class="achieve-item">
-                            <div class="achieve-inner">
-                                <div class="achieve-thumb">
-                                    <img src="{{ asset('assets/images/achive/01.png') }}" alt="achieve thumb">
-                                </div>
-                                <div class="achieve-content">
-                                    <h4>Bergabung Menjadi Guru</h4>
-                                    <p>SDIT Lukmanalhakim membuka kesempatan bagi pendidik yang berdedikasi untuk bergabung dalam misi kami mencerdaskan generasi Islam yang berakhlak mulia.</p>
-                                    <a href="{{ route('contact') }}" class="lab-btn"><span>Lamar Sekarang</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="achieve-item">
-                            <div class="achieve-inner">
-                                <div class="achieve-thumb">
-                                    <img src="{{ asset('assets/images/achive/02.png') }}" alt="achieve thumb">
-                                </div>
-                                <div class="achieve-content">
-                                    <h4>Daftarkan Putra/Putri Anda</h4>
-                                    <p>Berikan pendidikan terbaik untuk putra/putri Anda dengan kurikulum yang mengintegrasikan nilai-nilai Islam dan pengetahuan umum.</p>
-                                    <a href="https://psb.luqmanalhakim.sch.id/" class="lab-btn"><span>Daftar Sekarang</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Achieve Section Ending -->
+
         </div>
     </div>
 </div>

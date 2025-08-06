@@ -164,6 +164,12 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         
         // Contact Management Routes
         Route::get('/contact', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('admin.contact.index');
+        Route::get('/contact/{id}', [App\Http\Controllers\Admin\ContactController::class, 'show'])->name('admin.contact.show');
+        Route::post('/contact/{id}/reply', [App\Http\Controllers\Admin\ContactController::class, 'reply'])->name('admin.contact.reply');
+        Route::post('/contact/update-settings', [App\Http\Controllers\Admin\ContactController::class, 'updateSettings'])->name('admin.contact.update-settings');
+        Route::delete('/contact/{id}', [App\Http\Controllers\Admin\ContactController::class, 'delete'])->name('admin.contact.delete');
+        Route::post('/contact/{id}/mark-read', [App\Http\Controllers\Admin\ContactController::class, 'markAsRead'])->name('admin.contact.mark-read');
+        Route::post('/contact/{id}/mark-replied', [App\Http\Controllers\Admin\ContactController::class, 'markAsReplied'])->name('admin.contact.mark-replied');
         
         // Log Management Routes
         Route::get('/log/system', [App\Http\Controllers\Admin\LogController::class, 'system'])->name('admin.log.system');
