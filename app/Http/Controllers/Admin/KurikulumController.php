@@ -18,11 +18,21 @@ class KurikulumController extends Controller
     {
         $kurikulum = Kurikulum::with('allItems')->first();
         
-        return view('admin.kurikulum', compact('kurikulum'));
+        // Create default kurikulum if none exists
+        if (!$kurikulum) {
+            $kurikulum = Kurikulum::create([
+                'judul' => 'Kurikulum SDIT Luqman Al Hakim',
+                'subtitle' => 'Pendidikan Berkualitas',
+                'deskripsi' => 'SD Islam Terpadu Luqman Al Hakim Sleman menerapkan empat kurikulum terpadu untuk memberikan pendidikan yang komprehensif dan berkualitas.',
+                'is_active' => true
+            ]);
+        }
+        
+        return view('admin.profil.kurikulum.index', compact('kurikulum'));
     }
 
     /**
-     * Update kurikulum utama
+     * Update kurikulum header
      */
     public function update(Request $request)
     {
@@ -46,6 +56,11 @@ class KurikulumController extends Controller
 
             // Handle gambar header upload
             if ($request->hasFile('gambar_header')) {
+                // Create directory if not exists
+                if (!file_exists(public_path('assets/images/kurikulum/header'))) {
+                    mkdir(public_path('assets/images/kurikulum/header'), 0755, true);
+                }
+
                 // Hapus gambar lama jika ada
                 $kurikulum = Kurikulum::first();
                 if ($kurikulum && $kurikulum->gambar_header && file_exists(public_path('assets/images/kurikulum/header/' . $kurikulum->gambar_header))) {
@@ -61,8 +76,8 @@ class KurikulumController extends Controller
 
             $kurikulum = Kurikulum::updateOrCreateData($data);
 
-            return redirect()->route('admin.kurikulum')
-                ->with('success', 'Data kurikulum berhasil diperbarui!');
+            return redirect()->route('admin.kurikulum.index')
+                ->with('success', 'Header kurikulum berhasil diperbarui!');
 
         } catch (\Exception $e) {
             return redirect()->back()
@@ -71,10 +86,38 @@ class KurikulumController extends Controller
         }
     }
 
+    /**
+     * Toggle kurikulum status
+     */
+    public function toggleStatus()
+    {
+        try {
+            $kurikulum = Kurikulum::first();
+            
+            if (!$kurikulum) {
+                return redirect()->route('admin.kurikulum.index')
+                    ->with('error', 'Data kurikulum tidak ditemukan!');
+            }
+
+            $kurikulum->is_active = !$kurikulum->is_active;
+            $kurikulum->save();
+
+            $status = $kurikulum->is_active ? 'diaktifkan' : 'dinonaktifkan';
+            return redirect()->route('admin.kurikulum.index')
+                ->with('success', "Kurikulum berhasil {$status}!");
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+
+
     public function createItem()
     {
         $kurikulum = Kurikulum::first();
-        return view('admin.kurikulum-item-form', [
+        return view('admin.profil.kurikulum.item-form', [
             'kurikulum' => $kurikulum,
             'item' => null,
             'action' => route('admin.kurikulum.store-item'),
@@ -87,7 +130,7 @@ class KurikulumController extends Controller
     {
         $kurikulum = Kurikulum::first();
         $item = KurikulumItem::findOrFail($id);
-        return view('admin.kurikulum-item-form', [
+        return view('admin.profil.kurikulum.item-form', [
             'kurikulum' => $kurikulum,
             'item' => $item,
             'action' => route('admin.kurikulum.update-item', $item->id),
@@ -132,7 +175,7 @@ class KurikulumController extends Controller
 
             KurikulumItem::create($data);
 
-            return redirect()->route('admin.kurikulum')
+            return redirect()->route('admin.kurikulum.index')
                 ->with('success', 'Item kurikulum berhasil ditambahkan!');
 
         } catch (\Exception $e) {
@@ -173,7 +216,7 @@ class KurikulumController extends Controller
 
             $item->update($data);
 
-            return redirect()->route('admin.kurikulum')
+            return redirect()->route('admin.kurikulum.index')
                 ->with('success', 'Item kurikulum berhasil diperbarui!');
 
         } catch (\Exception $e) {
@@ -203,7 +246,7 @@ class KurikulumController extends Controller
             // Reorder items setelah delete
             KurikulumItem::reorderAfterDelete($kurikulumId, $urutan);
 
-            return redirect()->route('admin.kurikulum')
+            return redirect()->route('admin.kurikulum.index')
                 ->with('success', 'Item kurikulum berhasil dihapus!');
 
         } catch (\Exception $e) {
@@ -252,7 +295,7 @@ class KurikulumController extends Controller
             $item->update(['is_active' => !$item->is_active]);
 
             $status = $item->is_active ? 'diaktifkan' : 'dinonaktifkan';
-            return redirect()->route('admin.kurikulum')
+            return redirect()->route('admin.kurikulum.index')
                 ->with('success', "Item kurikulum berhasil {$status}!");
 
         } catch (\Exception $e) {

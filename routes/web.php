@@ -70,7 +70,8 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
 
         // Kurikulum Management Routes - Menggunakan Admin/KurikulumController
         Route::get('/kurikulum', [App\Http\Controllers\Admin\KurikulumController::class, 'index'])->name('admin.kurikulum.index');
-        Route::get('/kurikulum', [App\Http\Controllers\Admin\KurikulumController::class, 'index'])->name('admin.kurikulum');
+        Route::put('/kurikulum', [App\Http\Controllers\Admin\KurikulumController::class, 'update'])->name('admin.kurikulum.update');
+        Route::post('/kurikulum/toggle-status', [App\Http\Controllers\Admin\KurikulumController::class, 'toggleStatus'])->name('admin.kurikulum.toggle-status');
         Route::get('/kurikulum/item/create', [App\Http\Controllers\Admin\KurikulumController::class, 'createItem'])->name('admin.kurikulum.create-item');
         Route::post('/kurikulum/item', [App\Http\Controllers\Admin\KurikulumController::class, 'storeItem'])->name('admin.kurikulum.store-item');
         Route::get('/kurikulum/item/{id}/edit', [App\Http\Controllers\Admin\KurikulumController::class, 'editItem'])->name('admin.kurikulum.edit-item');
@@ -147,6 +148,7 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         Route::put('/profil/visi-misi', [App\Http\Controllers\Admin\VisiMisiController::class, 'update'])->name('admin.profil.visi-misi.update');
         Route::get('/profil/visi-misi/toggle', [App\Http\Controllers\Admin\VisiMisiController::class, 'toggleStatus'])->name('admin.profil.visi-misi.toggle');
         
+        Route::get('/profil/sambutan-kepsek', [App\Http\Controllers\Admin\ProfilController::class, 'sambutanKepsek'])->name('admin.profil.sambutan-kepsek.index');
         Route::get('/profil/kurikulum', [App\Http\Controllers\Admin\ProfilController::class, 'kurikulum'])->name('admin.profil.kurikulum');
         Route::get('/profil/indikator-kelulusan', [App\Http\Controllers\Admin\ProfilController::class, 'indikatorKelulusan'])->name('admin.profil.indikator-kelulusan.index');
         Route::get('/profil/guru-karyawan', [App\Http\Controllers\Admin\ProfilController::class, 'guruKaryawan'])->name('admin.profil.guru-karyawan.index');

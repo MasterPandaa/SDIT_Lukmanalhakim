@@ -6,23 +6,57 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <div class="card border-0 shadow">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 fw-bold text-success">Kelola Guru & Karyawan</h6>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#filterModal">
-                            <i class="fas fa-filter me-1"></i> Filter
-                        </button>
-                        <a href="#" class="btn btn-sm btn-light">
-                            <i class="fas fa-plus me-1"></i> Tambah Guru/Karyawan
-                        </a>
+            <!-- Header -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">
+                    <i class="fas fa-chalkboard-teacher fa-lg text-success me-2"></i>
+                    Kelola Guru & Karyawan
+                </h1>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('guru') }}" target="_blank" class="btn btn-primary shadow-sm">
+                        <i class="fas fa-eye me-2"></i>
+                        Lihat Halaman Publik
+                    </a>
+                    <a href="{{ route('admin.guru.create') }}" class="btn btn-success shadow-sm">
+                        <i class="fas fa-plus me-2"></i>
+                        Tambah Guru/Karyawan
+                    </a>
+                </div>
+            </div>
+
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle fa-lg me-3"></i>
+                        <div>
+                            <strong>Berhasil!</strong> {{ session('success') }}
+                        </div>
                     </div>
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-circle fa-lg me-3"></i>
+                        <div>
+                            <strong>Error!</strong> {{ session('error') }}
+                        </div>
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            <div class="card border-0 shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-success">Data Guru & Karyawan</h6>
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Halaman pengelolaan data guru dan karyawan sekolah.
-                    </div>
                     
                     <!-- Stats Cards -->
                     <div class="row g-3 mb-4">
@@ -31,11 +65,11 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
-                                            <i class="fas fa-chalkboard-teacher fa-lg"></i>
+                                            <i class="fas fa-users fa-lg"></i>
                                         </div>
                                         <div>
-                                            <h4 class="mb-0">25</h4>
-                                            <small>Total Guru</small>
+                                            <h4 class="mb-0">{{ $totalGurus }}</h4>
+                                            <small>Total Guru & Karyawan</small>
                                         </div>
                                     </div>
                                 </div>
@@ -46,25 +80,10 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
-                                            <i class="fas fa-user-tie fa-lg"></i>
-                                        </div>
-                                        <div>
-                                            <h4 class="mb-0">12</h4>
-                                            <small>Total Karyawan</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card border-0 bg-gradient-info text-white">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-3">
                                             <i class="fas fa-user-check fa-lg"></i>
                                         </div>
                                         <div>
-                                            <h4 class="mb-0">35</h4>
+                                            <h4 class="mb-0">{{ $totalAktif }}</h4>
                                             <small>Aktif</small>
                                         </div>
                                     </div>
@@ -76,11 +95,26 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
-                                            <i class="fas fa-user-clock fa-lg"></i>
+                                            <i class="fas fa-user-times fa-lg"></i>
                                         </div>
                                         <div>
-                                            <h4 class="mb-0">2</h4>
-                                            <small>Cuti</small>
+                                            <h4 class="mb-0">{{ $totalNonAktif }}</h4>
+                                            <small>Non-Aktif</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-0 bg-gradient-info text-white">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <i class="fas fa-star fa-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="mb-0">{{ number_format($gurus->avg('rating'), 1) }}</h4>
+                                            <small>Rating Rata-rata</small>
                                         </div>
                                     </div>
                                 </div>
@@ -88,217 +122,107 @@
                         </div>
                     </div>
                     
-                    <!-- Tabs -->
-                    <ul class="nav nav-tabs" id="staffTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="guru-tab" data-bs-toggle="tab" data-bs-target="#guru" type="button" role="tab">
-                                <i class="fas fa-chalkboard-teacher me-1"></i> Guru
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="karyawan-tab" data-bs-toggle="tab" data-bs-target="#karyawan" type="button" role="tab">
-                                <i class="fas fa-user-tie me-1"></i> Karyawan
-                            </button>
-                        </li>
-                    </ul>
-                    
-                    <div class="tab-content mt-3" id="staffTabsContent">
-                        <!-- Guru Tab -->
-                        <div class="tab-pane fade show active" id="guru" role="tabpanel">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Foto</th>
-                                            <th>Nama</th>
-                                            <th>NIP</th>
-                                            <th>Mata Pelajaran</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>
-                                                <img src="https://via.placeholder.com/40x40" class="rounded-circle" alt="Foto">
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <strong>Ahmad Supriadi</strong>
-                                                    <br><small class="text-muted">ahmad@email.com</small>
-                                                </div>
-                                            </td>
-                                            <td>198501012010012001</td>
-                                            <td>Matematika</td>
-                                            <td><span class="badge bg-success">Aktif</span></td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-primary" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-info" title="Detail">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-danger" title="Hapus">
+                    <!-- Data Table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Foto</th>
+                                    <th>Nama</th>
+                                    <th>Jabatan</th>
+                                    <th>Email</th>
+                                    <th>Pengalaman</th>
+                                    <th>Rating</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($gurus as $index => $guru)
+                                    <tr>
+                                        <td>{{ $gurus->firstItem() + $index }}</td>
+                                        <td>
+                                            <img src="{{ $guru->foto_url }}" class="rounded-circle" alt="Foto" style="width: 40px; height: 40px; object-fit: cover;">
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <strong>{{ $guru->nama_lengkap }}</strong>
+                                                @if($guru->gelar)
+                                                    <br><small class="text-muted">{{ $guru->gelar }}</small>
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td>{{ $guru->jabatan }}</td>
+                                        <td>
+                                            @if($guru->email)
+                                                <small>{{ $guru->email }}</small>
+                                            @else
+                                                <small class="text-muted">-</small>
+                                            @endif
+                                        </td>
+                                        <td>{{ $guru->pengalaman_mengajar }} tahun</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <span class="me-2">{{ $guru->rating }}</span>
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    <i class="fas fa-star {{ $i <= $guru->rating ? 'text-warning' : 'text-muted' }}" style="font-size: 0.8em;"></i>
+                                                @endfor
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if($guru->is_active)
+                                                <span class="badge bg-success">Aktif</span>
+                                            @else
+                                                <span class="badge bg-danger">Non-Aktif</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{{ route('admin.guru.edit', $guru->id) }}" class="btn btn-primary" title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="{{ route('guru.detail', $guru->id) }}" target="_blank" class="btn btn-info" title="Lihat Detail">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('admin.guru.toggle', $guru->id) }}" class="btn btn-warning" title="Toggle Status">
+                                                    <i class="fas fa-toggle-{{ $guru->is_active ? 'on' : 'off' }}"></i>
+                                                </a>
+                                                <form action="{{ route('admin.guru.destroy', $guru->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus guru ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger" title="Hapus">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>
-                                                <img src="https://via.placeholder.com/40x40" class="rounded-circle" alt="Foto">
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <strong>Siti Nurhaliza</strong>
-                                                    <br><small class="text-muted">siti@email.com</small>
-                                                </div>
-                                            </td>
-                                            <td>198602022010012002</td>
-                                            <td>Bahasa Indonesia</td>
-                                            <td><span class="badge bg-success">Aktif</span></td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-primary" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-info" title="Detail">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-danger" title="Hapus">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        
-                        <!-- Karyawan Tab -->
-                        <div class="tab-pane fade" id="karyawan" role="tabpanel">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Foto</th>
-                                            <th>Nama</th>
-                                            <th>NIP</th>
-                                            <th>Jabatan</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>
-                                                <img src="https://via.placeholder.com/40x40" class="rounded-circle" alt="Foto">
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <strong>Budi Santoso</strong>
-                                                    <br><small class="text-muted">budi@email.com</small>
-                                                </div>
-                                            </td>
-                                            <td>198703032010012003</td>
-                                            <td>Staff TU</td>
-                                            <td><span class="badge bg-success">Aktif</span></td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-primary" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-info" title="Detail">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-danger" title="Hapus">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>
-                                                <img src="https://via.placeholder.com/40x40" class="rounded-circle" alt="Foto">
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <strong>Rina Marlina</strong>
-                                                    <br><small class="text-muted">rina@email.com</small>
-                                                </div>
-                                            </td>
-                                            <td>198804042010012004</td>
-                                            <td>Staff Perpustakaan</td>
-                                            <td><span class="badge bg-warning">Cuti</span></td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-primary" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-info" title="Detail">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-danger" title="Hapus">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center py-4">
+                                            <div class="text-muted">
+                                                <i class="fas fa-users fa-3x mb-3"></i>
+                                                <p>Belum ada data guru atau karyawan</p>
+                                                <a href="{{ route('admin.guru.create') }}" class="btn btn-primary">
+                                                    <i class="fas fa-plus me-2"></i>
+                                                    Tambah Guru/Karyawan Pertama
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Filter Modal -->
-<div class="modal fade" id="filterModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Filter Guru & Karyawan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label">Kategori</label>
-                        <select class="form-select">
-                            <option value="">Semua</option>
-                            <option value="guru">Guru</option>
-                            <option value="karyawan">Karyawan</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select class="form-select">
-                            <option value="">Semua</option>
-                            <option value="aktif">Aktif</option>
-                            <option value="cuti">Cuti</option>
-                            <option value="nonaktif">Non-Aktif</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Mata Pelajaran/Jabatan</label>
-                        <input type="text" class="form-control" placeholder="Cari mata pelajaran atau jabatan">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-primary">Terapkan Filter</button>
+                    <!-- Pagination -->
+                    @if($gurus->hasPages())
+                        <div class="d-flex justify-content-center mt-4">
+                            {{ $gurus->links() }}
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
