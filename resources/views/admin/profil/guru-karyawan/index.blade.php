@@ -13,7 +13,7 @@
                     Kelola Guru & Karyawan
                 </h1>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('guru') }}" target="_blank" class="btn btn-primary shadow-sm">
+                    <a href="{{ route('guru-karyawan') }}" target="_blank" class="btn btn-primary shadow-sm">
                         <i class="fas fa-eye me-2"></i>
                         Lihat Halaman Publik
                     </a>
@@ -51,6 +51,83 @@
                     </button>
                 </div>
             @endif
+
+            @if(!isset($setting) || !$setting)
+                <div class="alert alert-warning alert-dismissible fade show mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-triangle fa-lg me-3"></i>
+                        <div>
+                            <strong>Perhatian!</strong> Data pengaturan halaman belum tersedia. 
+                            Silakan buat pengaturan header untuk halaman ini.
+                        </div>
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            <!-- Header Settings Section -->
+            <div class="card border-0 shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-success">
+                        <i class="fas fa-cog me-2"></i>
+                        Pengaturan Header Halaman
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.profil.guru-karyawan.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="judul_header" class="form-label fw-bold">Judul Header</label>
+                                    <input type="text" class="form-control" id="judul_header" name="judul_header" 
+                                           value="{{ $setting->judul_header ?? 'Guru & Karyawan' }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="gambar_header" class="form-label fw-bold">Gambar Header</label>
+                                    <input type="file" class="form-control" id="gambar_header" name="gambar_header" 
+                                           accept="image/*">
+                                    @if(isset($setting) && $setting->gambar_header)
+                                        <small class="text-muted">
+                                            <i class="fas fa-image me-1"></i>
+                                            File saat ini: {{ $setting->gambar_header }}
+                                        </small>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="deskripsi_header" class="form-label fw-bold">Deskripsi Header</label>
+                            <textarea class="form-control" id="deskripsi_header" name="deskripsi_header" 
+                                      rows="3" required>{{ $setting->deskripsi_header ?? 'Tim pengajar dan karyawan SDIT Luqman Al Hakim yang berpengalaman dan berdedikasi tinggi dalam dunia pendidikan.' }}</textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save me-2"></i>
+                                    Simpan Pengaturan Header
+                                </button>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <form action="{{ route('admin.profil.guru-karyawan.toggle') }}" method="GET" class="d-inline">
+                                    <button type="submit" class="btn {{ ($setting && $setting->is_active) ? 'btn-warning' : 'btn-success' }}">
+                                        <i class="fas fa-toggle-{{ ($setting && $setting->is_active) ? 'on' : 'off' }} me-2"></i>
+                                        {{ ($setting && $setting->is_active) ? 'Nonaktifkan' : 'Aktifkan' }} Halaman
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             <div class="card border-0 shadow">
                 <div class="card-header py-3">

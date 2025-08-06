@@ -17,9 +17,39 @@ class IndikatorKelulusanController extends Controller
     public function index()
     {
         $kategoris = IndikatorKelulusanKategori::with('allIndikators')->ordered()->get();
-        $setting = IndikatorKelulusanSetting::getActive();
+        $setting = IndikatorKelulusanSetting::first();
+        
+        // Create default setting if none exists
+        if (!$setting) {
+            $setting = IndikatorKelulusanSetting::create([
+                'judul_utama' => '100 Indikator Kelulusan',
+                'judul_header' => 'Target sekolah untuk menghafal 10 juz Al-Qur\'an menjadi motivasi bagi orang tua.',
+                'nama_pembicara' => 'Rohmat Sunaryo',
+                'video_url' => 'https://www.youtube.com/embed/rVzgmeZ3uYg?si=8WVqbZjyTAMas1q-',
+                'deskripsi_header' => 'Program indikator kelulusan yang komprehensif untuk mengukur pencapaian siswa dalam berbagai aspek pembelajaran dan pengembangan karakter.',
+                'kategori_tags' => ['Unggul', 'Islami', 'Berprestasi'],
+                'is_active' => true
+            ]);
+        }
         
         return view('admin.profil.indikator-kelulusan.index', compact('kategoris', 'setting'));
+    }
+
+    public function toggleStatus()
+    {
+        $setting = IndikatorKelulusanSetting::first();
+        
+        if (!$setting) {
+            return redirect()->route('admin.indikator-kelulusan.index')
+                ->with('error', 'Konten Indikator Kelulusan tidak ditemukan!');
+        }
+
+        $setting->is_active = !$setting->is_active;
+        $setting->save();
+
+        $status = $setting->is_active ? 'diaktifkan' : 'dinonaktifkan';
+        return redirect()->route('admin.indikator-kelulusan.index')
+            ->with('success', "Konten Indikator Kelulusan berhasil {$status}!");
     }
 
     /**

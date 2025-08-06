@@ -22,7 +22,7 @@ class KurikulumController extends Controller
         if (!$kurikulum) {
             $kurikulum = Kurikulum::create([
                 'judul' => 'Kurikulum SDIT Luqman Al Hakim',
-                'subtitle' => 'Pendidikan Berkualitas',
+                'subtitle' => 'Pendidikan Berkualitas dengan Pendekatan Holistik dan Islami',
                 'deskripsi' => 'SD Islam Terpadu Luqman Al Hakim Sleman menerapkan empat kurikulum terpadu untuk memberikan pendidikan yang komprehensif dan berkualitas.',
                 'is_active' => true
             ]);
