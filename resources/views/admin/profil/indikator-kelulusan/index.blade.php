@@ -172,10 +172,20 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-save mr-2"></i>
-                            Simpan Pengaturan
-                        </button>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save mr-2"></i>
+                                    Simpan Pengaturan
+                                </button>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a href="{{ route('admin.indikator-kelulusan.toggle') }}" class="btn {{ ($setting && $setting->is_active) ? 'btn-warning' : 'btn-success' }}">
+                                    <i class="fas fa-toggle-{{ ($setting && $setting->is_active) ? 'on' : 'off' }} mr-2"></i>
+                                    {{ ($setting && $setting->is_active) ? 'Nonaktifkan' : 'Aktifkan' }} Halaman
+                                </a>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -37,6 +37,12 @@ class Guru extends Model
         'penghargaan' => 'array'
     ];
 
+    // Scope for active content
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
     public function getNamaLengkapAttribute()
     {
         return $this->nama . ($this->gelar ? ', ' . $this->gelar : '');
@@ -44,9 +50,20 @@ class Guru extends Model
 
     public function getFotoUrlAttribute()
     {
-        if ($this->foto) {
+        if (!$this->foto) {
+            return asset('assets/images/instructor/01.jpg');
+        }
+
+        // Jika file ada di storage/app/public, return URL
+        if (file_exists(storage_path('app/public/' . $this->foto))) {
             return asset('storage/' . $this->foto);
         }
+
+        // Jika file ada di public/assets/images/guru, return URL
+        if (file_exists(public_path('assets/images/guru/' . $this->foto))) {
+            return asset('assets/images/guru/' . $this->foto);
+        }
+
         return asset('assets/images/instructor/01.jpg');
     }
 }
