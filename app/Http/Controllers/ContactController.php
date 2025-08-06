@@ -4,47 +4,58 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Models\ContactMessage;
+use App\Models\ContactSetting;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        return view('contact.index');
+        $contactSettings = ContactSetting::getSettings();
+        return view('contact.index', compact('contactSettings'));
     }
 
     public function send(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'subject' => 'required',
-            'message' => 'required'
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:2000'
         ]);
 
-        $data = [
+        // Simpan pesan ke database
+        ContactMessage::create([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone ?? '',
+            'phone' => $request->phone,
             'subject' => $request->subject,
-            'message' => $request->message
-        ];
+            'message' => $request->message,
+            'status' => 'unread'
+        ]);
 
-        // Email to site admin
-        $recipient = "contac@luqmanalhakim.sch.id";
-        
-        // Build the email content
-        $email_content = "Full Name: " . $data['name'] . "\n";
-        $email_content .= "Phone: " . $data['phone'] . "\n";
-        $email_content .= "Email: " . $data['email'] . "\n\n";
-        $email_content .= "Subject: " . $data['subject'] . "\n\n";
-        $email_content .= "Message:\n" . $data['message'] . "\n";
-        
-        // Build the email headers
-        $email_headers = "From: " . $data['name'] . " <" . $data['email'] . ">";
-        
-        // Send the email
-        mail($recipient, $data['subject'], $email_content, $email_headers);
+        // Kirim email notifikasi ke admin (opsional)
+        $contactSettings = ContactSetting::getSettings();
+        if ($contactSettings && $contactSettings->email) {
+            try {
+                Mail::send('emails.contact-notification', [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'subject' => $request->subject,
+                    'message' => $request->message
+                ], function($message) use ($contactSettings, $request) {
+                    $message->to($contactSettings->email)
+                            ->subject('Pesan Baru dari Website: ' . $request->subject)
+                            ->replyTo($request->email, $request->name);
+                });
+            } catch (\Exception $e) {
+                // Log error jika email gagal dikirim
+                \Log::error('Failed to send contact email: ' . $e->getMessage());
+            }
+        }
 
-        return redirect()->back()->with('success', 'Terima kasih! Pesan Anda telah dikirim.');
+        return redirect()->back()->with('success', 'Terima kasih! Pesan Anda telah dikirim dan akan segera kami balas.');
     }
 }
