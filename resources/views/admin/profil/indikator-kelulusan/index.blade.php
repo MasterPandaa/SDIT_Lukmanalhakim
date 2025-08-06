@@ -9,11 +9,11 @@
             <!-- Header -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">
-                    <i class="fas fa-graduation-cap fa-lg text-success mr-2"></i>
+                    <i class="fas fa-graduation-cap fa-lg text-success me-2"></i>
                     Kelola Indikator Kelulusan
                 </h1>
                 <a href="{{ route('indikator-kelulusan') }}" target="_blank" class="btn btn-primary shadow-sm">
-                    <i class="fas fa-eye mr-2"></i>
+                    <i class="fas fa-eye me-2"></i>
                     Lihat Halaman Publik
                 </a>
             </div>
@@ -21,7 +21,7 @@
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show mb-4">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-check-circle fa-lg mr-3"></i>
+                        <i class="fas fa-check-circle fa-lg me-3"></i>
                         <div>
                             <strong>Berhasil!</strong> {{ session('success') }}
                         </div>
@@ -35,7 +35,7 @@
             @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show mb-4">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-circle fa-lg mr-3"></i>
+                        <i class="fas fa-exclamation-circle fa-lg me-3"></i>
                         <div>
                             <strong>Error!</strong> {{ session('error') }}
                         </div>

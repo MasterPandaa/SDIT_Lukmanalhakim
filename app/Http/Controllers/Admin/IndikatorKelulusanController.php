@@ -19,7 +19,7 @@ class IndikatorKelulusanController extends Controller
         $kategoris = IndikatorKelulusanKategori::with('allIndikators')->ordered()->get();
         $setting = IndikatorKelulusanSetting::getActive();
         
-        return view('admin.indikator-kelulusan.index', compact('kategoris', 'setting'));
+        return view('admin.profil.indikator-kelulusan.index', compact('kategoris', 'setting'));
     }
 
     /**
