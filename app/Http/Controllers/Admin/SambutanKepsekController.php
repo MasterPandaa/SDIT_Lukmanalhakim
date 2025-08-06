@@ -19,8 +19,8 @@ class SambutanKepsekController extends Controller
                 'judul_header' => 'Sambutan Kepala Sekolah',
                 'deskripsi_header' => 'Selamat datang di website resmi sekolah kami. Mari bersama membangun masa depan pendidikan yang berkualitas.',
                 'sambutan' => 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Puji syukur kehadirat Allah SWT atas segala rahmat dan karunia-Nya. Selamat datang di website resmi sekolah kami.',
-                'video_url' => 'https://www.youtube.com/watch?v=jP649ZHA8Tg',
-                'tahun_berdiri' => 11,
+                'video_url' => 'https://www.youtube.com/embed/example',
+                'tahun_berdiri' => date('Y'),
                 'is_active' => true
             ]);
         }
@@ -75,12 +75,12 @@ class SambutanKepsekController extends Controller
             $request->validate([
                 'sambutan' => 'required|string',
                 'video_url' => 'nullable|url',
-                'tahun_berdiri' => 'required|integer|min:1|max:100',
+                'tahun_berdiri' => 'required|integer|min:1900|max:' . (date('Y') + 10),
                 'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             
             $updateData['sambutan'] = $request->sambutan;
-            $updateData['video_url'] = $this->cleanVideoUrl($request->video_url);
+            $updateData['video_url'] = $request->video_url;
             $updateData['tahun_berdiri'] = $request->tahun_berdiri;
             
             // Handle foto kepsek upload
@@ -140,48 +140,5 @@ class SambutanKepsekController extends Controller
         $status = $sambutanKepsek->is_active ? 'diaktifkan' : 'dinonaktifkan';
         return redirect()->route('admin.sambutan-kepsek.index')
             ->with('success', "Konten Sambutan Kepala Sekolah berhasil {$status}!");
-    }
-
-    /**
-     * Clean and validate YouTube URL
-     */
-    private function cleanVideoUrl($url)
-    {
-        if (empty($url)) {
-            return null;
-        }
-
-        // If already in embed format, return as is
-        if (strpos($url, '/embed/') !== false) {
-            return $url;
-        }
-
-        // Extract video ID from various YouTube URL formats
-        $videoId = null;
-        
-        // Format: https://www.youtube.com/watch?v=VIDEO_ID
-        if (preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $url, $matches)) {
-            $videoId = $matches[1];
-        }
-        // Format: https://youtu.be/VIDEO_ID
-        elseif (preg_match('/youtu\.be\/([a-zA-Z0-9_-]+)/', $url, $matches)) {
-            $videoId = $matches[1];
-        }
-        // Format: https://www.youtube.com/embed/VIDEO_ID
-        elseif (preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $matches)) {
-            $videoId = $matches[1];
-        }
-        // Format: https://www.youtube-nocookie.com/embed/VIDEO_ID
-        elseif (preg_match('/youtube-nocookie\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $matches)) {
-            $videoId = $matches[1];
-        }
-
-        if ($videoId) {
-            // Return embed URL with privacy-enhanced mode
-            return "https://www.youtube-nocookie.com/embed/{$videoId}?rel=0&modestbranding=1";
-        }
-
-        // If no video ID found, return original URL
-        return $url;
     }
 }

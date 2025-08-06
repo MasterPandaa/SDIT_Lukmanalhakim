@@ -65,7 +65,7 @@
                                     <label for="judul_utama">Judul Utama</label>
                                     <input type="text" class="form-control @error('judul_utama') is-invalid @enderror" 
                                            id="judul_utama" name="judul_utama" 
-                                           value="{{ old('judul_utama', $setting->judul_utama) }}" required>
+                                           value="{{ old('judul_utama', $setting?->judul_utama) }}" required>
                                     @error('judul_utama')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -76,7 +76,7 @@
                                     <label for="judul_header">Judul Header</label>
                                     <input type="text" class="form-control @error('judul_header') is-invalid @enderror" 
                                            id="judul_header" name="judul_header" 
-                                           value="{{ old('judul_header', $setting->judul_header) }}" required>
+                                           value="{{ old('judul_header', $setting?->judul_header) }}" required>
                                     @error('judul_header')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -90,7 +90,7 @@
                                     <label for="nama_pembicara">Nama Pembicara</label>
                                     <input type="text" class="form-control @error('nama_pembicara') is-invalid @enderror" 
                                            id="nama_pembicara" name="nama_pembicara" 
-                                           value="{{ old('nama_pembicara', $setting->nama_pembicara) }}">
+                                           value="{{ old('nama_pembicara', $setting?->nama_pembicara) }}">
                                     @error('nama_pembicara')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -101,7 +101,7 @@
                                     <label for="video_url">URL Video</label>
                                     <input type="url" class="form-control @error('video_url') is-invalid @enderror" 
                                            id="video_url" name="video_url" 
-                                           value="{{ old('video_url', $setting->video_url) }}">
+                                           value="{{ old('video_url', $setting?->video_url) }}">
                                     @error('video_url')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -113,7 +113,7 @@
                             <label for="kategori_tags">Kategori Tags (pisahkan dengan koma)</label>
                             <input type="text" class="form-control @error('kategori_tags') is-invalid @enderror" 
                                    id="kategori_tags" name="kategori_tags" 
-                                   value="{{ old('kategori_tags', is_array($setting->kategori_tags) ? implode(', ', $setting->kategori_tags) : '') }}"
+                                   value="{{ old('kategori_tags', is_array($setting?->kategori_tags) ? implode(', ', $setting->kategori_tags) : '') }}"
                                    placeholder="Unggul, Islami, Berprestasi">
                             @error('kategori_tags')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -123,7 +123,7 @@
                         <div class="form-group">
                             <label for="deskripsi_header">Deskripsi Header</label>
                             <textarea class="form-control @error('deskripsi_header') is-invalid @enderror" 
-                                      id="deskripsi_header" name="deskripsi_header" rows="3">{{ old('deskripsi_header', $setting->deskripsi_header) }}</textarea>
+                                      id="deskripsi_header" name="deskripsi_header" rows="3">{{ old('deskripsi_header', $setting?->deskripsi_header) }}</textarea>
                             @error('deskripsi_header')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -138,7 +138,7 @@
                                     @error('gambar_header')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if($setting->gambar_header)
+                                    @if($setting?->gambar_header)
                                         <small class="form-text text-muted">
                                             <img src="{{ $setting->gambar_header_url }}" alt="Header" class="img-thumbnail mt-2" style="max-width: 200px;">
                                         </small>
@@ -153,7 +153,7 @@
                                     @error('foto_pembicara')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if($setting->foto_pembicara)
+                                    @if($setting?->foto_pembicara)
                                         <small class="form-text text-muted">
                                             <img src="{{ $setting->foto_pembicara_url }}" alt="Pembicara" class="img-thumbnail mt-2" style="max-width: 200px;">
                                         </small>
@@ -165,7 +165,7 @@
                         <div class="form-group">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="is_active" name="is_active" 
-                                       {{ old('is_active', $setting->is_active) ? 'checked' : '' }}>
+                                       {{ old('is_active', ($setting?->is_active ?? false)) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="is_active">
                                     Aktifkan Halaman
                                 </label>
