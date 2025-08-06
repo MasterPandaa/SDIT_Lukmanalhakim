@@ -9,8 +9,8 @@
         <div class="row justify-content-center justify-content-lg-between align-items-center flex-row-reverse">
             <div class="col-lg-7 col-12">
                 <div class="pageheader-thumb">
-                    <img src="{{ $setting->gambar_header_url }}" alt="Indikator Kelulusan" class="w-100">
-                    @if($setting->video_url)
+                    <img src="{{ isset($setting) ? $setting->gambar_header_url : asset('assets/images/default/indikator-kelulusan-header.jpg') }}" alt="Indikator Kelulusan" class="w-100">
+                    @if(isset($setting) && $setting->video_url)
                         <a href="{{ $setting->video_url }}" class="video-button" data-rel="lightcase">
                             <i class="icofont-ui-play"></i>
                         </a>
@@ -19,15 +19,15 @@
             </div>
             <div class="col-lg-5 col-12">
                 <div class="pageheader-content">
-                    @if($setting->kategori_tags && count($setting->kategori_tags) > 0)
+                    @if(isset($setting) && $setting->kategori_tags && count($setting->kategori_tags) > 0)
                         <div class="course-category">
                             @foreach($setting->kategori_tags as $tag)
                                 <a href="#" class="course-cate">{{ $tag }}</a>
                             @endforeach
                         </div>
                     @endif
-                    <h2 class="phs-title">{{ $setting->judul_header }}</h2>
-                    @if($setting->nama_pembicara)
+                    <h2 class="phs-title">{{ $setting->judul_header ?? 'Judul Indikator Kelulusan' }}</h2>
+                    @if(isset($setting) && $setting->nama_pembicara)
                         <div class="phs-thumb">
                             <img src="{{ $setting->foto_pembicara_url }}" alt="{{ $setting->nama_pembicara }}">
                             <span>{{ $setting->nama_pembicara }}</span>
@@ -60,10 +60,10 @@
                 <div class="main-part">
                     <div class="course-video">
                         <div class="course-video-title">
-                            <h2>{{ $setting->judul_utama }}</h2>
+                            <h2>{{ $setting->judul_utama ?? 'Indikator Kelulusan' }}</h2>
                         </div>
                         
-                        @if($setting->deskripsi_header)
+                        @if(isset($setting) && $setting->deskripsi_header)
                             <div class="course-description mb-4">
                                 <p>{{ $setting->deskripsi_header }}</p>
                             </div>
@@ -159,7 +159,7 @@
                                     <span class="pull-left">Total Indikator</span>
                                     <span class="pull-right">{{ $totalIndikators }}</span>
                                 </li>
-                                @if($setting->nama_pembicara)
+                                @if(isset($setting) && $setting->nama_pembicara)
                                     <li class="d-flex flex-wrap justify-content-between">
                                         <span class="pull-left">Pembicara</span>
                                         <span class="pull-right">{{ $setting->nama_pembicara }}</span>
