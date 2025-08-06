@@ -52,4 +52,49 @@ class SambutanKepsek extends Model
 
         return asset('assets/images/default/header-default.jpg');
     }
+
+    /**
+     * Get video URL in correct embed format
+     */
+    public function getVideoEmbedUrlAttribute()
+    {
+        if (!$this->video_url) {
+            return null;
+        }
+
+        $url = $this->video_url;
+        
+        // If already in embed format, return as is
+        if (strpos($url, '/embed/') !== false) {
+            return $url;
+        }
+
+        // Extract video ID from various YouTube URL formats
+        $videoId = null;
+        
+        // Format: https://www.youtube.com/watch?v=VIDEO_ID
+        if (preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $url, $matches)) {
+            $videoId = $matches[1];
+        }
+        // Format: https://youtu.be/VIDEO_ID
+        elseif (preg_match('/youtu\.be\/([a-zA-Z0-9_-]+)/', $url, $matches)) {
+            $videoId = $matches[1];
+        }
+        // Format: https://www.youtube.com/embed/VIDEO_ID
+        elseif (preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $matches)) {
+            $videoId = $matches[1];
+        }
+        // Format: https://www.youtube-nocookie.com/embed/VIDEO_ID
+        elseif (preg_match('/youtube-nocookie\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $matches)) {
+            $videoId = $matches[1];
+        }
+
+        if ($videoId) {
+            // Return embed URL with privacy-enhanced mode
+            return "https://www.youtube-nocookie.com/embed/{$videoId}?rel=0&modestbranding=1";
+        }
+
+        // If no video ID found, return original URL
+        return $url;
+    }
 } 

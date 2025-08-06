@@ -145,7 +145,7 @@
                     <div class="sf-left">
                         <div class="sfl-thumb">
                             <img src="{{ asset('assets/images/feedback/01.jpg') }}" alt="student feedback">
-                            <a href="{{ $sambutanKepsek->video_url ?? 'https://www.youtube-nocookie.com/embed/jP649ZHA8Tg' }}" class="video-button" data-rel="lightcase"><i class="icofont-ui-play"></i></a>
+                            <a href="{{ $sambutanKepsek->video_embed_url ?? 'https://www.youtube-nocookie.com/embed/jP649ZHA8Tg?rel=0&modestbranding=1' }}" class="video-button" data-rel="lightcase"><i class="icofont-ui-play"></i></a>
                         </div>
                     </div>
                 </div>

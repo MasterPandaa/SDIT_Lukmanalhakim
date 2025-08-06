@@ -6,7 +6,23 @@
     });
 
     // lightcase 
-    $('a[data-rel^=lightcase]').lightcase();
+    $('a[data-rel^=lightcase]').lightcase({
+        iframe: {
+            width: 800,
+            height: 450,
+            frameborder: 0
+        },
+        video: {
+            width: 800,
+            height: 450,
+            poster: '',
+            preload: 'auto',
+            controls: true,
+            autobuffer: true,
+            autoplay: true,
+            loop: false
+        }
+    });
 
 
     // scroll up start here

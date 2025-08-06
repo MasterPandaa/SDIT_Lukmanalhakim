@@ -72,7 +72,7 @@ class AdminController extends Controller
             'subtitle' => 'required',
             'sambutan' => 'required',
             'video_url' => 'required|url',
-            'tahun_berdiri' => 'required|integer',
+            'tahun_berdiri' => 'required|integer|min:1|max:100',
             'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_kepsek2' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -85,7 +85,7 @@ class AdminController extends Controller
         $sambutan->judul = $request->judul;
         $sambutan->subtitle = $request->subtitle;
         $sambutan->sambutan = $request->sambutan;
-        $sambutan->video_url = $request->video_url;
+        $sambutan->video_url = $this->cleanVideoUrl($request->video_url);
         $sambutan->tahun_berdiri = $request->tahun_berdiri;
 
         if ($request->hasFile('foto_kepsek')) {
@@ -113,4 +113,46 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Sambutan Kepala Sekolah berhasil diperbarui');
     }
 
+    /**
+     * Clean and validate YouTube URL
+     */
+    private function cleanVideoUrl($url)
+    {
+        if (empty($url)) {
+            return null;
+        }
+
+        // If already in embed format, return as is
+        if (strpos($url, '/embed/') !== false) {
+            return $url;
+        }
+
+        // Extract video ID from various YouTube URL formats
+        $videoId = null;
+        
+        // Format: https://www.youtube.com/watch?v=VIDEO_ID
+        if (preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $url, $matches)) {
+            $videoId = $matches[1];
+        }
+        // Format: https://youtu.be/VIDEO_ID
+        elseif (preg_match('/youtu\.be\/([a-zA-Z0-9_-]+)/', $url, $matches)) {
+            $videoId = $matches[1];
+        }
+        // Format: https://www.youtube.com/embed/VIDEO_ID
+        elseif (preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $matches)) {
+            $videoId = $matches[1];
+        }
+        // Format: https://www.youtube-nocookie.com/embed/VIDEO_ID
+        elseif (preg_match('/youtube-nocookie\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $matches)) {
+            $videoId = $matches[1];
+        }
+
+        if ($videoId) {
+            // Return embed URL with privacy-enhanced mode
+            return "https://www.youtube-nocookie.com/embed/{$videoId}?rel=0&modestbranding=1";
+        }
+
+        // If no video ID found, return original URL
+        return $url;
+    }
 }

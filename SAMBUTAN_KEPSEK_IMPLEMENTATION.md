@@ -21,11 +21,13 @@ Implementasi ini menghubungkan konten Sambutan Kepala Sekolah dengan Admin Panel
 - **Method**: `index()` dan `update()`
 - **Validation**: Validasi berdasarkan tipe update (header, content, media)
 - **File Upload**: Handling upload foto dengan validasi dan preview
+- **Video URL Processing**: Otomatis mengkonversi URL YouTube ke format embed
 
 ### 4. Model
 - **File**: `app/Models/SambutanKepsek.php`
-- **Accessor**: `foto_kepsek_url` dan `foto_kepsek2_url`
+- **Accessor**: `foto_kepsek_url`, `foto_kepsek2_url`, dan `video_embed_url`
 - **Fillable**: Semua field yang dapat diisi
+- **Video Processing**: Method untuk mengkonversi URL YouTube ke format embed
 
 ### 5. Routes
 ```php
@@ -44,6 +46,26 @@ Route::put('/profil/sambutan-kepsek', [SambutanKepsekController::class, 'update'
   - `tahun_berdiri` (integer)
   - `foto_kepsek` (string, nullable)
   - `foto_kepsek2` (string, nullable)
+
+## Video YouTube Integration
+
+### Format URL yang Didukung
+1. **YouTube Watch URL**: `https://www.youtube.com/watch?v=VIDEO_ID`
+2. **YouTube Short URL**: `https://youtu.be/VIDEO_ID`
+3. **YouTube Embed URL**: `https://www.youtube.com/embed/VIDEO_ID`
+4. **YouTube Privacy-Enhanced URL**: `https://www.youtube-nocookie.com/embed/VIDEO_ID`
+
+### Konversi Otomatis
+- Sistem akan otomatis mengkonversi URL YouTube biasa ke format embed
+- Menggunakan YouTube Privacy-Enhanced mode untuk keamanan
+- Menambahkan parameter `rel=0&modestbranding=1` untuk tampilan yang lebih bersih
+
+### Troubleshooting Video
+Jika video tidak muncul, pastikan:
+1. URL YouTube valid dan dapat diakses
+2. Browser mengizinkan iframe dari domain YouTube
+3. Tidak ada pembatasan CORS atau CSP yang memblokir
+4. Video tidak di-restrict untuk embed
 
 ## Struktur File
 
@@ -68,7 +90,13 @@ resources/views/admin/profil/sambutan-kepsek/
 - Menentukan tipe update berdasarkan request
 - Validasi sesuai tipe update
 - Handle file upload untuk foto
+- Process video URL untuk konversi otomatis
 - Update database dan redirect dengan pesan sukses
+
+#### `cleanVideoUrl()`
+- Mengkonversi URL YouTube ke format embed
+- Mendukung berbagai format URL YouTube
+- Menggunakan privacy-enhanced mode
 
 ### Private Methods
 - `determineUpdateType()`: Menentukan tipe update
@@ -87,7 +115,7 @@ resources/views/admin/profil/sambutan-kepsek/
     'judul' => 'Mewujudkan Generasi Unggul Berakhlak Mulia',
     'subtitle' => 'Cerdas, Berakhlak, Menginspirasi',
     'sambutan' => 'Assalamu\'alaikum Warrahmatullahi Wabarakatuh...',
-    'video_url' => 'https://www.youtube-nocookie.com/embed/jP649ZHA8Tg',
+    'video_url' => 'https://www.youtube.com/watch?v=jP649ZHA8Tg',
     'tahun_berdiri' => 11
 ]
 ```
@@ -152,6 +180,27 @@ $('form').on('submit', function() {
 // Refresh tooltips on tab switch
 ```
 
+### Lightcase Configuration
+```javascript
+$('a[data-rel^=lightcase]').lightcase({
+    iframe: {
+        width: 800,
+        height: 450,
+        frameborder: 0
+    },
+    video: {
+        width: 800,
+        height: 450,
+        poster: '',
+        preload: 'auto',
+        controls: true,
+        autobuffer: true,
+        autoplay: true,
+        loop: false
+    }
+});
+```
+
 ## Catatan Penting
 
 1. **Edit Only**: Hanya dapat mengedit data, tidak dapat create/delete
@@ -159,6 +208,8 @@ $('form').on('submit', function() {
 3. **Artikel Section**: Section artikel dan majalah terhubung ke menu about/artikel
 4. **Image Handling**: Otomatis menghapus gambar lama saat upload yang baru
 5. **HTML Support**: Field sambutan mendukung tag HTML untuk formatting
+6. **Video Processing**: URL YouTube otomatis dikonversi ke format embed
+7. **Privacy Enhanced**: Menggunakan YouTube Privacy-Enhanced mode untuk keamanan
 
 ## Testing
 
@@ -172,12 +223,18 @@ php artisan route:list | findstr sambutan
 php artisan db:seed --class=SambutanKepsekSeeder
 ```
 
+### Video Test
+1. Masukkan URL YouTube biasa: `https://www.youtube.com/watch?v=jP649ZHA8Tg`
+2. Sistem akan otomatis mengkonversi ke: `https://www.youtube-nocookie.com/embed/jP649ZHA8Tg?rel=0&modestbranding=1`
+3. Video akan ditampilkan dalam modal Lightcase
+
 ## Dependencies
 
 - Laravel 10+
 - Bootstrap 5
 - Font Awesome
 - jQuery (untuk preview dan form handling)
+- Lightcase (untuk video modal)
 
 ## Browser Support
 
@@ -192,60 +249,5 @@ php artisan db:seed --class=SambutanKepsekSeeder
 - File upload validation
 - XSS protection dengan escape HTML
 - Input sanitization
-
-## Performance
-
-- Lazy loading untuk gambar
-- Optimized file upload
-- Efficient database queries
-- Caching untuk static assets
-
-## Maintenance
-
-### Backup
-- Backup database secara berkala
-- Backup uploaded images
-
-### Monitoring
-- Monitor file upload directory
-- Check database performance
-- Review error logs
-
-## Future Enhancements
-
-1. **Rich Text Editor**: Implementasi WYSIWYG editor untuk sambutan
-2. **Image Cropping**: Fitur crop gambar sebelum upload
-3. **Version History**: Tracking perubahan konten
-4. **Bulk Operations**: Upload multiple images
-5. **API Integration**: REST API untuk mobile app
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Image not displaying**
-   - Check file permissions
-   - Verify file path
-   - Check file exists
-
-2. **Form not submitting**
-   - Check CSRF token
-   - Verify validation rules
-   - Check file size limits
-
-3. **Preview not working**
-   - Check JavaScript console
-   - Verify jQuery loaded
-   - Check file input ID
-
-### Debug Commands
-```bash
-php artisan config:clear
-php artisan view:clear
-php artisan route:clear
-php artisan cache:clear
-```
-
-## Support
-
-Untuk bantuan teknis atau pertanyaan, silakan hubungi tim development atau buat issue di repository. 
+- YouTube Privacy-Enhanced mode
+- CSP headers untuk iframe security 

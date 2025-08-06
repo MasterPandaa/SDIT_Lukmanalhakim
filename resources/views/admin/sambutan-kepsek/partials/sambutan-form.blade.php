@@ -27,25 +27,28 @@
                             <input type="url" class="form-control @error('video_url') is-invalid @enderror" 
                                    id="video_url" name="video_url" 
                                    value="{{ old('video_url', $sambutanKepsek->video_url ?? '') }}"
-                                   placeholder="https://www.youtube.com/embed/example">
+                                   placeholder="https://www.youtube.com/watch?v=VIDEO_ID atau https://youtu.be/VIDEO_ID">
                             @error('video_url')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <small class="form-text text-muted">Link video YouTube embed (opsional)</small>
+                            <small class="form-text text-muted">
+                                Link video YouTube (format: https://www.youtube.com/watch?v=VIDEO_ID atau https://youtu.be/VIDEO_ID). 
+                                Sistem akan otomatis mengkonversi ke format embed.
+                            </small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="tahun_berdiri" class="font-weight-bold">Tahun Berdiri Sekolah <span class="text-danger">*</span></label>
+                            <label for="tahun_berdiri" class="font-weight-bold">Lama Sekolah Berdiri (Tahun) <span class="text-danger">*</span></label>
                             <input type="number" class="form-control @error('tahun_berdiri') is-invalid @enderror" 
                                    id="tahun_berdiri" name="tahun_berdiri" 
-                                   value="{{ old('tahun_berdiri', $sambutanKepsek->tahun_berdiri ?? date('Y')) }}"
-                                   min="1900" max="{{ date('Y') + 10 }}"
-                                   placeholder="{{ date('Y') }}">
+                                   value="{{ old('tahun_berdiri', $sambutanKepsek->tahun_berdiri ?? 11) }}"
+                                   min="1" max="100"
+                                   placeholder="11">
                             @error('tahun_berdiri')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <small class="form-text text-muted">Tahun didirikannya sekolah</small>
+                            <small class="form-text text-muted">Lama sekolah telah berdiri (1-100 tahun)</small>
                         </div>
                     </div>
                 </div>
@@ -112,7 +115,8 @@
                 <h6><i class="fas fa-info-circle me-2"></i>Informasi</h6>
                 <ul class="mb-0 small">
                     <li>Sambutan akan ditampilkan sebagai konten utama</li>
-                    <li>Video URL harus dalam format embed YouTube</li>
+                    <li>Video URL dapat menggunakan format YouTube biasa (watch?v=) atau short URL (youtu.be)</li>
+                    <li>Sistem akan otomatis mengkonversi URL ke format embed yang aman</li>
                     <li>Tahun berdiri digunakan untuk menghitung usia sekolah</li>
                     <li>Foto kepala sekolah akan ditampilkan di samping sambutan</li>
                 </ul>
