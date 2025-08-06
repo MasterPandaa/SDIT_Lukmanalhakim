@@ -18,7 +18,17 @@ class IndikatorKelulusanController extends Controller
     {
         $kategoris = IndikatorKelulusanKategori::with('allIndikators')->ordered()->get();
         $setting = IndikatorKelulusanSetting::getActive();
-        
+
+        // Create default setting if none exists to ensure the page loads with data
+        if (!$setting) {
+            $setting = IndikatorKelulusanSetting::create([
+                'judul_utama'      => 'Indikator Kelulusan SDIT Luqman Al Hakim',
+                'judul_header'     => 'Indikator Kelulusan',
+                'deskripsi_header' => 'SD Islam Terpadu Luqman Al Hakim Sleman menerapkan indikator kelulusan sebagai tolak ukur keberhasilan pendidikan.',
+                'is_active'        => true,
+            ]);
+        }
+
         return view('admin.profil.indikator-kelulusan.index', compact('kategoris', 'setting'));
     }
 
@@ -97,7 +107,7 @@ class IndikatorKelulusanController extends Controller
      */
     public function createKategori()
     {
-        return view('admin.indikator-kelulusan.create-kategori');
+        return view('admin.profil.indikator-kelulusan.create-kategori');
     }
 
     /**
@@ -139,7 +149,7 @@ class IndikatorKelulusanController extends Controller
     public function editKategori($id)
     {
         $kategori = IndikatorKelulusanKategori::findOrFail($id);
-        return view('admin.indikator-kelulusan.edit-kategori', compact('kategori'));
+        return view('admin.profil.indikator-kelulusan.edit-kategori', compact('kategori'));
     }
 
     /**
@@ -218,7 +228,7 @@ class IndikatorKelulusanController extends Controller
     public function createIndikator()
     {
         $kategoris = IndikatorKelulusanKategori::active()->ordered()->get();
-        return view('admin.indikator-kelulusan.create-indikator', compact('kategoris'));
+        return view('admin.profil.indikator-kelulusan.create-indikator', compact('kategoris'));
     }
 
     /**
@@ -263,7 +273,7 @@ class IndikatorKelulusanController extends Controller
     {
         $indikator = IndikatorKelulusan::with('kategori')->findOrFail($id);
         $kategoris = IndikatorKelulusanKategori::active()->ordered()->get();
-        return view('admin.indikator-kelulusan.edit-indikator', compact('indikator', 'kategoris'));
+        return view('admin.profil.indikator-kelulusan.edit-indikator', compact('indikator', 'kategoris'));
     }
 
     /**
