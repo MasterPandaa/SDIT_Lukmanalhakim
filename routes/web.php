@@ -15,9 +15,7 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Profil routes
 Route::get('/visi-misi', [App\Http\Controllers\VisiMisiController::class, 'index'])->name('visi-misi');
@@ -118,6 +116,7 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         
         // Indikator Kelulusan Management Routes
         Route::get('/indikator-kelulusan', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'index'])->name('admin.indikator-kelulusan.index');
+        Route::put('/indikator-kelulusan', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'update'])->name('admin.indikator-kelulusan.update');
         Route::put('/indikator-kelulusan/settings', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'updateSettings'])->name('admin.indikator-kelulusan.update-settings');
         Route::get('/indikator-kelulusan/toggle', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'toggleStatus'])->name('admin.indikator-kelulusan.toggle');
         
@@ -138,7 +137,7 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         Route::get('/indikator-kelulusan/indikator/{id}/toggle', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'toggleIndikatorStatus'])->name('admin.indikator-kelulusan.toggle-indikator-status');
         
         // Website Management Routes
-        Route::get('/website/home', [App\Http\Controllers\Admin\WebsiteController::class, 'home'])->name('admin.website.home');
+        Route::get('/website/home', [App\Http\Controllers\Admin\WebsiteSettingController::class, 'home'])->name('admin.website.home');
         
         // Website Settings Routes
         Route::get('/website/settings', [App\Http\Controllers\Admin\WebsiteSettingController::class, 'index'])->name('admin.website.settings.index');
@@ -153,6 +152,7 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         Route::get('/profil/sambutan-kepsek', [App\Http\Controllers\Admin\SambutanKepsekController::class, 'index'])->name('admin.profil.sambutan-kepsek.index');
         Route::get('/profil/kurikulum', [App\Http\Controllers\Admin\KurikulumController::class, 'index'])->name('admin.profil.kurikulum');
         Route::get('/profil/indikator-kelulusan', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'index'])->name('admin.profil.indikator-kelulusan.index');
+        Route::put('/profil/indikator-kelulusan', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'update'])->name('admin.profil.indikator-kelulusan.update');
         Route::get('/profil/guru-karyawan', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'index'])->name('admin.profil.guru-karyawan.index');
         Route::put('/profil/guru-karyawan', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'update'])->name('admin.profil.guru-karyawan.update');
         Route::get('/profil/guru-karyawan/toggle', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'toggleStatus'])->name('admin.profil.guru-karyawan.toggle');

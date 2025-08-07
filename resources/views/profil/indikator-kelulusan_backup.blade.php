@@ -3,8 +3,7 @@
 @section('title', 'Indikator Kelulusan')
 
 @section('content')
-<!-- Page Header section start here -->
-<div class="pageheader-section style-2">
+<!-- Page Header section start here --<div class="pageheader-section style-2">
     <div class="container">
         <div class="row justify-content-center justify-content-lg-between align-items-center flex-row-reverse">
             <div class="col-lg-7 col-12">
@@ -17,18 +16,18 @@
             </div>
             <div class="col-lg-5 col-12">
                 <div class="pageheader-content">
-                    @if($indikatorKelulusan?->kategori_tags && count($indikatorKelulusan->kategori_tags) > 0)
+                    @if($setting?->kategori_tags && count($setting->kategori_tags) > 0)
                         <div class="course-category">
-                            @foreach($indikatorKelulusan->kategori_tags as $tag)
+                            @foreach($setting->kategori_tags as $tag)
                                 <a href="#" class="course-cate">{{ $tag }}</a>
                             @endforeach
                         </div>
                     @endif
-                    <h2 class="phs-title">{{ $indikatorKelulusan?->judul_header ?? 'Target sekolah untuk menghafal 10 juz Al-Qur\'an menjadi motivasi bagi orang tua.' }}</h2>
-                    @if($indikatorKelulusan?->nama_pembicara)
+                    <h2 class="phs-title">{{ $setting?->judul_header ?? 'Target sekolah untuk menghafal 10 juz Al-Qur\'an menjadi motivasi bagi orang tua.' }}</h2>
+                    @if($setting?->nama_pembicara)
                         <div class="phs-thumb">
-                            <img src="{{ $indikatorKelulusan?->foto_pembicara_url ?? asset('assets/images/pageheader/03.jpg') }}" alt="{{ $indikatorKelulusan?->nama_pembicara ?? '' }}">
-                            <span>{{ $indikatorKelulusan?->nama_pembicara ?? '' }}</span>
+                            <img src="{{ $setting?->foto_pembicara_url ?? asset('assets/images/pageheader/03.jpg') }}" alt="{{ $setting?->nama_pembicara ?? '' }}">
+                            <span>{{ $setting?->nama_pembicara ?? '' }}</span>
                             <div class="course-reiew">
                                 <span class="ratting">
                                     <i class="icofont-ui-rating"></i>
@@ -56,7 +55,7 @@
                 <div class="main-part">
                     <div class="course-video">
                         <div class="course-video-title">
-                            <h2>{{ $indikatorKelulusan?->judul_utama ?? '100 indikator Kelulusan' }}</h2>
+                            <h2>{{ $setting?->judul_utama ?? '100 indikator Kelulusan' }}</h2>
                         </div>
                         <!-- Daftar Indikator -->
                         <div class="course-video-content">
@@ -98,4 +97,4 @@
     </div>
 </div>
 <!-- course section ending here -->
-@endsection
+@endsection 

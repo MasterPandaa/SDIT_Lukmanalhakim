@@ -10,7 +10,13 @@ use Illuminate\Support\Facades\Log;
 
 class WebsiteSettingController extends Controller
 {
-
+    /**
+     * Display the website home management page
+     */
+    public function home()
+    {
+        return view('admin.website.home.index');
+    }
 
     /**
      * Display the website settings form

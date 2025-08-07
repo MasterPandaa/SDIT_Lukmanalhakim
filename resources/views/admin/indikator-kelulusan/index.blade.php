@@ -86,7 +86,7 @@
                         <!-- Header Section -->
                         <div class="tab-pane fade show active" id="header" role="tabpanel" aria-labelledby="header-tab">
                             @if(isset($indikatorKelulusan) && $indikatorKelulusan)
-                                @include('admin.profil.indikator-kelulusan.partials.header-form')
+                                @include('admin.indikator-kelulusan.partials.header-form')
                             @else
                                 <div class="text-center py-5">
                                     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
@@ -102,7 +102,7 @@
                         <!-- Content Section -->
                         <div class="tab-pane fade" id="content" role="tabpanel" aria-labelledby="content-tab">
                             @if(isset($indikatorKelulusan) && $indikatorKelulusan)
-                                @include('admin.profil.indikator-kelulusan.partials.content-form')
+                                @include('admin.indikator-kelulusan.partials.content-form')
                             @else
                                 <div class="text-center py-5">
                                     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
@@ -118,7 +118,7 @@
                         <!-- Settings Section -->
                         <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
                             @if(isset($indikatorKelulusan) && $indikatorKelulusan)
-                                @include('admin.profil.indikator-kelulusan.partials.settings-form')
+                                @include('admin.indikator-kelulusan.partials.settings-form')
                             @else
                                 <div class="text-center py-5">
                                     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
@@ -185,24 +185,6 @@
 
 .image-preview-container {
     margin-top: 0.5rem;
-}
-
-.stats-card {
-    background: linear-gradient(135deg, #28a745, #20c997);
-    color: white;
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.stats-card .stats-number {
-    font-size: 2rem;
-    font-weight: bold;
-}
-
-.stats-card .stats-label {
-    font-size: 0.9rem;
-    opacity: 0.9;
 }
 </style>
 @endpush
