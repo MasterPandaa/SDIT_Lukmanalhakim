@@ -108,6 +108,24 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         Route::put('/artikel/{id}', [App\Http\Controllers\Admin\ArtikelController::class, 'update'])->name('admin.artikel.update');
         Route::delete('/artikel/{id}', [App\Http\Controllers\Admin\ArtikelController::class, 'destroy'])->name('admin.artikel.destroy');
         Route::get('/artikel/{id}/toggle', [App\Http\Controllers\Admin\ArtikelController::class, 'toggleStatus'])->name('admin.artikel.toggle');
+
+        // Prestasi Management Routes
+        Route::get('/prestasi', [App\Http\Controllers\Admin\PrestasiController::class, 'index'])->name('admin.prestasi.index');
+        Route::get('/prestasi/create', [App\Http\Controllers\Admin\PrestasiController::class, 'create'])->name('admin.prestasi.create');
+        Route::post('/prestasi', [App\Http\Controllers\Admin\PrestasiController::class, 'store'])->name('admin.prestasi.store');
+        Route::get('/prestasi/{prestasi}/edit', [App\Http\Controllers\Admin\PrestasiController::class, 'edit'])->name('admin.prestasi.edit');
+        Route::put('/prestasi/{prestasi}', [App\Http\Controllers\Admin\PrestasiController::class, 'update'])->name('admin.prestasi.update');
+        Route::delete('/prestasi/{prestasi}', [App\Http\Controllers\Admin\PrestasiController::class, 'destroy'])->name('admin.prestasi.destroy');
+        Route::post('/prestasi/{prestasi}/toggle', [App\Http\Controllers\Admin\PrestasiController::class, 'toggleStatus'])->name('admin.prestasi.toggle');
+
+        // Ekstrakurikuler Management Routes
+        Route::get('/ekstrakurikuler', [App\Http\Controllers\Admin\EkstrakurikulerController::class, 'index'])->name('admin.ekstrakurikuler.index');
+        Route::get('/ekstrakurikuler/create', [App\Http\Controllers\Admin\EkstrakurikulerController::class, 'create'])->name('admin.ekstrakurikuler.create');
+        Route::post('/ekstrakurikuler', [App\Http\Controllers\Admin\EkstrakurikulerController::class, 'store'])->name('admin.ekstrakurikuler.store');
+        Route::get('/ekstrakurikuler/{ekstrakurikuler}/edit', [App\Http\Controllers\Admin\EkstrakurikulerController::class, 'edit'])->name('admin.ekstrakurikuler.edit');
+        Route::put('/ekstrakurikuler/{ekstrakurikuler}', [App\Http\Controllers\Admin\EkstrakurikulerController::class, 'update'])->name('admin.ekstrakurikuler.update');
+        Route::delete('/ekstrakurikuler/{ekstrakurikuler}', [App\Http\Controllers\Admin\EkstrakurikulerController::class, 'destroy'])->name('admin.ekstrakurikuler.destroy');
+        Route::post('/ekstrakurikuler/{ekstrakurikuler}/toggle', [App\Http\Controllers\Admin\EkstrakurikulerController::class, 'toggleStatus'])->name('admin.ekstrakurikuler.toggle');
         
         // Visi Misi Management Routes
         Route::get('/visi-misi', [App\Http\Controllers\Admin\VisiMisiController::class, 'index'])->name('admin.visi-misi.index');

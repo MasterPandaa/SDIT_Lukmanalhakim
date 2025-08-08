@@ -9,12 +9,12 @@ class AboutController extends Controller
 {
     public function prestasi()
     {
-        return view('admin.about.prestasi.index');
+        return redirect()->route('admin.prestasi.index');
     }
 
     public function ekstrakurikuler()
     {
-        return view('admin.about.ekstrakurikuler.index');
+        return redirect()->route('admin.ekstrakurikuler.index');
     }
 
     public function fasilitas()

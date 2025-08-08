@@ -5,73 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Alumni;
 use App\Models\Artikel;
+use App\Models\Prestasi;
+use App\Models\Ekstrakurikuler;
 
 class AboutController extends Controller
 {
     public function prestasi() {
-        $prestasi = [
-            [
-                'foto' => asset('assets/images/achive/01.png'),
-                'judul' => 'Juara 1 Lomba Sains Nasional',
-                'tanggal' => '11 Jun, 2025',
-                'tingkat' => 'Nasional',
-                'peraih' => 'Latifa Aulia Rahma',
-                'penyelenggara' => 'Universitas Muhammadiyah Malang',
-            ],
-            [
-                'foto' => asset('assets/images/achive/02.png'),
-                'judul' => 'Peraih 1 Medali Emas POPDA Hapkido',
-                'tanggal' => '11 Jun, 2025',
-                'tingkat' => 'Provinsi',
-                'peraih' => 'Suryo Prakoso',
-                'penyelenggara' => 'POPDA DIY',
-            ],
-            [
-                'foto' => asset('assets/images/achive/01.png'),
-                'judul' => 'Juara 3 POPDA Renang 100m',
-                'tanggal' => '11 Jun, 2025',
-                'tingkat' => 'Provinsi',
-                'peraih' => 'Yoga Arif',
-                'penyelenggara' => 'POPDA DIY',
-            ],
-        ];
+        $prestasi = Prestasi::active()->ordered()->paginate(12);
         return view('about.prestasi', compact('prestasi'));
     }
     public function ekstrakurikuler() {
-        $ekstrakurikuler = [
-            [
-                'foto' => asset('assets/images/category/icon/01.jpg'),
-                'nama' => 'Pleton Inti (TONTI)',
-            ],
-            [
-                'foto' => asset('assets/images/category/icon/02.jpg'),
-                'nama' => 'Teladan Junior Red Cross (TJRC)',
-            ],
-            [
-                'foto' => asset('assets/images/category/icon/03.jpg'),
-                'nama' => 'Teladan Science Club (TSC)',
-            ],
-            [
-                'foto' => asset('assets/images/category/icon/04.jpg'),
-                'nama' => 'Teladan Robotic Club (TRC)',
-            ],
-            [
-                'foto' => asset('assets/images/category/icon/05.jpg'),
-                'nama' => 'SIGMA (Jurnalistik)',
-            ],
-            [
-                'foto' => asset('assets/images/category/icon/06.jpg'),
-                'nama' => 'Nila Pangkaja (Teater)',
-            ],
-            [
-                'foto' => asset('assets/images/category/icon/07.jpg'),
-                'nama' => 'Teladan Hiking Association (THA)',
-            ],
-            [
-                'foto' => asset('assets/images/category/icon/08.jpg'),
-                'nama' => 'All Nation Teenagers',
-            ],
-        ];
+        $ekstrakurikuler = Ekstrakurikuler::active()->ordered()->paginate(12);
         return view('about.ekstrakurikuler', compact('ekstrakurikuler'));
     }
     public function fasilitas() {

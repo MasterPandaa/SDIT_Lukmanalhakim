@@ -23,16 +23,24 @@
 <div class="container py-5">
     <h3 class="mb-4">Daftar Ekstrakurikuler</h3>
     <div class="row">
-        @foreach($ekstrakurikuler as $item)
+        @forelse($ekstrakurikuler as $item)
         <div class="col-6 col-md-4 col-lg-3 mb-4">
             <div class="card h-100 text-center shadow-sm">
-                <img src="{{ $item['foto'] }}" class="card-img-top mx-auto mt-3" alt="Ekstrakurikuler" style="width:80px;height:80px;object-fit:cover;">
+                @php
+                    $img = $item->gambar ? asset('storage/'.$item->gambar) : asset('assets/images/category/icon/01.jpg');
+                @endphp
+                <img src="{{ $img }}" class="card-img-top mx-auto mt-3" alt="Ekstrakurikuler" style="width:80px;height:80px;object-fit:cover;">
                 <div class="card-body p-2">
-                    <h6 class="card-title mb-0">{{ $item['nama'] }}</h6>
+                    <h6 class="card-title mb-0">{{ $item->nama }}</h6>
                 </div>
             </div>
         </div>
-        @endforeach
+        @empty
+        <div class="col-12 text-center text-muted">Belum ada data.</div>
+        @endforelse
+    </div>
+    <div class="d-flex justify-content-end">
+        {{ $ekstrakurikuler->links() }}
     </div>
 </div>
-@endsection 
+@endsection
