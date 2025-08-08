@@ -25,42 +25,63 @@
 <div class="category-section padding-tb section-bg style-3">
     <div class="container">
         <div class="section-header text-center">
-            @if($kurikulum && $kurikulum->subtitle)
-                <span class="subtitle">{{ $kurikulum->subtitle }}</span>
-            @else
-                <span class="subtitle">Profil Kurikulum</span>
-            @endif
-            <h2 class="title">{{ $kurikulum->deskripsi ? strip_tags($kurikulum->deskripsi) : 'SD Islam Terpadu Luqman Al Hakim Sleman menerapkan empat kurikulum terpadu' }}</h2>
+            <span class="subtitle">Teach on edulon</span>
+            <h2 class="title">"SD Islam Terpadu Luqman Al Hakim Sleman menerapkan empat kurikulum terpadu"</h2>
         </div>
         <div class="section-wrapper">
             <div class="row g-4 justify-content-center row-cols-lg-2 row-cols-sm-2 row-cols-1">
-                @if($kurikulum && $kurikulum->items->count() > 0)
-                    @foreach($kurikulum->items as $item)
-                        <div class="col">
-                            <div class="category-item text-center">
-                                <div class="category-inner">
-                                    <div class="category-thumb">
-                                        <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}">
-                                    </div>
-                                    <div class="category-content">
-                                        <a href="#"><h4>{{ \Illuminate\Support\Str::limit($item->judul, 40) }}</h4></a>
-                                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($item->deskripsi), 120) }}</p>
-                                    </div>
-                                </div>
+                <div class="col">
+                    <div class="category-item text-center">
+                        <div class="category-inner">
+                            <div class="category-thumb">
+                                <img src="{{ asset('assets/images/category/icon/15.jpg') }}" alt="category">
                             </div>
-                        </div>
-                    @endforeach
-                @else
-                    <div class="col-12">
-                        <div class="text-center py-5">
-                            <div class="empty-state">
-                                <i class="fa fa-book fa-3x text-muted mb-3"></i>
-                                <h4 class="text-muted">Belum Ada Data Kurikulum</h4>
-                                <p class="text-muted">Data kurikulum sedang dalam proses penyusunan.</p>
+                            <div class="category-content">
+                                <a href="#"><h4>Kurikulum Merdeka</h4></a>
+                                <p>"Fokusnya pada pengembangan kompetensi, keterampilan berpikir kritis, kreativitas, serta pembelajaran yang inovatif dan aplikatif, selaras dengan kebutuhan dunia nyata."</p>
                             </div>
                         </div>
                     </div>
-                @endif
+                </div>
+                <div class="col">
+                    <div class="category-item text-center">
+                        <div class="category-inner">
+                            <div class="category-thumb">
+                                <img src="{{ asset('assets/images/category/icon/16.jpg') }}" alt="category">
+                            </div>
+                            <div class="category-content">
+                                <a href="#"><h4>Kurikulum JSIT</h4></a>
+                                <p>"Pendidikan holistik yang mencakup akademik, spiritual, emosional, dan sosial, dengan fokus pada akhlak mulia, hafalan Al-Qur’an, serta pembentukan kepribadian Islami dalam lingkungan kondusif."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="category-item text-center">
+                        <div class="category-inner">
+                            <div class="category-thumb">
+                                <img src="{{ asset('assets/images/category/icon/16.jpg') }}" alt="category">
+                            </div>
+                            <div class="category-content">
+                                <a href="#"><h4>Kurikulum Khas Yayasan</h4></a>
+                                <p>"Kurikulum ini dikembangkan secara mandiri oleh Konsorsium Yayasan Mulia untuk mencerminkan visi, misi, serta nilai-nilai khas yang ingin diterapkan dalam pendidikan."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="category-item text-center">
+                        <div class="category-inner">
+                            <div class="category-thumb">
+                                <img src="{{ asset('assets/images/category/icon/17.jpg') }}" alt="category">
+                            </div>
+                            <div class="category-content">
+                                <a href="#"><h4>Kurikulum Kepesantrenan</h4></a>
+                                <p>"Kurikulum ini berfokus pada pengajaran ilmu agama, seperti hadis, fiqh, akhlak, dan bahasa Arab, serta pendalaman Al-Qur’an melalui pemahaman mendalam dan hafalan yang terstruktur."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

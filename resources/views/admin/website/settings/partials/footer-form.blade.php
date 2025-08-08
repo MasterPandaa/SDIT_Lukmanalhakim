@@ -5,23 +5,23 @@
     @method('PUT')
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <!-- Footer Information -->
             <div class="form-section">
                 <h5><i class="fas fa-info-circle mr-2"></i>Informasi Footer</h5>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_description" class="font-weight-bold">Deskripsi</label>
                             <textarea class="form-control @error('footer_description') is-invalid @enderror" 
-                                    id="footer_description" name="footer_description" rows="4"
-                                    placeholder="SDIT Luqman Al Hakim Sleman is a leading Islamic elementary school...">{{ old('footer_description', $settings->footer_description ?? 'SDIT Luqman Al Hakim Sleman is a leading Islamic elementary school that integrates the national curriculum with Qur\'anic values and Islamic character education.') }}</textarea>
+                                      id="footer_description" name="footer_description" rows="6"
+                                      placeholder="SDIT Luqman Al Hakim Sleman is a leading Islamic elementary school...">{{ old('footer_description', $settings->footer_description ?? 'SDIT Luqman Al Hakim Sleman is a leading Islamic elementary school that integrates the national curriculum with Qur\'anic values and Islamic character education.') }}</textarea>
                             @error('footer_description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_address" class="font-weight-bold">Alamat</label>
                             <input type="text" class="form-control @error('footer_address') is-invalid @enderror" 
@@ -33,7 +33,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_phone" class="font-weight-bold">Telepon</label>
                             <input type="text" class="form-control @error('footer_phone') is-invalid @enderror" 
@@ -45,13 +45,13 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_email" class="font-weight-bold">Email</label>
                             <input type="email" class="form-control @error('footer_email') is-invalid @enderror" 
-                                id="footer_email" name="footer_email" 
-                                value="{{ old('footer_email', $settings->footer_email ?? 'info@luqmanalhakim.sch.id') }}"
-                                placeholder="info@luqmanalhakim.sch.id">
+                                   id="footer_email" name="footer_email" 
+                                   value="{{ old('footer_email', $settings->footer_email ?? 'info@luqmanalhakim.sch.id') }}"
+                                   placeholder="info@luqmanalhakim.sch.id">
                             @error('footer_email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -64,7 +64,7 @@
             <div class="form-section">
                 <h5><i class="fas fa-share-alt mr-2 mt-4"></i>Media Sosial</h5>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_facebook" class="font-weight-bold">Facebook</label>
                             <input type="url" class="form-control @error('footer_facebook') is-invalid @enderror" 
@@ -76,7 +76,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_twitter" class="font-weight-bold">Twitter</label>
                             <input type="url" class="form-control @error('footer_twitter') is-invalid @enderror" 
@@ -88,7 +88,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_linkedin" class="font-weight-bold">LinkedIn</label>
                             <input type="url" class="form-control @error('footer_linkedin') is-invalid @enderror" 
@@ -100,7 +100,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_instagram" class="font-weight-bold">Instagram</label>
                             <input type="url" class="form-control @error('footer_instagram') is-invalid @enderror" 
@@ -112,13 +112,13 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_pinterest" class="font-weight-bold">Pinterest</label>
                             <input type="url" class="form-control @error('footer_pinterest') is-invalid @enderror" 
-                                id="footer_pinterest" name="footer_pinterest" 
-                                value="{{ old('footer_pinterest', $settings->footer_pinterest ?? '') }}"
-                                placeholder="https://pinterest.com/...">
+                                   id="footer_pinterest" name="footer_pinterest" 
+                                   value="{{ old('footer_pinterest', $settings->footer_pinterest ?? '') }}"
+                                   placeholder="https://pinterest.com/...">
                             @error('footer_pinterest')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -131,19 +131,19 @@
             <div class="form-section">
                 <h5><i class="fas fa-copyright mr-2 mt-4"></i>Copyright & Designer</h5>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_copyright_text" class="font-weight-bold">Copyright Text</label>
                             <input type="text" class="form-control @error('footer_copyright_text') is-invalid @enderror" 
-                                id="footer_copyright_text" name="footer_copyright_text" 
-                                value="{{ old('footer_copyright_text', $settings->footer_copyright_text ?? 'SDIT Luqman Al Hakim') }}"
-                                placeholder="SDIT Luqman Al Hakim">
+                                   id="footer_copyright_text" name="footer_copyright_text" 
+                                   value="{{ old('footer_copyright_text', $settings->footer_copyright_text ?? 'SDIT Luqman Al Hakim') }}"
+                                   placeholder="SDIT Luqman Al Hakim">
                             @error('footer_copyright_text')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_designer_text" class="font-weight-bold">Designer Text</label>
                             <input type="text" class="form-control @error('footer_designer_text') is-invalid @enderror" 
@@ -155,7 +155,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="footer_designer_link" class="font-weight-bold">Designer Link</label>
                             <input type="url" class="form-control @error('footer_designer_link') is-invalid @enderror" 
