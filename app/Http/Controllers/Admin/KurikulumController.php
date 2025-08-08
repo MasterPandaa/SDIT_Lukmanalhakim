@@ -37,10 +37,8 @@ class KurikulumController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'judul' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
-            'gambar_header' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
             'is_active' => 'boolean'
         ]);
 
@@ -51,28 +49,8 @@ class KurikulumController extends Controller
         }
 
         try {
-            $data = $request->only(['judul', 'subtitle', 'deskripsi']);
+            $data = $request->only(['subtitle', 'deskripsi']);
             $data['is_active'] = $request->has('is_active');
-
-            // Handle gambar header upload
-            if ($request->hasFile('gambar_header')) {
-                // Create directory if not exists
-                if (!file_exists(public_path('assets/images/kurikulum/header'))) {
-                    mkdir(public_path('assets/images/kurikulum/header'), 0755, true);
-                }
-
-                // Hapus gambar lama jika ada
-                $kurikulum = Kurikulum::first();
-                if ($kurikulum && $kurikulum->gambar_header && file_exists(public_path('assets/images/kurikulum/header/' . $kurikulum->gambar_header))) {
-                    unlink(public_path('assets/images/kurikulum/header/' . $kurikulum->gambar_header));
-                }
-
-                // Upload gambar baru
-                $file = $request->file('gambar_header');
-                $filename = 'kurikulum-header-' . time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('assets/images/kurikulum/header'), $filename);
-                $data['gambar_header'] = $filename;
-            }
 
             $kurikulum = Kurikulum::updateOrCreateData($data);
 

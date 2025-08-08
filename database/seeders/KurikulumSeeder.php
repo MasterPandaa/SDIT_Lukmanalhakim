@@ -46,12 +46,14 @@ class KurikulumSeeder extends Seeder
             ]
         ];
 
-        foreach ($items as $item) {
+        foreach ($items as $index => $item) {
             KurikulumItem::create([
                 'kurikulum_id' => $kurikulum->id,
                 'judul' => $item['judul'],
                 'deskripsi' => $item['deskripsi'],
-                'gambar' => $item['gambar']
+                'gambar' => $item['gambar'],
+                'urutan' => $index + 1,
+                'is_active' => true,
             ]);
         }
     }
