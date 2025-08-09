@@ -67,8 +67,6 @@
                                         <th>Nama</th>
                                         <th>Jabatan</th>
                                         <th>Pengalaman</th>
-                                        <th>Jumlah Siswa</th>
-                                        <th>Rating</th>
                                         <th width="80">Status</th>
                                         <th width="120">Aksi</th>
                                     </tr>
@@ -85,18 +83,10 @@
                                                     </div>
                                                 @endif
                                             </td>
-                                            <td>{{ $item->nama_lengkap }}</td>
+                                            <td>{{ $item->nama }}</td>
                                             <td>{{ $item->jabatan }}</td>
                                             <td>{{ $item->pengalaman_mengajar }} Tahun</td>
-                                            <td>{{ $item->jumlah_siswa }} Siswa</td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    @for($i = 1; $i <= 5; $i++)
-                                                        <i class="fas fa-star{{ $i <= $item->rating ? ' text-warning' : ' text-muted' }}"></i>
-                                                    @endfor
-                                                    <span class="ml-1">({{ $item->rating }})</span>
-                                                </div>
-                                            </td>
+                                            
                                             <td class="text-center">
                                                 <span class="badge badge-{{ $item->is_active ? 'success' : 'secondary' }} px-3 py-2">
                                                     {{ $item->is_active ? 'Aktif' : 'Nonaktif' }}

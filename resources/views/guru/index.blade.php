@@ -38,14 +38,8 @@
                                         <img src="{{ $guru->foto_url }}" alt="{{ $guru->nama }}">
                                     </div>
                                     <div class="instructor-content">
-                                        <a href="{{ route('guru.detail', $guru->id) }}"><h4>{{ $guru->nama_lengkap }}</h4></a>
+                                        <a href="{{ route('guru.detail', $guru->id) }}"><h4>{{ $guru->nama }}</h4></a>
                                         <p>{{ $guru->jabatan }}</p>
-                                        <span class="ratting">
-                                            @for($i = 1; $i <= 5; $i++)
-                                                <i class="icofont-ui-rating{{ $i <= $guru->rating ? '' : ' icofont-ui-rating-disabled' }}"></i>
-                                            @endfor
-                                        </span>
-                                        
                                         <!-- Social Media Icons -->
                                         <div class="social-media-icons mt-2">
                                             @if($guru->whatsapp)
@@ -69,7 +63,6 @@
                                 <div class="instructor-footer">
                                     <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
                                         <li><i class="icofont-book-alt"></i> {{ $guru->pengalaman_mengajar }} Tahun Mengajar</li>
-                                        <li><i class="icofont-users-alt-3"></i> {{ $guru->jumlah_siswa }} Siswa</li>
                                     </ul>
                                 </div>
                             </div>

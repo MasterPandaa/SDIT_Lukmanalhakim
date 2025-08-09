@@ -7,6 +7,8 @@ use App\Models\Guru;
 use App\Models\GuruKaryawanSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class GuruKaryawanController extends Controller
 {
@@ -93,11 +95,11 @@ class GuruKaryawanController extends Controller
             $setting->fill($updateData);
             $setting->save();
             
-            return redirect()->route('admin.guru-karyawan.index')
+            return redirect()->route('admin.profil.guru-karyawan.index')
                 ->with('success', 'Konten Guru & Karyawan berhasil diperbarui!');
         }
 
-        return redirect()->route('admin.guru-karyawan.index')
+        return redirect()->route('admin.profil.guru-karyawan.index')
             ->with('info', 'Tidak ada perubahan yang dilakukan.');
     }
 
@@ -106,7 +108,7 @@ class GuruKaryawanController extends Controller
         $setting = GuruKaryawanSetting::first();
         
         if (!$setting) {
-            return redirect()->route('admin.guru-karyawan.index')
+            return redirect()->route('admin.profil.guru-karyawan.index')
                 ->with('error', 'Konten Guru & Karyawan tidak ditemukan!');
         }
 
@@ -114,7 +116,192 @@ class GuruKaryawanController extends Controller
         $setting->save();
 
         $status = $setting->is_active ? 'diaktifkan' : 'dinonaktifkan';
-        return redirect()->route('admin.guru-karyawan.index')
+        return redirect()->route('admin.profil.guru-karyawan.index')
             ->with('success', "Konten Guru & Karyawan berhasil {$status}!");
+    }
+
+    // =============================================================
+    // GURU CRUD OPERATIONS (Merged from Admin/GuruController)
+    // =============================================================
+
+    /**
+     * Show the form for creating a new guru.
+     */
+    public function create()
+    {
+        return view('admin.profil.guru-karyawan.form', [
+            'guru' => null,
+            'action' => route('admin.profil.guru-karyawan.store'),
+            'method' => 'POST',
+            'title' => 'Tambah Guru/Karyawan Baru'
+        ]);
+    }
+
+    /**
+     * Store a newly created guru in storage.
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'pernyataan_pribadi' => 'nullable|string',
+            'alamat' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'telepon' => 'nullable|string|max:20',
+            'website' => 'nullable|url|max:255',
+            'whatsapp' => 'nullable|string|max:20',
+            'instagram' => 'nullable|string|max:255',
+            'facebook' => 'nullable|string|max:255',
+            'pengalaman_mengajar' => 'required|integer|min:0',
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            'is_active' => 'boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            $data = $request->except(['_token', 'foto']);
+            $data['is_active'] = $request->has('is_active');
+
+            // Handle foto upload
+            if ($request->hasFile('foto')) {
+                $file = $request->file('foto');
+                $filename = 'guru-' . time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('guru', $filename, 'public');
+                $data['foto'] = $path;
+            }
+
+            Guru::create($data);
+
+            return redirect()->route('admin.profil.guru-karyawan.index')
+                ->with('success', 'Guru/Karyawan berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Show the form for editing the specified guru.
+     */
+    public function edit($id)
+    {
+        $guru = Guru::findOrFail($id);
+        return view('admin.profil.guru-karyawan.form', [
+            'guru' => $guru,
+            'action' => route('admin.profil.guru-karyawan.update', $guru->id),
+            'method' => 'PUT',
+            'title' => 'Edit Guru/Karyawan'
+        ]);
+    }
+
+    /**
+     * Update the specified guru in storage.
+     */
+    public function updateGuru(Request $request, $id)
+    {
+        $guru = Guru::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'pernyataan_pribadi' => 'nullable|string',
+            'alamat' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'telepon' => 'nullable|string|max:20',
+            'website' => 'nullable|url|max:255',
+            'whatsapp' => 'nullable|string|max:20',
+            'instagram' => 'nullable|string|max:255',
+            'facebook' => 'nullable|string|max:255',
+            'pengalaman_mengajar' => 'required|integer|min:0',
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            'is_active' => 'boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            $data = $request->except(['_token', '_method', 'foto']);
+            $data['is_active'] = $request->has('is_active');
+
+            // Handle foto upload
+            if ($request->hasFile('foto')) {
+                // Delete old foto if exists
+                if ($guru->foto && Storage::disk('public')->exists($guru->foto)) {
+                    Storage::disk('public')->delete($guru->foto);
+                }
+
+                $file = $request->file('foto');
+                $filename = 'guru-' . time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('guru', $filename, 'public');
+                $data['foto'] = $path;
+            }
+
+            $guru->update($data);
+
+            return redirect()->route('admin.profil.guru-karyawan.index')
+                ->with('success', 'Guru/Karyawan berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Remove the specified guru from storage.
+     */
+    public function destroy($id)
+    {
+        try {
+            $guru = Guru::findOrFail($id);
+
+            // Delete foto if exists
+            if ($guru->foto && Storage::disk('public')->exists($guru->foto)) {
+                Storage::disk('public')->delete($guru->foto);
+            }
+
+            $guru->delete();
+
+            return redirect()->route('admin.profil.guru-karyawan.index')
+                ->with('success', 'Guru/Karyawan berhasil dihapus!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Toggle active status of the specified guru.
+     */
+    public function toggleGuruStatus($id)
+    {
+        try {
+            $guru = Guru::findOrFail($id);
+            $guru->update(['is_active' => !$guru->is_active]);
+
+            $status = $guru->is_active ? 'diaktifkan' : 'dinonaktifkan';
+            return redirect()->route('admin.profil.guru-karyawan.index')
+                ->with('success', "Guru/Karyawan berhasil {$status}!");
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

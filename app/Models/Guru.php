@@ -9,7 +9,6 @@ class Guru extends Model
     protected $fillable = [
         'nama',
         'jabatan',
-        'gelar',
         'foto',
         'deskripsi',
         'pernyataan_pribadi',
@@ -21,20 +20,13 @@ class Guru extends Model
         'instagram',
         'facebook',
         'pengalaman_mengajar',
-        'jumlah_siswa',
-        'rating',
-        'kemampuan_bahasa',
-        'penghargaan',
         'is_active'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
         'pengalaman_mengajar' => 'integer',
-        'jumlah_siswa' => 'integer',
-        'rating' => 'integer',
-        'kemampuan_bahasa' => 'array',
-        'penghargaan' => 'array'
+        // removed: jumlah_siswa, rating, kemampuan_bahasa, penghargaan
     ];
 
     // Scope for active content
@@ -43,9 +35,10 @@ class Guru extends Model
         return $query->where('is_active', true);
     }
 
+    // Keep backward compatibility: some views may still reference nama_lengkap
     public function getNamaLengkapAttribute()
     {
-        return $this->nama . ($this->gelar ? ', ' . $this->gelar : '');
+        return $this->nama;
     }
 
     public function getFotoUrlAttribute()

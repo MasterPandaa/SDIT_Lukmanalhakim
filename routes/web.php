@@ -87,14 +87,8 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         Route::delete('/alumni/{id}', [App\Http\Controllers\Admin\AlumniController::class, 'destroy'])->name('admin.alumni.destroy');
         Route::get('/alumni/{id}/toggle', [App\Http\Controllers\Admin\AlumniController::class, 'toggleStatus'])->name('admin.alumni.toggle');
         
-        // Guru Management Routes
-        Route::get('/guru', [App\Http\Controllers\Admin\GuruController::class, 'index'])->name('admin.guru.index');
-        Route::get('/guru/create', [App\Http\Controllers\Admin\GuruController::class, 'create'])->name('admin.guru.create');
-        Route::post('/guru', [App\Http\Controllers\Admin\GuruController::class, 'store'])->name('admin.guru.store');
-        Route::get('/guru/{id}/edit', [App\Http\Controllers\Admin\GuruController::class, 'edit'])->name('admin.guru.edit');
-        Route::put('/guru/{id}', [App\Http\Controllers\Admin\GuruController::class, 'update'])->name('admin.guru.update');
-        Route::delete('/guru/{id}', [App\Http\Controllers\Admin\GuruController::class, 'destroy'])->name('admin.guru.destroy');
-        Route::get('/guru/{id}/toggle', [App\Http\Controllers\Admin\GuruController::class, 'toggleStatus'])->name('admin.guru.toggle');
+        // DEPRECATED: Guru Management Routes moved to Profil section
+        // All guru CRUD operations are now handled by GuruKaryawanController
         
         // WhatsApp Settings Routes
         Route::get('/whatsapp', [App\Http\Controllers\Admin\WhatsAppController::class, 'index'])->name('admin.whatsapp.index');
@@ -171,9 +165,18 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         Route::get('/profil/kurikulum', [App\Http\Controllers\Admin\KurikulumController::class, 'index'])->name('admin.profil.kurikulum');
         Route::get('/profil/indikator-kelulusan', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'index'])->name('admin.profil.indikator-kelulusan.index');
         Route::put('/profil/indikator-kelulusan', [App\Http\Controllers\Admin\IndikatorKelulusanController::class, 'update'])->name('admin.profil.indikator-kelulusan.update');
+        // Guru-Karyawan Management Routes (Settings + CRUD)
         Route::get('/profil/guru-karyawan', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'index'])->name('admin.profil.guru-karyawan.index');
         Route::put('/profil/guru-karyawan', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'update'])->name('admin.profil.guru-karyawan.update');
         Route::get('/profil/guru-karyawan/toggle', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'toggleStatus'])->name('admin.profil.guru-karyawan.toggle');
+        
+        // Guru CRUD Routes (consolidated under profil/guru-karyawan)
+        Route::get('/profil/guru-karyawan/create', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'create'])->name('admin.profil.guru-karyawan.create');
+        Route::post('/profil/guru-karyawan', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'store'])->name('admin.profil.guru-karyawan.store');
+        Route::get('/profil/guru-karyawan/{id}/edit', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'edit'])->name('admin.profil.guru-karyawan.edit');
+        Route::put('/profil/guru-karyawan/{id}', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'updateGuru'])->name('admin.profil.guru-karyawan.update');
+        Route::delete('/profil/guru-karyawan/{id}', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'destroy'])->name('admin.profil.guru-karyawan.destroy');
+        Route::get('/profil/guru-karyawan/{id}/toggle', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'toggleGuruStatus'])->name('admin.profil.guru-karyawan.guru.toggle');
         
         // About Management Routes
         Route::get('/about/prestasi', [App\Http\Controllers\Admin\AboutController::class, 'prestasi'])->name('admin.about.prestasi.index');
