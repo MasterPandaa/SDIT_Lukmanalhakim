@@ -113,11 +113,11 @@ class IndikatorKelulusanController extends Controller
             $indikatorKelulusan->fill($updateData);
             $indikatorKelulusan->save();
 
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('success', 'Konten Indikator Kelulusan berhasil diperbarui!');
         }
 
-        return redirect()->route('admin.profil.indikator-kelulusan.index')
+        return redirect()->route('admin.indikator-kelulusan.index')
             ->with('info', 'Tidak ada perubahan yang dilakukan.');
     }
 
@@ -126,7 +126,7 @@ class IndikatorKelulusanController extends Controller
         $indikatorKelulusan = IndikatorKelulusanSetting::first();
         
         if (!$indikatorKelulusan) {
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('error', 'Konten Indikator Kelulusan tidak ditemukan!');
         }
 
@@ -134,7 +134,7 @@ class IndikatorKelulusanController extends Controller
         $indikatorKelulusan->save();
 
         $status = $indikatorKelulusan->is_active ? 'diaktifkan' : 'dinonaktifkan';
-        return redirect()->route('admin.profil.indikator-kelulusan.index')
+        return redirect()->route('admin.indikator-kelulusan.index')
             ->with('success', "Konten Indikator Kelulusan berhasil {$status}!");
     }
 
@@ -199,7 +199,7 @@ class IndikatorKelulusanController extends Controller
 
             IndikatorKelulusanSetting::updateOrCreateData($data);
 
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('success', 'Pengaturan halaman berhasil diperbarui!');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -213,7 +213,7 @@ class IndikatorKelulusanController extends Controller
      */
     public function createKategori()
     {
-        return view('admin.indikator-kelulusan.create-kategori');
+        return view('admin.profil.indikator-kelulusan.create-kategori');
     }
 
     /**
@@ -240,7 +240,7 @@ class IndikatorKelulusanController extends Controller
 
             IndikatorKelulusanKategori::create($data);
 
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('success', 'Kategori berhasil ditambahkan!');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -255,7 +255,7 @@ class IndikatorKelulusanController extends Controller
     public function editKategori($id)
     {
         $kategori = IndikatorKelulusanKategori::findOrFail($id);
-        return view('admin.indikator-kelulusan.edit-kategori', compact('kategori'));
+        return view('admin.profil.indikator-kelulusan.edit-kategori', compact('kategori'));
     }
 
     /**
@@ -284,7 +284,7 @@ class IndikatorKelulusanController extends Controller
 
             $kategori->update($data);
 
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('success', 'Kategori berhasil diperbarui!');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -302,7 +302,7 @@ class IndikatorKelulusanController extends Controller
             $kategori = IndikatorKelulusanKategori::findOrFail($id);
             $kategori->delete();
 
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('success', 'Kategori berhasil dihapus!');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -320,7 +320,7 @@ class IndikatorKelulusanController extends Controller
             $kategori->update(['is_active' => !$kategori->is_active]);
 
             $status = $kategori->is_active ? 'diaktifkan' : 'dinonaktifkan';
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('success', "Kategori berhasil {$status}!");
         } catch (\Exception $e) {
             return redirect()->back()
@@ -334,7 +334,7 @@ class IndikatorKelulusanController extends Controller
     public function createIndikator()
     {
         $kategoris = IndikatorKelulusanKategori::active()->ordered()->get();
-        return view('admin.indikator-kelulusan.create-indikator', compact('kategoris'));
+        return view('admin.profil.indikator-kelulusan.create-indikator', compact('kategoris'));
     }
 
     /**
@@ -363,7 +363,7 @@ class IndikatorKelulusanController extends Controller
 
             IndikatorKelulusan::create($data);
 
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('success', 'Indikator berhasil ditambahkan!');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -379,7 +379,7 @@ class IndikatorKelulusanController extends Controller
     {
         $indikator = IndikatorKelulusan::with('kategori')->findOrFail($id);
         $kategoris = IndikatorKelulusanKategori::active()->ordered()->get();
-        return view('admin.indikator-kelulusan.edit-indikator', compact('indikator', 'kategoris'));
+        return view('admin.profil.indikator-kelulusan.edit-indikator', compact('indikator', 'kategoris'));
     }
 
     /**
@@ -404,13 +404,12 @@ class IndikatorKelulusanController extends Controller
 
         try {
             $indikator = IndikatorKelulusan::findOrFail($id);
-            
             $data = $request->only(['kategori_id', 'judul', 'deskripsi', 'durasi', 'urutan']);
             $data['is_active'] = $request->has('is_active');
 
             $indikator->update($data);
 
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('success', 'Indikator berhasil diperbarui!');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -428,7 +427,7 @@ class IndikatorKelulusanController extends Controller
             $indikator = IndikatorKelulusan::findOrFail($id);
             $indikator->delete();
 
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('success', 'Indikator berhasil dihapus!');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -446,7 +445,7 @@ class IndikatorKelulusanController extends Controller
             $indikator->update(['is_active' => !$indikator->is_active]);
 
             $status = $indikator->is_active ? 'diaktifkan' : 'dinonaktifkan';
-            return redirect()->route('admin.profil.indikator-kelulusan.index')
+            return redirect()->route('admin.indikator-kelulusan.index')
                 ->with('success', "Indikator berhasil {$status}!");
         } catch (\Exception $e) {
             return redirect()->back()

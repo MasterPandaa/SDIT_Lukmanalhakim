@@ -14,75 +14,53 @@ class IndikatorKelulusanSetting extends Model
     protected $fillable = [
         'judul_utama',
         'judul_header',
-        'gambar_header',
-        'video_url',
-        'nama_pembicara',
-        'foto_pembicara',
         'deskripsi_header',
+        'nama_pembicara',
+        'video_url',
         'kategori_tags',
-        'is_active'
+        'gambar_header',
+        'foto_pembicara',
+        'meta_title',
+        'meta_keywords',
+        'meta_description',
+        'is_active',
     ];
 
     protected $casts = [
         'kategori_tags' => 'array',
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
     ];
 
-    /**
-     * Get active setting
-     */
     public static function getActive()
     {
-        return self::where('is_active', true)->first();
+        return static::query()->first();
     }
 
-    /**
-     * Update or create data
-     */
-    public static function updateOrCreateData($data)
+    public static function updateOrCreateData(array $data)
     {
-        $setting = self::first();
-        
-        if ($setting) {
-            $setting->update($data);
-        } else {
-            $setting = self::create($data);
+        $record = static::query()->first();
+        if (!$record) {
+            return static::create($data);
         }
-        
-        return $setting;
+        $record->fill($data);
+        $record->save();
+        return $record;
     }
 
-    /**
-     * Get gambar header URL
-     */
+    // Accessors for image URLs
     public function getGambarHeaderUrlAttribute()
     {
-        if (!$this->gambar_header) {
-            return asset('assets/images/default/indikator-kelulusan-header.jpg');
-        }
-
-        // Jika file ada di public/assets/images, return URL
-        if (file_exists(public_path('assets/images/indikator-kelulusan/' . $this->gambar_header))) {
+        if (!empty($this->gambar_header)) {
             return asset('assets/images/indikator-kelulusan/' . $this->gambar_header);
         }
-
-        return asset('assets/images/default/indikator-kelulusan-header.jpg');
+        return asset('assets/images/pageheader/02.jpg');
     }
 
-    /**
-     * Get foto pembicara URL
-     */
     public function getFotoPembicaraUrlAttribute()
     {
-        if (!$this->foto_pembicara) {
-            return asset('assets/images/default/pembicara-default.jpg');
-        }
-
-        // Jika file ada di public/assets/images, return URL
-        if (file_exists(public_path('assets/images/indikator-kelulusan/' . $this->foto_pembicara))) {
+        if (!empty($this->foto_pembicara)) {
             return asset('assets/images/indikator-kelulusan/' . $this->foto_pembicara);
         }
-
-        return asset('assets/images/default/pembicara-default.jpg');
+        return asset('assets/images/pageheader/03.jpg');
     }
 }

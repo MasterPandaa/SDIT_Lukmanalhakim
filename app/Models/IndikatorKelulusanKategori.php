@@ -15,53 +15,39 @@ class IndikatorKelulusanKategori extends Model
         'nama',
         'deskripsi',
         'urutan',
-        'is_active'
+        'is_active',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
     ];
 
-    /**
-     * Relasi dengan IndikatorKelulusan
-     */
+    // Relationships
     public function indikators()
     {
-        return $this->hasMany(IndikatorKelulusan::class, 'kategori_id');
+        return $this->hasMany(IndikatorKelulusan::class, 'kategori_id')->orderBy('urutan');
     }
 
-    /**
-     * Indikators aktif saja
-     */
+    public function allIndikators()
+    {
+        return $this->indikators();
+    }
+
     public function activeIndikators()
     {
         return $this->hasMany(IndikatorKelulusan::class, 'kategori_id')
-                    ->where('is_active', true)
-                    ->orderBy('urutan');
+            ->where('is_active', true)
+            ->orderBy('urutan');
     }
 
-    /**
-     * Semua indikators termasuk yang tidak aktif
-     */
-    public function allIndikators()
-    {
-        return $this->hasMany(IndikatorKelulusan::class, 'kategori_id')
-                    ->orderBy('urutan');
-    }
-
-    /**
-     * Scope untuk kategori aktif
-     */
+    // Scopes
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
-    /**
-     * Scope untuk urutan
-     */
     public function scopeOrdered($query)
     {
-        return $query->orderBy('urutan');
+        return $query->orderBy('urutan')->orderBy('id');
     }
 }

@@ -17,45 +17,26 @@ class IndikatorKelulusan extends Model
         'deskripsi',
         'durasi',
         'urutan',
-        'is_active'
+        'is_active',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
     ];
 
-    /**
-     * Relasi dengan IndikatorKelulusanKategori
-     */
     public function kategori()
     {
         return $this->belongsTo(IndikatorKelulusanKategori::class, 'kategori_id');
     }
 
-    /**
-     * Scope untuk indikator aktif
-     */
+    // Scopes
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
-    /**
-     * Scope untuk urutan
-     */
     public function scopeOrdered($query)
     {
-        return $query->orderBy('urutan');
-    }
-
-    /**
-     * Accessor untuk format durasi
-     */
-    public function getFormattedDurasiAttribute()
-    {
-        if ($this->durasi) {
-            return $this->durasi;
-        }
-        return '';
+        return $query->orderBy('urutan')->orderBy('id');
     }
 }
