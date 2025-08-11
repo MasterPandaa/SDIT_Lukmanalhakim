@@ -16,7 +16,14 @@ class SambutanKepsek extends Model
         'tahun_berdiri',
         'foto_kepsek',
         'foto_kedua',
-        'is_active'
+        'is_active',
+        'testimonials',
+        'skills'
+    ];
+
+    protected $casts = [
+        'testimonials' => 'array',
+        'skills' => 'array',
     ];
 
     /**

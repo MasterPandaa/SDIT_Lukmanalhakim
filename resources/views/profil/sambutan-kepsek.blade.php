@@ -82,6 +82,72 @@
 </div>
 <!-- Pageheader section ending here -->
 
+ <!-- Sambutan Kepsek Photo Layout Overrides -->
+ <style>
+     /* Ensure consistent photo sizing and positioning like the design */
+     .about-section.style-3 .about-left {
+         position: relative;
+     }
+     .about-section.style-3 .about-left .about-thumb {
+        width: 100%;
+        max-width: 480px; /* smaller main photo frame */
+        aspect-ratio: 1 / 1; /* perfect square feel; adjust if needed */
+        background: #fff;
+        padding: 12px; /* slightly thinner white frame */
+        border-radius: 12px;
+        box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+     }
+     .about-section.style-3 .about-left .about-thumb img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover; /* always fill, crop overflow */
+         object-position: center top; /* keep face upper area visible */
+         display: block;
+        border-radius: 10px;
+     }
+     .about-section.style-3 .about-left .abs-thumb {
+         position: absolute;
+        right: 8px; /* shift slightly to the left */
+        bottom: -42px; /* lowered a bit more */
+        width: 52%; /* smaller overlapping photo */
+         aspect-ratio: 1 / 1;
+         background: #fff;
+        padding: 12px;
+        border-radius: 12px;
+        box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+     }
+     .about-section.style-3 .about-left .abs-thumb img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+         object-position: center top;
+         display: block;
+        border-radius: 10px;
+     }
+     /* Revert Tahun Berdiri badge to original theme styling: only keep position */
+  .about-section.style-3 .about-left .about-left-content {
+        position: absolute;
+        left: -18px;
+        bottom: 18px;
+    }
+     /* Responsiveness */
+     @media (max-width: 1199.98px) {
+        .about-section.style-3 .about-left .about-thumb { max-width: 460px; }
+        .about-section.style-3 .about-left .abs-thumb { right: 4px; bottom: -34px; width: 56%; }
+        .about-section.style-3 .about-left .about-left-content { left: -16px; bottom: 18px; }
+     }
+     @media (max-width: 991.98px) {
+        .about-section.style-3 .about-left .about-thumb { max-width: 92%; }
+        .about-section.style-3 .about-left .abs-thumb { right: 2px; bottom: -26px; width: 60%; }
+        .about-section.style-3 .about-left .about-left-content { left: 6px; bottom: 14px; }
+     }
+     @media (max-width: 575.98px) {
+         .about-section.style-3 .about-left .abs-thumb { position: relative; right: 0; bottom: 0; width: 78%; margin: 12px auto 0; }
+        .about-section.style-3 .about-left .about-left-content { left: 8px; bottom: 10px; }
+        .about-section.style-3 .about-left .about-left-content h3 { font-size: 24px; }
+     }
+ </style>
+
 <!-- About Us Section Start Here -->
 <div class="about-section style-3 padding-tb section-bg">
     <div class="container">
@@ -284,103 +350,6 @@
 </div>
 <!-- Skill section ending here -->
 
-<!-- blog section start here -->
-<div class="blog-section padding-tb">
-    <div class="container">
-        <div class="section-header text-center">
-            <h2 class="title">Artikel dan Majalah</h2>
-        </div>
-        <div class="section-wrapper">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center g-4">
-                <div class="col">
-                    <div class="post-item">
-                        <div class="post-inner">
-                            <div class="post-thumb">
-                                <a href="{{ route('blog-single', 'scottish-creatives') }}"><img src="{{ asset('assets/images/blog/01.jpg') }}" alt="blog thumb"></a>
-                            </div>
-                            <div class="post-content">
-                                <a href="{{ route('blog-single', 'scottish-creatives') }}"><h4>Scottish Creatives To Receive Funded Business.</h4></a>
-                                <div class="meta-post">
-                                    <ul class="lab-ul">
-                                        <li><i class="icofont-ui-user"></i>Begrass Tyson</li>
-                                        <li><i class="icofont-calendar"></i>April 23,2021</li>
-                                    </ul>
-                                </div>
-                                <p>Pluoresnts customize prancing apcente customer service anding ands asing in straelg Interacvely cordinate performe</p>
-                            </div>
-                            <div class="post-footer">
-                                <div class="pf-left">
-                                    <a href="{{ route('blog-single', 'scottish-creatives') }}" class="lab-btn-text">Read more <i class="icofont-external-link"></i></a>
-                                </div>
-                                <div class="pf-right">
-                                    <i class="icofont-comment"></i>
-                                    <span class="comment-count">3</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="post-item">
-                        <div class="post-inner">
-                            <div class="post-thumb">
-                                <a href="{{ route('blog-single', 'scottish-creatives-2') }}"><img src="{{ asset('assets/images/blog/02.jpg') }}" alt="blog thumb"></a>
-                            </div>
-                            <div class="post-content">
-                                <a href="{{ route('blog-single', 'scottish-creatives-2') }}"><h4>Scottish Creatives To Receive Funded Business.</h4></a>
-                                <div class="meta-post">
-                                    <ul class="lab-ul">
-                                        <li><i class="icofont-ui-user"></i>Begrass Tyson</li>
-                                        <li><i class="icofont-calendar"></i>April 23,2021</li>
-                                    </ul>
-                                </div>
-                                <p>Pluoresnts customize prancing apcente customer service anding ands asing in straelg Interacvely cordinate performe</p>
-                            </div>
-                            <div class="post-footer">
-                                <div class="pf-left">
-                                    <a href="{{ route('blog-single', 'scottish-creatives-2') }}" class="lab-btn-text">Read more <i class="icofont-external-link"></i></a>
-                                </div>
-                                <div class="pf-right">
-                                    <i class="icofont-comment"></i>
-                                    <span class="comment-count">3</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="post-item">
-                        <div class="post-inner">
-                            <div class="post-thumb">
-                                <a href="{{ route('blog-single', 'scottish-creatives-3') }}"><img src="{{ asset('assets/images/blog/03.jpg') }}" alt="blog thumb"></a>
-                            </div>
-                            <div class="post-content">
-                                <a href="{{ route('blog-single', 'scottish-creatives-3') }}"><h4>Scottish Creatives To Receive Funded Business.</h4></a>
-                                <div class="meta-post">
-                                    <ul class="lab-ul">
-                                        <li><i class="icofont-ui-user"></i>Begrass Tyson</li>
-                                        <li><i class="icofont-calendar"></i>April 23,2021</li>
-                                    </ul>
-                                </div>
-                                <p>Pluoresnts customize prancing apcente customer service anding ands asing in straelg Interacvely cordinate performe</p>
-                            </div>
-                            <div class="post-footer">
-                                <div class="pf-left">
-                                    <a href="{{ route('blog-single', 'scottish-creatives-3') }}" class="lab-btn-text">Read more <i class="icofont-external-link"></i></a>
-                                </div>
-                                <div class="pf-right">
-                                    <i class="icofont-comment"></i>
-                                    <span class="comment-count">3</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- blog section ending here -->
 
 <!-- sponsor section start here -->
 <div class="sponsor-section section-bg">

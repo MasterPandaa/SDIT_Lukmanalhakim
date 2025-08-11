@@ -56,8 +56,8 @@ class SambutanKepsekController extends Controller
                 'sambutan' => 'required|string',
                 'video_url' => 'nullable|url',
                 'tahun_berdiri' => 'required|integer|min:1|max:100',
-                'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'foto_kedua' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'foto_kedua' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
             
             $updateData['sambutan'] = $request->sambutan;
@@ -110,6 +110,82 @@ class SambutanKepsekController extends Controller
             ]);
             
             $updateData['is_active'] = $request->is_active;
+        }
+
+        // Handle Testimonials repeater (dynamic)
+        if ($request->has('testimonials')) {
+            $request->validate([
+                'testimonials' => 'array',
+                'testimonials.*.name' => 'required|string|max:100',
+                'testimonials.*.role' => 'nullable|string|max:150',
+                'testimonials.*.text' => 'required|string',
+                'testimonials.*.rating' => 'nullable|integer|min:1|max:5',
+                'testimonial_photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ]);
+
+            $items = $request->input('testimonials', []);
+            $photos = $request->file('testimonial_photos', []);
+
+            $processedTestimonials = [];
+            foreach ($items as $idx => $item) {
+                $photoPath = $item['photo_path'] ?? null;
+                if (isset($photos[$idx]) && $photos[$idx] && $photos[$idx]->isValid()) {
+                    $dir = public_path('assets/images/sambutan-kepsek/testimonials');
+                    if (!file_exists($dir)) {
+                        mkdir($dir, 0755, true);
+                    }
+                    $image = $photos[$idx];
+                    $imageName = time() . '_' . $idx . '_testimonial.' . $image->getClientOriginalExtension();
+                    $image->move($dir, $imageName);
+                    $photoPath = 'assets/images/sambutan-kepsek/testimonials/' . $imageName;
+                }
+
+                $processedTestimonials[] = [
+                    'name' => $item['name'] ?? '',
+                    'role' => $item['role'] ?? '',
+                    'text' => $item['text'] ?? '',
+                    'rating' => (int)($item['rating'] ?? 5),
+                    'photo_path' => $photoPath ?? 'assets/images/feedback/student/01.jpg',
+                ];
+            }
+
+            $updateData['testimonials'] = $processedTestimonials;
+        }
+
+        // Handle Skills repeater
+        if ($request->has('skills')) {
+            $request->validate([
+                'skills' => 'array',
+                'skills.*.title' => 'required|string|max:100',
+                'skills.*.tagline' => 'nullable|string|max:200',
+                'skill_icons.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ]);
+
+            $items = $request->input('skills', []);
+            $icons = $request->file('skill_icons', []);
+
+            $processedSkills = [];
+            foreach ($items as $idx => $item) {
+                $iconPath = $item['icon_path'] ?? null;
+                if (isset($icons[$idx]) && $icons[$idx] && $icons[$idx]->isValid()) {
+                    $dir = public_path('assets/images/sambutan-kepsek/skills');
+                    if (!file_exists($dir)) {
+                        mkdir($dir, 0755, true);
+                    }
+                    $image = $icons[$idx];
+                    $imageName = time() . '_' . $idx . '_skill.' . $image->getClientOriginalExtension();
+                    $image->move($dir, $imageName);
+                    $iconPath = 'assets/images/sambutan-kepsek/skills/' . $imageName;
+                }
+
+                $processedSkills[] = [
+                    'title' => $item['title'] ?? '',
+                    'tagline' => $item['tagline'] ?? '',
+                    'icon_path' => $iconPath ?? 'assets/images/skill/icon/01.jpg',
+                ];
+            }
+
+            $updateData['skills'] = $processedSkills;
         }
 
         // Only update if there's data to update
