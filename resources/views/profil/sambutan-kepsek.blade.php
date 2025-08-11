@@ -216,60 +216,86 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="stu-feed-item">
-                        <div class="stu-feed-inner">
-                            <div class="stu-feed-top">
-                                <div class="sft-left">
-                                    <div class="sftl-thumb">
-                                        <img src="{{ asset('assets/images/feedback/student/01.jpg') }}" alt="student feedback">
+                    @php
+                        $defaultTestimonials = [
+                            [
+                                'name' => 'Ibu Siti',
+                                'role' => 'Wali Murid Kelas 2',
+                                'text' => 'Alhamdulillah, anak saya semakin semangat belajar sejak bersekolah di SDIT Luqman Al Hakim Sleman. Guru-gurunya sabar, pembelajarannya menarik, dan nilai-nilai Islam diterapkan dengan baik. Terima kasih!',
+                                'rating' => 5,
+                                'photo_path' => 'assets/images/feedback/student/01.jpg',
+                            ],
+                            [
+                                'name' => 'Bapak Ahmad',
+                                'role' => 'Wali Murid Kelas 3',
+                                'text' => 'Anak saya jadi lebih disiplin, mandiri, dan mencintai ilmu agama sejak sekolah di SDIT Luqman Al Hakim. Lingkungan belajar yang nyaman membuatnya betah. Sangat puas dengan sekolah ini!',
+                                'rating' => 5,
+                                'photo_path' => 'assets/images/feedback/student/02.jpg',
+                            ],
+                        ];
+                        $testimonials = !empty($sambutanKepsek->testimonials) ? $sambutanKepsek->testimonials : $defaultTestimonials;
+                    @endphp
+                    <div id="testimonialsList">
+                        @foreach($testimonials as $i => $t)
+                        @php
+                            $photo = !empty($t['photo_path']) ? asset($t['photo_path']) : asset('assets/images/feedback/student/01.jpg');
+                            $name = $t['name'] ?? 'Anonim';
+                            $role = $t['role'] ?? '';
+                            $text = $t['text'] ?? '';
+                            $rating = (int)($t['rating'] ?? 5);
+                            $visibleClass = $i < 2 ? 'd-block' : 'd-none';
+                        @endphp
+                        <div class="stu-feed-item testimonial-item {{ $visibleClass }}" data-idx="{{ $i }}">
+                            <div class="stu-feed-inner">
+                                <div class="stu-feed-top">
+                                    <div class="sft-left">
+                                        <div class="sftl-thumb">
+                                            <img src="{{ $photo }}" alt="student feedback">
+                                        </div>
+                                        <div class="sftl-content">
+                                            <a href="#"><h6>{{ $name }}</h6></a>
+                                            @if($role)
+                                            <span>{{ $role }}</span>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div class="sftl-content">
-                                        <a href="#"><h6>Ibu Siti</h6></a>
-                                        <span>Wali Murid Kelas 2</span>
+                                    <div class="sft-right">
+                                        <span class="ratting">
+                                            @for($r=0; $r<max(1, min(5, $rating)); $r++)
+                                                <i class="icofont-ui-rating"></i>
+                                            @endfor
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="sft-right">
-                                    <span class="ratting">
-                                        <i class="icofont-ui-rating"></i>
-                                        <i class="icofont-ui-rating"></i>
-                                        <i class="icofont-ui-rating"></i>
-                                        <i class="icofont-ui-rating"></i>
-                                        <i class="icofont-ui-rating"></i>
-                                    </span>
+                                <div class="stu-feed-bottom">
+                                    <p>"{{ $text }}"</p>
                                 </div>
-                            </div>
-                            <div class="stu-feed-bottom">
-                                <p>"Alhamdulillah, anak saya semakin semangat belajar sejak bersekolah di SDIT Luqman Al Hakim Sleman. Guru-gurunya sabar, pembelajarannya menarik, dan nilai-nilai Islam diterapkan dengan baik. Terima kasih!</p>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                    <div class="stu-feed-item">
-                        <div class="stu-feed-inner">
-                            <div class="stu-feed-top">
-                                <div class="sft-left">
-                                    <div class="sftl-thumb">
-                                        <img src="{{ asset('assets/images/feedback/student/02.jpg') }}" alt="student feedback">
-                                    </div>
-                                    <div class="sftl-content">
-                                        <a href="#"><h6>Bapak Ahmad</h6></a>
-                                        <span>Wali Murid Kelas 3</span>
-                                    </div>
-                                </div>
-                                <div class="sft-right">
-                                    <span class="ratting">
-                                        <i class="icofont-ui-rating"></i>
-                                        <i class="icofont-ui-rating"></i>
-                                        <i class="icofont-ui-rating"></i>
-                                        <i class="icofont-ui-rating"></i>
-                                        <i class="icofont-ui-rating"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="stu-feed-bottom">
-                                <p>"Anak saya jadi lebih disiplin, mandiri, dan mencintai ilmu agama sejak sekolah di SDIT Luqman Al Hakim. Lingkungan belajar yang nyaman membuatnya betah. Sangat puas dengan sekolah ini!"</p>
-                            </div>
-                        </div>
-                    </div>
+                    @if(count($testimonials) > 2)
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function(){
+                                const items = Array.from(document.querySelectorAll('#testimonialsList .testimonial-item'));
+                                let start = 0;
+                                function showPair(){
+                                    items.forEach(el => el.classList.add('d-none'));
+                                    const first = items[start % items.length];
+                                    const second = items[(start + 1) % items.length];
+                                    first.classList.remove('d-none');
+                                    second.classList.remove('d-none');
+                                }
+                                showPair();
+                                if(items.length > 2){
+                                    setInterval(() => {
+                                        start = (start + 2) % items.length;
+                                        showPair();
+                                    }, 5000);
+                                }
+                            });
+                        </script>
+                    @endif
                 </div>
             </div>
         </div>
@@ -289,59 +315,38 @@
             </div>
             <div class="col-lg-7 col-12">
                 <div class="section-wrpper">
+                    @php
+                        $defaultSkills = [
+                            ['title' => 'Bela Diri','tagline' => 'Berani, Disiplin, Tangguh!','icon_path' => 'assets/images/skill/icon/01.jpg'],
+                            ['title' => 'Robotik','tagline' => 'Kreatif, Inovatif, Futuristik!','icon_path' => 'assets/images/skill/icon/02.jpg'],
+                            ['title' => 'Sinematografi','tagline' => 'Ekspresi, Kreativitas,Visual!','icon_path' => 'assets/images/skill/icon/03.jpg'],
+                            ['title' => 'Mini Soccer','tagline' => 'Cepat, Taktis, Seru, Sportif!','icon_path' => 'assets/images/skill/icon/04.jpg'],
+                        ];
+                        $skills = !empty($sambutanKepsek->skills) ? $sambutanKepsek->skills : $defaultSkills;
+                    @endphp
                     <div class="row g-4 justify-content-center row-cols-sm-2 row-cols-1">
+                        @foreach($skills as $s)
+                        @php
+                            $icon = !empty($s['icon_path']) ? asset($s['icon_path']) : asset('assets/images/skill/icon/01.jpg');
+                            $title = $s['title'] ?? '';
+                            $tagline = $s['tagline'] ?? '';
+                        @endphp
                         <div class="col">
                             <div class="skill-item">
                                 <div class="skill-inner">
                                     <div class="skill-thumb">
-                                        <img src="{{ asset('assets/images/skill/icon/01.jpg') }}" alt="skill thumb">
+                                        <img src="{{ $icon }}" alt="skill thumb">
                                     </div>
                                     <div class="skill-content">
-                                        <h5>Bela Diri</h5>
-                                        <p>"Berani, Disiplin, Tangguh!"</p>
+                                        <h5>{{ $title }}</h5>
+                                        @if($tagline)
+                                        <p>"{{ $tagline }}"</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="skill-item">
-                                <div class="skill-inner">
-                                    <div class="skill-thumb">
-                                        <img src="{{ asset('assets/images/skill/icon/02.jpg') }}" alt="skill thumb">
-                                    </div>
-                                    <div class="skill-content">
-                                        <h5>Robotik</h5>
-                                        <p>"Kreatif, Inovatif, Futuristik!"</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="skill-item">
-                                <div class="skill-inner">
-                                    <div class="skill-thumb">
-                                        <img src="{{ asset('assets/images/skill/icon/03.jpg') }}" alt="skill thumb">
-                                    </div>
-                                    <div class="skill-content">
-                                        <h5>Sinematografi</h5>
-                                        <p>"Ekspresi, Kreativitas,Visual!"</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="skill-item">
-                                <div class="skill-inner">
-                                    <div class="skill-thumb">
-                                        <img src="{{ asset('assets/images/skill/icon/04.jpg') }}" alt="skill thumb">
-                                    </div>
-                                    <div class="skill-content">
-                                        <h5>Mini Soccer</h5>
-                                        <p>"Cepat, Taktis, Seru, Sportif!"</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
