@@ -22,11 +22,11 @@
                                 <div class="misi-item-header">
                                     <div class="d-flex align-items-center">
                                         <div class="misi-item-number">{{ $index + 1 }}</div>
-                                        <h6 class="mb-0">Misi {{ $index + 1 }}</h6>
+                                        <button type="button" class="btn btn-outline-danger btn-sm misi-item-remove ms-2 me-2" onclick="removeMisiItem(this)" title="Hapus misi">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <h6 class="mb-0">Item Misi {{ $index + 1 }}</h6>
                                     </div>
-                                    <button type="button" class="misi-item-remove" onclick="removeMisiItem(this)">
-                                        <i class="fas fa-times"></i>
-                                    </button>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
@@ -38,30 +38,14 @@
                                                    placeholder="Al Quran" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-8">
                                         <div class="form-group">
-                                            <label class="font-weight-bold">Icon <span class="text-danger">*</span></label>
-                                                                                         <select class="form-control" name="misi_items[{{ $index }}][icon]" required onchange="updateIconPreview({{ $index }}, this.value)">
-                                                <option value="">Pilih Icon</option>
-                                                <option value="icofont-credit-card" {{ ($item['icon'] ?? '') == 'icofont-credit-card' ? 'selected' : '' }}>Al Quran</option>
-                                                <option value="icofont-light-bulb" {{ ($item['icon'] ?? '') == 'icofont-light-bulb' ? 'selected' : '' }}>Pendidikan Karakter</option>
-                                                <option value="icofont-graduate" {{ ($item['icon'] ?? '') == 'icofont-graduate' ? 'selected' : '' }}>Active Deep Learner</option>
-                                                <option value="icofont-paper-plane" {{ ($item['icon'] ?? '') == 'icofont-paper-plane' ? 'selected' : '' }}>Prestasi</option>
-                                                <option value="icofont-site-map" {{ ($item['icon'] ?? '') == 'icofont-site-map' ? 'selected' : '' }}>Budaya</option>
-                                                <option value="icofont-users-alt-3" {{ ($item['icon'] ?? '') == 'icofont-users-alt-3' ? 'selected' : '' }}>Peduli Lingkungan</option>
-                                                <option value="icofont-book" {{ ($item['icon'] ?? '') == 'icofont-book' ? 'selected' : '' }}>Buku</option>
-                                                <option value="icofont-heart" {{ ($item['icon'] ?? '') == 'icofont-heart' ? 'selected' : '' }}>Hati</option>
-                                                <option value="icofont-star" {{ ($item['icon'] ?? '') == 'icofont-star' ? 'selected' : '' }}>Bintang</option>
-                                                <option value="icofont-trophy" {{ ($item['icon'] ?? '') == 'icofont-trophy' ? 'selected' : '' }}>Piala</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">Preview Icon</label>
-                                            <div class="text-center">
-                                                <i class="{{ $item['icon'] ?? 'icofont-credit-card' }} fa-2x text-success" id="iconPreview{{ $index }}"></i>
-                                            </div>
+                                            <label class="font-weight-bold">CSS Kode Icon <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" 
+                                                   name="misi_items[{{ $index }}][icon]" 
+                                                   value="{{ $item['icon'] ?? '' }}" 
+                                                   placeholder="contoh: icofont-credit-card atau fas fa-star" required>
+                                            <small class="text-muted">Gunakan class icon (Icofont/FontAwesome), misal: icofont-heart, fas fa-star</small>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -83,11 +67,11 @@
                                 <div class="misi-item-header">
                                     <div class="d-flex align-items-center">
                                         <div class="misi-item-number">{{ $index + 1 }}</div>
-                                        <h6 class="mb-0">Misi {{ $index + 1 }}</h6>
+                                        <button type="button" class="btn btn-outline-danger btn-sm misi-item-remove ms-2 me-2" onclick="removeMisiItem(this)" title="Hapus misi">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <h6 class="mb-0">Item Misi {{ $index + 1 }}</h6>
                                     </div>
-                                    <button type="button" class="misi-item-remove" onclick="removeMisiItem(this)">
-                                        <i class="fas fa-times"></i>
-                                    </button>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
@@ -99,30 +83,14 @@
                                                    placeholder="Al Quran" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-8">
                                         <div class="form-group">
-                                            <label class="font-weight-bold">Icon <span class="text-danger">*</span></label>
-                                            <select class="form-control" name="misi_items[{{ $index }}][icon]" required onchange="updateIconPreview({{ $index }}, this.value)">
-                                                <option value="">Pilih Icon</option>
-                                                <option value="icofont-credit-card" {{ $item['icon'] == 'icofont-credit-card' ? 'selected' : '' }}>Al Quran</option>
-                                                <option value="icofont-light-bulb" {{ $item['icon'] == 'icofont-light-bulb' ? 'selected' : '' }}>Pendidikan Karakter</option>
-                                                <option value="icofont-graduate" {{ $item['icon'] == 'icofont-graduate' ? 'selected' : '' }}>Active Deep Learner</option>
-                                                <option value="icofont-paper-plane" {{ $item['icon'] == 'icofont-paper-plane' ? 'selected' : '' }}>Prestasi</option>
-                                                <option value="icofont-site-map" {{ $item['icon'] == 'icofont-site-map' ? 'selected' : '' }}>Budaya</option>
-                                                <option value="icofont-users-alt-3" {{ $item['icon'] == 'icofont-users-alt-3' ? 'selected' : '' }}>Peduli Lingkungan</option>
-                                                <option value="icofont-book" {{ $item['icon'] == 'icofont-book' ? 'selected' : '' }}>Buku</option>
-                                                <option value="icofont-heart" {{ $item['icon'] == 'icofont-heart' ? 'selected' : '' }}>Hati</option>
-                                                <option value="icofont-star" {{ $item['icon'] == 'icofont-star' ? 'selected' : '' }}>Bintang</option>
-                                                <option value="icofont-trophy" {{ $item['icon'] == 'icofont-trophy' ? 'selected' : '' }}>Piala</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">Preview Icon</label>
-                                            <div class="text-center">
-                                                <i class="{{ $item['icon'] }} fa-2x text-success" id="iconPreview{{ $index }}"></i>
-                                            </div>
+                                            <label class="font-weight-bold">CSS Kode Icon <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" 
+                                                   name="misi_items[{{ $index }}][icon]" 
+                                                   value="{{ $item['icon'] }}" 
+                                                   placeholder="contoh: icofont-credit-card atau fas fa-star" required>
+                                            <small class="text-muted">Gunakan class icon (Icofont/FontAwesome), misal: icofont-heart, fas fa-star</small>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -182,11 +150,11 @@ function addMisiItem() {
         <div class="misi-item-header">
             <div class="d-flex align-items-center">
                 <div class="misi-item-number">${misiItemIndex + 1}</div>
-                <h6 class="mb-0">Misi ${misiItemIndex + 1}</h6>
+                <button type="button" class="btn btn-outline-danger btn-sm misi-item-remove ms-2 me-2" onclick="removeMisiItem(this)" title="Hapus misi">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <h6 class="mb-0">Item Misi ${misiItemIndex + 1}</h6>
             </div>
-            <button type="button" class="misi-item-remove" onclick="removeMisiItem(this)">
-                <i class="fas fa-times"></i>
-            </button>
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -197,30 +165,13 @@ function addMisiItem() {
                            placeholder="Judul Misi" required>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <div class="form-group">
-                    <label class="font-weight-bold">Icon <span class="text-danger">*</span></label>
-                    <select class="form-control" name="misi_items[${misiItemIndex}][icon]" required onchange="updateIconPreview(${misiItemIndex}, this.value)">
-                        <option value="">Pilih Icon</option>
-                        <option value="icofont-credit-card">Al Quran</option>
-                        <option value="icofont-light-bulb">Pendidikan Karakter</option>
-                        <option value="icofont-graduate">Active Deep Learner</option>
-                        <option value="icofont-paper-plane">Prestasi</option>
-                        <option value="icofont-site-map">Budaya</option>
-                        <option value="icofont-users-alt-3">Peduli Lingkungan</option>
-                        <option value="icofont-book">Buku</option>
-                        <option value="icofont-heart">Hati</option>
-                        <option value="icofont-star">Bintang</option>
-                        <option value="icofont-trophy">Piala</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label class="font-weight-bold">Preview Icon</label>
-                    <div class="text-center">
-                        <i class="icofont-credit-card fa-2x text-success" id="iconPreview${misiItemIndex}"></i>
-                    </div>
+                    <label class="font-weight-bold">CSS Kode Icon <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" 
+                           name="misi_items[${misiItemIndex}][icon]" 
+                           placeholder="contoh: icofont-credit-card atau fas fa-star" required>
+                    <small class="text-muted">Gunakan class icon (Icofont/FontAwesome), misal: icofont-heart, fas fa-star</small>
                 </div>
             </div>
             <div class="col-md-12">
@@ -259,26 +210,11 @@ function updateMisiNumbers() {
         const number = item.querySelector('.misi-item-number');
         const title = item.querySelector('h6');
         number.textContent = index + 1;
-        title.textContent = `Misi ${index + 1}`;
+        title.textContent = `Item Misi ${index + 1}`;
     });
 }
 
-function updateIconPreview(index, iconClass) {
-    const preview = document.getElementById(`iconPreview${index}`);
-    if (preview) {
-        preview.className = `${iconClass} fa-2x text-success`;
-    }
-}
-
-// Initialize icon previews for existing items
-document.addEventListener('DOMContentLoaded', function() {
-    const iconSelects = document.querySelectorAll('select[name*="[icon]"]');
-    iconSelects.forEach((select, index) => {
-        select.addEventListener('change', function() {
-            updateIconPreview(index, this.value);
-        });
-    });
-});
+// Tidak diperlukan preview icon; pengguna mengisi class CSS icon secara langsung
 </script>
 @else
 <div class="text-center py-5">

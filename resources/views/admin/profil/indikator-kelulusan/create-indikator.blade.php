@@ -18,19 +18,6 @@
                 </a>
             </div>
 
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-circle fa-lg mr-3"></i>
-                        <div>
-                            <strong>Error!</strong> {{ session('error') }}
-                        </div>
-                    </div>
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span>&times;</span>
-                    </button>
-                </div>
-            @endif
 
             @if(count($kategoris) == 0)
                 <div class="alert alert-warning">

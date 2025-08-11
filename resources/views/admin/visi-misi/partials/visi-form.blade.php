@@ -22,27 +22,6 @@
         </div>
     </div>
 
-    <!-- Preview Section -->
-    <div class="form-section">
-        <h5><i class="fas fa-eye me-2"></i>Preview Visi</h5>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h6 class="mb-0"><i class="fas fa-bullseye me-2"></i>Visi Sekolah</h6>
-                    </div>
-                    <div class="card-body">
-                        <div id="visiPreview" class="text-center">
-                            <span class="subtitle yellow-color">Visi Sekolah</span>
-                            <h2 class="title" id="visiPreviewText">
-                                {{ old('visi', $visiMisi->visi ?? 'Terwujudnya Generasi Unggul yang Qur\'ani, Berakhlaq Mulia, Berprestasi, Peduli, Berbudaya Lingkungan, dan Berwawasan Global.​') }}
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Information -->
     <div class="alert alert-info">
@@ -63,10 +42,7 @@
 </form>
 
 <script>
-// Live preview for visi
-document.getElementById('visi').addEventListener('input', function() {
-    document.getElementById('visiPreviewText').textContent = this.value;
-});
+// Preview Visi dihapus sesuai permintaan
 </script>
 @else
 <div class="text-center py-5">

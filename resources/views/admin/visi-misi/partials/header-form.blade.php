@@ -34,6 +34,18 @@
                             <small class="form-text text-muted">Deskripsi singkat yang akan ditampilkan di bawah judul header</small>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <!-- Information moved here to span under description -->
+                        <div class="alert alert-info mt-2">
+                            <h6><i class="fas fa-info-circle me-2"></i>Informasi</h6>
+                            <ul class="mb-0 small">
+                                <li>Judul header akan ditampilkan sebagai heading utama</li>
+                                <li>Deskripsi header akan ditampilkan sebagai subtitle</li>
+                                <li>Gambar header akan ditampilkan di bagian kiri section</li>
+                                <li>Jika tidak ada gambar, akan menggunakan gambar default</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,17 +103,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Information -->
-            <div class="alert alert-info">
-                <h6><i class="fas fa-info-circle me-2"></i>Informasi</h6>
-                <ul class="mb-0 small">
-                    <li>Judul header akan ditampilkan sebagai heading utama</li>
-                    <li>Deskripsi header akan ditampilkan sebagai subtitle</li>
-                    <li>Gambar header akan ditampilkan di bagian kiri section</li>
-                    <li>Jika tidak ada gambar, akan menggunakan gambar default</li>
-                </ul>
             </div>
         </div>
     </div>

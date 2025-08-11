@@ -18,22 +18,7 @@
                 </a>
             </div>
 
-            @if($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-circle fa-lg me-3"></i>
-                        <div>
-                            <strong>Error!</strong> Terdapat kesalahan pada form.
-                            <ul class="mb-0 mt-1">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+            {{-- Validation errors handled globally via SweetAlert2 --}}
 
             <!-- Form Guru -->
             <div class="card shadow mb-4">

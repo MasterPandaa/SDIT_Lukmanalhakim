@@ -25,34 +25,6 @@
                 @endif
             </div>
 
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-check-circle fa-lg me-3"></i>
-                        <div>
-                            <strong>Berhasil!</strong> {{ session('success') }}
-                        </div>
-                    </div>
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span>&times;</span>
-                    </button>
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-circle fa-lg me-3"></i>
-                        <div>
-                            <strong>Error!</strong> {{ session('error') }}
-                        </div>
-                    </div>
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span>&times;</span>
-                    </button>
-                </div>
-            @endif
-
             @if(!isset($settings) || !$settings)
                 <div class="alert alert-warning alert-dismissible fade show mb-4">
                     <div class="d-flex align-items-center">

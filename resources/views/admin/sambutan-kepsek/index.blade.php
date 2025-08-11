@@ -18,34 +18,6 @@
                 </a>
             </div>
 
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-check-circle fa-lg me-3"></i>
-                        <div>
-                            <strong>Berhasil!</strong> {{ session('success') }}
-                        </div>
-                    </div>
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span>&times;</span>
-                    </button>
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-circle fa-lg me-3"></i>
-                        <div>
-                            <strong>Error!</strong> {{ session('error') }}
-                        </div>
-                    </div>
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span>&times;</span>
-                    </button>
-                </div>
-            @endif
-
             @if(!isset($sambutanKepsek) || !$sambutanKepsek)
                 <div class="alert alert-warning alert-dismissible fade show mb-4">
                     <div class="d-flex align-items-center">
@@ -66,12 +38,17 @@
                     <ul class="nav nav-tabs card-header-tabs" id="sambutanKepsekTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="header-tab" data-bs-toggle="tab" data-bs-target="#header" type="button" role="tab">
-                                <i class="fas fa-heading me-2"></i>Header Section
+                                <i class="fas fa-heading me-2"></i>Header
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="sambutan-tab" data-bs-toggle="tab" data-bs-target="#sambutan" type="button" role="tab">
-                                <i class="fas fa-comments me-2"></i>Sambutan
+                            <button class="nav-link" id="testimonials-tab" data-bs-toggle="tab" data-bs-target="#testimonials" type="button" role="tab">
+                                <i class="fas fa-comment-dots me-2"></i>Testimonials
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="skills-tab" data-bs-toggle="tab" data-bs-target="#skills" type="button" role="tab">
+                                <i class="fas fa-layer-group me-2"></i>Skills
                             </button>
                         </li>
                     </ul>
@@ -94,10 +71,26 @@
                             @endif
                         </div>
                         
-                        <!-- Sambutan Section -->
-                        <div class="tab-pane fade" id="sambutan" role="tabpanel" aria-labelledby="sambutan-tab">
+                        <!-- Testimonials Section -->
+                        <div class="tab-pane fade" id="testimonials" role="tabpanel" aria-labelledby="testimonials-tab">
                             @if(isset($sambutanKepsek) && $sambutanKepsek)
-                                @include('admin.sambutan-kepsek.partials.sambutan-form')
+                                @include('admin.sambutan-kepsek.partials.testimonials-form')
+                            @else
+                                <div class="text-center py-5">
+                                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                                    <h5>Data tidak tersedia</h5>
+                                    <p class="text-muted">Data sambutan kepala sekolah tidak dapat dimuat. Silakan refresh halaman atau hubungi administrator.</p>
+                                    <button class="btn btn-primary" onclick="location.reload()">
+                                        <i class="fas fa-refresh me-2"></i>Refresh Halaman
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Skills Section -->
+                        <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
+                            @if(isset($sambutanKepsek) && $sambutanKepsek)
+                                @include('admin.sambutan-kepsek.partials.skills-form')
                             @else
                                 <div class="text-center py-5">
                                     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 Theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5.0.15/borderless.min.css" integrity="sha384-fj1g8jv4P4wWQ1kVqXoVQ3bG8w3e3o0kZJd0I6lqkz7b2m4Z0nOeJkqk8b0S4j7y" crossorigin="anonymous">
     <style>
         :root {
             --primary-color: #27ae60;
@@ -494,6 +496,8 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 Core -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('sidebar');
@@ -514,6 +518,49 @@ document.addEventListener('DOMContentLoaded', function() {
             content.classList.remove('active');
         }
     });
+});
+</script>
+<script>
+// Global toast & alert for flash messages and validation errors
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof Swal === 'undefined') return;
+  const toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3500,
+    timerProgressBar: true,
+    showCloseButton: true,
+    customClass: {
+      popup: 'shadow'
+    }
+  });
+
+  // Flash messages
+  @if(session('success'))
+    toast.fire({ icon: 'success', title: @json(session('success')) });
+  @endif
+  @if(session('error'))
+    toast.fire({ icon: 'error', title: @json(session('error')) });
+  @endif
+  @if(session('warning'))
+    toast.fire({ icon: 'warning', title: @json(session('warning')) });
+  @endif
+  @if(session('info'))
+    toast.fire({ icon: 'info', title: @json(session('info')) });
+  @endif
+
+  // Validation errors (if any)
+  @if($errors->any())
+    Swal.fire({
+      icon: 'error',
+      title: 'Terjadi Kesalahan Validasi',
+      html: `{!! implode('', $errors->all('<div class="text-start">• :message</div>')) !!}`,
+      confirmButtonText: 'Mengerti',
+      confirmButtonColor: '#27ae60',
+      width: 520
+    });
+  @endif
 });
 </script>
 @yield('scripts')

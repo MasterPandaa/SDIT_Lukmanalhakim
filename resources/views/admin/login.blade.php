@@ -154,15 +154,7 @@
                 <h4 class="mb-0">Login Admin</h4>
             </div>
             <div class="card-body p-4">
-                @if ($errors->any())
-                    <div class="alert alert-danger border-0 shadow-sm">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                {{-- Validation errors handled via SweetAlert2 --}}
 
                 <form action="{{ route('admin.login.submit') }}" method="POST">
                     @csrf
@@ -201,5 +193,25 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if ($errors->any())
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Validasi Gagal',
+            html: `
+                <ul style="text-align:left; margin:0; padding-left:1.2rem;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            `,
+            confirmButtonText: 'Tutup'
+        });
+    });
+    </script>
+    @endif
 </body>
-</html> 
+</html>
