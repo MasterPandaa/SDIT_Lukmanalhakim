@@ -74,11 +74,7 @@
                                 <i class="fas fa-list me-2"></i>Item Kurikulum
                             </button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab">
-                                <i class="fas fa-cogs me-2"></i>Pengaturan
-                            </button>
-                        </li>
+
                     </ul>
                 </div>
                 <div class="card-body">
@@ -98,11 +94,7 @@
                         </div>
 
                         <!-- Settings Section -->
-                        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                            @if(isset($kurikulum) && $kurikulum)
-                                @include('admin.profil.kurikulum.partials.settings-form')
-                            @endif
-                        </div>
+
                     </div>
                 </div>
             </div>

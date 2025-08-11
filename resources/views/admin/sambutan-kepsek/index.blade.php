@@ -74,11 +74,6 @@
                                 <i class="fas fa-comments me-2"></i>Sambutan
                             </button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab">
-                                <i class="fas fa-cogs me-2"></i>Pengaturan
-                            </button>
-                        </li>
                     </ul>
                 </div>
                 <div class="card-body">
@@ -103,22 +98,6 @@
                         <div class="tab-pane fade" id="sambutan" role="tabpanel" aria-labelledby="sambutan-tab">
                             @if(isset($sambutanKepsek) && $sambutanKepsek)
                                 @include('admin.sambutan-kepsek.partials.sambutan-form')
-                            @else
-                                <div class="text-center py-5">
-                                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
-                                    <h5>Data tidak tersedia</h5>
-                                    <p class="text-muted">Data sambutan kepala sekolah tidak dapat dimuat. Silakan refresh halaman atau hubungi administrator.</p>
-                                    <button class="btn btn-primary" onclick="location.reload()">
-                                        <i class="fas fa-refresh me-2"></i>Refresh Halaman
-                                    </button>
-                                </div>
-                            @endif
-                        </div>
-
-                        <!-- Settings Section -->
-                        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                            @if(isset($sambutanKepsek) && $sambutanKepsek)
-                                @include('admin.sambutan-kepsek.partials.settings-form')
                             @else
                                 <div class="text-center py-5">
                                     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
@@ -218,21 +197,7 @@ $(document).ready(function() {
         }
     });
     
-    // Image preview for header image
-    $('#gambar_header').on('change', function() {
-        try {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#headerImagePreview').attr('src', e.target.result).show();
-                }
-                reader.readAsDataURL(file);
-            }
-        } catch (e) {
-            console.error('Header image preview error:', e);
-        }
-    });
+
     
     // Image preview for foto kepsek
     $('#foto_kepsek').on('change', function() {
@@ -247,6 +212,22 @@ $(document).ready(function() {
             }
         } catch (e) {
             console.error('Foto kepsek preview error:', e);
+        }
+    });
+    
+    // Image preview for foto kedua
+    $('#foto_kedua').on('change', function() {
+        try {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#fotoKeduaPreview').attr('src', e.target.result).show();
+                }
+                reader.readAsDataURL(file);
+            }
+        } catch (e) {
+            console.error('Foto kedua preview error:', e);
         }
     });
     

@@ -103,16 +103,16 @@
                             <img src="{{ asset('assets/images/default/kepsek-default.jpg') }}" alt="Foto Kepala Sekolah">
                         @endif
                     </div>
-                    @if($sambutanKepsek->gambar_header)
+                    @if($sambutanKepsek->foto_kedua)
                         <div class="abs-thumb">
                             @php
-                                $headerImagePath = 'assets/images/sambutan-kepsek/' . $sambutanKepsek->gambar_header;
-                                $headerImageExists = file_exists(public_path($headerImagePath));
+                                $fotoKeduaPath = 'assets/images/sambutan-kepsek/' . $sambutanKepsek->foto_kedua;
+                                $fotoKeduaExists = file_exists(public_path($fotoKeduaPath));
                             @endphp
-                            @if($headerImageExists)
-                                <img src="{{ asset($headerImagePath) }}" alt="Gambar Header">
+                            @if($fotoKeduaExists)
+                                <img src="{{ asset($fotoKeduaPath) }}" alt="Foto Kedua Kepala Sekolah">
                             @else
-                                <img src="{{ asset('assets/images/default/kepsek-default2.jpg') }}" alt="Gambar Header">
+                                <img src="{{ asset('assets/images/default/kepsek-default2.jpg') }}" alt="Foto Kedua Kepala Sekolah">
                             @endif
                         </div>
                     @endif

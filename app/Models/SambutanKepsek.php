@@ -15,7 +15,7 @@ class SambutanKepsek extends Model
         'video_url',
         'tahun_berdiri',
         'foto_kepsek',
-        'gambar_header',
+        'foto_kedua',
         'is_active'
     ];
 
@@ -36,21 +36,23 @@ class SambutanKepsek extends Model
         return asset('assets/images/default/kepsek-default.jpg');
     }
 
+
+
     /**
-     * Get gambar header URL
+     * Get foto kedua URL
      */
-    public function getGambarHeaderUrlAttribute()
+    public function getFotoKeduaUrlAttribute()
     {
-        if (!$this->gambar_header) {
-            return asset('assets/images/default/header-default.jpg');
+        if (!$this->foto_kedua) {
+            return asset('assets/images/default/kepsek-default.jpg');
         }
 
         // Jika file ada di public/assets/images, return URL
-        if (file_exists(public_path('assets/images/sambutan-kepsek/' . $this->gambar_header))) {
-            return asset('assets/images/sambutan-kepsek/' . $this->gambar_header);
+        if (file_exists(public_path('assets/images/sambutan-kepsek/' . $this->foto_kedua))) {
+            return asset('assets/images/sambutan-kepsek/' . $this->foto_kedua);
         }
 
-        return asset('assets/images/default/header-default.jpg');
+        return asset('assets/images/default/kepsek-default.jpg');
     }
 
     /**

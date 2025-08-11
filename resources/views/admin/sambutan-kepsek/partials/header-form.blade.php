@@ -36,72 +36,155 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="col-md-4">
-            <!-- Image Upload -->
-            <div class="form-section">
-                <h5><i class="fas fa-image me-2"></i>Gambar Header</h5>
+            
+            <!-- Foto Kepala Sekolah (2 Foto) -->
+            <div class="form-section mt-4">
+                <h5><i class="fas fa-user-circle me-2"></i>Foto Kepala Sekolah (2 Foto untuk Layout)</h5>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="gambar_header" class="font-weight-bold">Upload Gambar Baru</label>
+                            <label for="foto_kepsek" class="font-weight-bold">Upload Foto Pertama</label>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input @error('gambar_header') is-invalid @enderror" 
-                                       id="gambar_header" name="gambar_header" accept="image/*">
-                                <label class="custom-file-label" for="gambar_header">Pilih file gambar</label>
+                                <input type="file" class="custom-file-input @error('foto_kepsek') is-invalid @enderror" 
+                                       id="foto_kepsek" name="foto_kepsek" accept="image/*">
+                                <label class="custom-file-label" for="foto_kepsek">Pilih file foto</label>
                             </div>
-                            @error('gambar_header')
+                            @error('foto_kepsek')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">Format: JPG, JPEG, PNG, GIF. Maks: 2MB</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="foto_kedua" class="font-weight-bold">Upload Foto Kedua</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input @error('foto_kedua') is-invalid @enderror" 
+                                       id="foto_kedua" name="foto_kedua" accept="image/*">
+                                <label class="custom-file-label" for="foto_kedua">Pilih file foto</label>
+                            </div>
+                            @error('foto_kedua')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <small class="form-text text-muted">Format: JPG, JPEG, PNG, GIF. Maks: 2MB</small>
                         </div>
                     </div>
                     
-                    @if($sambutanKepsek->gambar_header)
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="font-weight-bold">Gambar Saat Ini</label>
-                                <div class="mb-2">
-                                    @php
-                                        $imagePath = 'assets/images/sambutan-kepsek/' . $sambutanKepsek->gambar_header;
-                                        $imageExists = file_exists(public_path($imagePath));
-                                    @endphp
-                                    @if($imageExists)
-                                        <img src="{{ asset($imagePath) }}" 
-                                             alt="Gambar Header" class="img-thumbnail" style="max-height: 100px;">
-                                    @else
-                                        <div class="alert alert-warning">
-                                            <i class="fas fa-exclamation-triangle me-2"></i>
-                                            <strong>Peringatan!</strong> File gambar tidak ditemukan di server.
-                                        </div>
-                                    @endif
+                    @if($sambutanKepsek->foto_kepsek || $sambutanKepsek->foto_kedua)
+                        <div class="col-md-6">
+                            @if($sambutanKepsek->foto_kepsek)
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Foto Pertama Saat Ini</label>
+                                    <div class="mb-2">
+                                        @php
+                                            $imagePath = 'assets/images/sambutan-kepsek/' . $sambutanKepsek->foto_kepsek;
+                                            $imageExists = file_exists(public_path($imagePath));
+                                        @endphp
+                                        @if($imageExists)
+                                            <img src="{{ asset($imagePath) }}" 
+                                                 alt="Foto Kepala Sekolah" class="img-thumbnail" style="max-height: 120px; width: 100%;">
+                                        @else
+                                            <div class="alert alert-warning">
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <strong>Peringatan!</strong> File foto tidak ditemukan.
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
+                        </div>
+                        <div class="col-md-6">
+                            @if($sambutanKepsek->foto_kedua)
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Foto Kedua Saat Ini</label>
+                                    <div class="mb-2">
+                                        @php
+                                            $imagePath2 = 'assets/images/sambutan-kepsek/' . $sambutanKepsek->foto_kedua;
+                                            $imageExists2 = file_exists(public_path($imagePath2));
+                                        @endphp
+                                        @if($imageExists2)
+                                            <img src="{{ asset($imagePath2) }}" 
+                                                 alt="Foto Kedua Kepala Sekolah" class="img-thumbnail" style="max-height: 120px; width: 100%;">
+                                        @else
+                                            <div class="alert alert-warning">
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <strong>Peringatan!</strong> File foto tidak ditemukan.
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     @endif
                     
-                    <div class="col-md-12 mb-4">
+                    <div class="col-md-6 mb-4">
                         <div class="form-group">
-                            <label class="font-weight-bold">Preview Gambar Baru</label>
+                            <label class="font-weight-bold">Preview Foto Pertama</label>
                             <div class="image-preview-container">
-                                <img id="headerImagePreview" src="#" alt="Preview Gambar" class="image-preview" 
-                                     style="display: none;">
+                                <img id="fotoKepsekPreview" src="#" alt="Preview Foto Pertama" class="image-preview" 
+                                     style="display: none; max-height: 120px; width: 100%;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Preview Foto Kedua</label>
+                            <div class="image-preview-container">
+                                <img id="fotoKeduaPreview" src="#" alt="Preview Foto Kedua" class="image-preview" 
+                                     style="display: none; max-height: 120px; width: 100%;">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Information -->
-            <div class="alert alert-info">
-                <h6><i class="fas fa-info-circle me-2"></i>Informasi</h6>
-                <ul class="mb-0 small">
-                    <li>Judul header akan ditampilkan sebagai heading utama</li>
-                    <li>Deskripsi header akan ditampilkan sebagai subtitle</li>
-                    <li>Gambar header akan ditampilkan di bagian header section</li>
-                    <li>Jika tidak ada gambar, akan menggunakan gambar default</li>
-                </ul>
+            
+            <!-- Sambutan Content -->
+            <div class="form-section mt-4">
+                <h5><i class="fas fa-comments me-2"></i>Isi Sambutan</h5>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="sambutan" class="font-weight-bold">Sambutan Kepala Sekolah <span class="text-danger">*</span></label>
+                            <textarea class="form-control @error('sambutan') is-invalid @enderror" 
+                                      id="sambutan" name="sambutan" rows="10"
+                                      placeholder="Assalamu'alaikum Warahmatullahi Wabarakatuh...">{{ old('sambutan', $sambutanKepsek->sambutan ?? 'Assalamu\'alaikum Warahmatullahi Wabarakatuh. Puji syukur kehadirat Allah SWT atas segala rahmat dan karunia-Nya. Selamat datang di website resmi sekolah kami.') }}</textarea>
+                            @error('sambutan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">Isi sambutan lengkap dari kepala sekolah</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="video_url" class="font-weight-bold">URL Video Sambutan</label>
+                            <input type="url" class="form-control @error('video_url') is-invalid @enderror" 
+                                   id="video_url" name="video_url" 
+                                   value="{{ old('video_url', $sambutanKepsek->video_url ?? '') }}"
+                                   placeholder="https://www.youtube.com/watch?v=VIDEO_ID atau https://youtu.be/VIDEO_ID">
+                            @error('video_url')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">
+                                Link video YouTube (format: https://www.youtube.com/watch?v=VIDEO_ID atau https://youtu.be/VIDEO_ID). 
+                                Sistem akan otomatis mengkonversi ke format embed.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tahun_berdiri" class="font-weight-bold">Lama Sekolah Berdiri (Tahun) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('tahun_berdiri') is-invalid @enderror" 
+                                   id="tahun_berdiri" name="tahun_berdiri" 
+                                   value="{{ old('tahun_berdiri', $sambutanKepsek->tahun_berdiri ?? 11) }}"
+                                   min="1" max="100"
+                                   placeholder="11">
+                            @error('tahun_berdiri')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="form-text text-muted">Berapa lama sekolah sudah berdiri (1-100 tahun)</small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

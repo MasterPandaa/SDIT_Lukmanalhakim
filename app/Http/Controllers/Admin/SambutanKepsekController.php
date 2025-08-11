@@ -40,43 +40,24 @@ class SambutanKepsekController extends Controller
         $updateData = [];
         
         // Check if header section is being updated
-        if ($request->has('judul_header') || $request->has('deskripsi_header') || $request->hasFile('gambar_header')) {
+        if ($request->has('judul_header') || $request->has('deskripsi_header')) {
             $request->validate([
                 'judul_header' => 'required|string|max:255',
-                'deskripsi_header' => 'required|string',
-                'gambar_header' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'deskripsi_header' => 'required|string|max:1000',
             ]);
             
             $updateData['judul_header'] = $request->judul_header;
             $updateData['deskripsi_header'] = $request->deskripsi_header;
-            
-            // Handle image upload
-            if ($request->hasFile('gambar_header')) {
-                // Delete old image if exists
-                if ($sambutanKepsek->gambar_header && file_exists(public_path('assets/images/sambutan-kepsek/' . $sambutanKepsek->gambar_header))) {
-                    unlink(public_path('assets/images/sambutan-kepsek/' . $sambutanKepsek->gambar_header));
-                }
-
-                $image = $request->file('gambar_header');
-                $imageName = time() . '_sambutan_kepsek_header.' . $image->getClientOriginalExtension();
-                
-                // Create directory if not exists
-                if (!file_exists(public_path('assets/images/sambutan-kepsek'))) {
-                    mkdir(public_path('assets/images/sambutan-kepsek'), 0755, true);
-                }
-                
-                $image->move(public_path('assets/images/sambutan-kepsek'), $imageName);
-                $updateData['gambar_header'] = $imageName;
-            }
         }
         
         // Check if sambutan section is being updated
-        if ($request->has('sambutan') || $request->has('video_url') || $request->has('tahun_berdiri') || $request->hasFile('foto_kepsek')) {
+        if ($request->has('sambutan') || $request->has('video_url') || $request->has('tahun_berdiri') || $request->hasFile('foto_kepsek') || $request->hasFile('foto_kedua')) {
             $request->validate([
                 'sambutan' => 'required|string',
                 'video_url' => 'nullable|url',
-                'tahun_berdiri' => 'required|integer|min:1900|max:' . (date('Y') + 10),
+                'tahun_berdiri' => 'required|integer|min:1|max:100',
                 'foto_kepsek' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'foto_kedua' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             
             $updateData['sambutan'] = $request->sambutan;
@@ -100,6 +81,25 @@ class SambutanKepsekController extends Controller
                 
                 $image->move(public_path('assets/images/sambutan-kepsek'), $imageName);
                 $updateData['foto_kepsek'] = $imageName;
+            }
+            
+            // Handle foto kedua upload
+            if ($request->hasFile('foto_kedua')) {
+                // Delete old image if exists
+                if ($sambutanKepsek->foto_kedua && file_exists(public_path('assets/images/sambutan-kepsek/' . $sambutanKepsek->foto_kedua))) {
+                    unlink(public_path('assets/images/sambutan-kepsek/' . $sambutanKepsek->foto_kedua));
+                }
+
+                $image = $request->file('foto_kedua');
+                $imageName = time() . '_foto_kedua.' . $image->getClientOriginalExtension();
+                
+                // Create directory if not exists
+                if (!file_exists(public_path('assets/images/sambutan-kepsek'))) {
+                    mkdir(public_path('assets/images/sambutan-kepsek'), 0755, true);
+                }
+                
+                $image->move(public_path('assets/images/sambutan-kepsek'), $imageName);
+                $updateData['foto_kedua'] = $imageName;
             }
         }
         

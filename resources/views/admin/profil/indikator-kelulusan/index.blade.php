@@ -74,11 +74,7 @@
                                 <i class="fas fa-list me-2"></i>Konten Indikator
                             </button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab">
-                                <i class="fas fa-cogs me-2"></i>Pengaturan
-                            </button>
-                        </li>
+
                     </ul>
                 </div>
                 <div class="card-body">
@@ -116,20 +112,7 @@
                         </div>
 
                         <!-- Settings Section -->
-                        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                            @if(isset($indikatorKelulusan) && $indikatorKelulusan)
-                                @include('admin.profil.indikator-kelulusan.partials.settings-form')
-                            @else
-                                <div class="text-center py-5">
-                                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
-                                    <h5>Data tidak tersedia</h5>
-                                    <p class="text-muted">Data indikator kelulusan tidak dapat dimuat. Silakan refresh halaman atau hubungi administrator.</p>
-                                    <button class="btn btn-primary" onclick="location.reload()">
-                                        <i class="fas fa-refresh me-2"></i>Refresh Halaman
-                                    </button>
-                                </div>
-                            @endif
-                        </div>
+
                     </div>
                 </div>
             </div>
