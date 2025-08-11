@@ -27,8 +27,19 @@ class AdminController extends Controller
             'password' => 'required',
         ]);
 
-        // Hard-coded admin credentials as requested
-        if ($credentials['username'] === 'adminsdit' && $credentials['password'] === 'admin123') {
+        // Credentials from .env (with sensible fallback to hard-coded)
+        $envUsername = env('ADMIN_USERNAME', 'adminsdit');
+        $envPasswordHash = env('ADMIN_PASSWORD_HASH');
+        $fallbackPassword = 'admin123';
+
+        $passwordOk = false;
+        if (!empty($envPasswordHash)) {
+            $passwordOk = \Illuminate\Support\Facades\Hash::check($credentials['password'], $envPasswordHash);
+        } else {
+            $passwordOk = ($credentials['password'] === $fallbackPassword);
+        }
+
+        if ($credentials['username'] === $envUsername && $passwordOk) {
             // Store admin session
             session([
                 'admin_logged_in' => true,
@@ -57,6 +68,71 @@ class AdminController extends Controller
         // Remove admin session
         session()->forget(['admin_logged_in', 'admin_name']);
         return redirect()->route('admin.login');
+    }
+
+    /**
+     * Show change password form
+     */
+    public function changePasswordForm()
+    {
+        if (!session('admin_logged_in')) {
+            return redirect()->route('admin.login');
+        }
+        return view('admin.password.edit');
+    }
+
+    /**
+     * Handle password update
+     */
+    public function changePasswordUpdate(\Illuminate\Http\Request $request)
+    {
+        if (!session('admin_logged_in')) {
+            return redirect()->route('admin.login');
+        }
+
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        $envUsername = env('ADMIN_USERNAME', 'adminsdit');
+        $envPasswordHash = env('ADMIN_PASSWORD_HASH');
+        $fallbackPassword = 'admin123';
+
+        // Verify current password
+        $currentOk = false;
+        if (!empty($envPasswordHash)) {
+            $currentOk = \Illuminate\Support\Facades\Hash::check($request->current_password, $envPasswordHash);
+        } else {
+            $currentOk = ($request->current_password === $fallbackPassword);
+        }
+
+        if (!$currentOk) {
+            return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.']);
+        }
+
+        // Update .env with new hash
+        $newHash = \Illuminate\Support\Facades\Hash::make($request->new_password);
+        $this->updateEnvFile('ADMIN_PASSWORD_HASH', $newHash);
+
+        return redirect()->route('admin.password.edit')->with('success', 'Password berhasil diperbarui.');
+    }
+
+    /**
+     * Update a single key in the .env file
+     */
+    private function updateEnvFile($key, $value)
+    {
+        $path = base_path('.env');
+        if (!file_exists($path)) return;
+        $content = file_get_contents($path);
+        $value = str_replace('"', '"', $value);
+        if (strpos($content, $key.'=') !== false) {
+            $content = preg_replace('/^'.preg_quote($key, '/').'=.*/m', $key.'="'.addcslashes($value, '"').'"', $content);
+        } else {
+            $content .= "\n".$key.'="'.addcslashes($value, '"').'"';
+        }
+        file_put_contents($path, $content);
     }
 
     public function sambutanKepsek()

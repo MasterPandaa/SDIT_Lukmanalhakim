@@ -9,51 +9,98 @@
             <div class="card border-0 shadow">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 fw-bold text-success">Database Log</h6>
-                    <button class="btn btn-sm btn-light">
-                        <i class="fas fa-download me-1"></i> Download Log
-                    </button>
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Halaman untuk melihat log database.
-                    </div>
+                    @if (!empty($error))
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            {{ $error }}
+                        </div>
+                    @else
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Halaman untuk melihat log database. Menampilkan 15 log per halaman.
+                        </div>
+                    @endif
+
+                    @if (!empty($dbInfo))
+                        <div class="mb-3">
+                            <div class="row g-2">
+                                <div class="col-md-3"><span class="text-muted">Connection:</span> <strong>{{ $dbInfo['connection'] }}</strong></div>
+                                <div class="col-md-3"><span class="text-muted">Database:</span> <strong>{{ $dbInfo['database'] }}</strong></div>
+                                <div class="col-md-3"><span class="text-muted">Host:</span> <strong>{{ $dbInfo['host'] }}</strong></div>
+                                <div class="col-md-3"><span class="text-muted">Port:</span> <strong>{{ $dbInfo['port'] }}</strong></div>
+                                <div class="col-12"><span class="text-muted">Status:</span> <strong>{{ $dbInfo['status'] }}</strong></div>
+                            </div>
+                        </div>
+                    @endif
                     
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover table-sm align-middle">
                             <thead class="table-dark">
                                 <tr>
                                     <th>Timestamp</th>
-                                    <th>Operation</th>
-                                    <th>Table</th>
-                                    <th>Query</th>
-                                    <th>Duration</th>
+                                    <th>Channel</th>
+                                    <th>Level</th>
+                                    <th style="min-width: 40%">Message</th>
+                                    <th class="text-end">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>2024-01-15 10:30:15</td>
-                                    <td><span class="badge bg-primary">SELECT</span></td>
-                                    <td>users</td>
-                                    <td>SELECT * FROM users WHERE id = 1</td>
-                                    <td>2.5ms</td>
-                                </tr>
-                                <tr>
-                                    <td>2024-01-15 10:29:45</td>
-                                    <td><span class="badge bg-success">INSERT</span></td>
-                                    <td>artikels</td>
-                                    <td>INSERT INTO artikels...</td>
-                                    <td>5.2ms</td>
-                                </tr>
-                                <tr>
-                                    <td>2024-01-15 10:28:30</td>
-                                    <td><span class="badge bg-warning">UPDATE</span></td>
-                                    <td>gurus</td>
-                                    <td>UPDATE gurus SET...</td>
-                                    <td>3.1ms</td>
-                                </tr>
+                                @forelse ($logs as $log)
+                                    @php
+                                        $idx = $loop->index + 1 + ($logs->currentPage() - 1) * $logs->perPage();
+                                        $lvl = strtoupper($log['level'] ?? '');
+                                        $badge = match($lvl) {
+                                            'ERROR' => 'bg-danger',
+                                            'WARNING', 'WARN' => 'bg-warning text-dark',
+                                            'INFO' => 'bg-info',
+                                            'DEBUG' => 'bg-secondary',
+                                            default => 'bg-light text-dark'
+                                        };
+                                        $short = \Illuminate\Support\Str::of($log['message'] ?? ($log['raw'] ?? ''))
+                                            ->replace(["\r"], '')
+                                            ->replace("\n", ' ')
+                                            ->limit(160);
+                                        $detailId = 'logDetailDb_'.$idx;
+                                    @endphp
+                                    <tr>
+                                        <td class="text-nowrap"><code class="small">{{ $log['timestamp'] ?? '-' }}</code></td>
+                                        <td class="text-nowrap"><span class="badge {{ $badge }}">{{ $log['channel'] ?? '-' }}</span></td>
+                                        <td><span class="badge {{ $badge }}">{{ $lvl ?: 'LOG' }}</span></td>
+                                        <td class="text-break small">{{ $short }}</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $detailId }}" aria-expanded="false" aria-controls="{{ $detailId }}">Detail</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">
+                                            <div id="{{ $detailId }}" class="collapse p-2 border rounded bg-light-subtle">
+                                                <div class="mb-2">
+                                                    <div class="text-muted small">Pesan Lengkap</div>
+                                                    <pre class="mb-0 small" style="white-space: pre-wrap; word-break: break-word;">{{ $log['message'] ?? ($log['raw'] ?? '') }}</pre>
+                                                </div>
+                                                @if (!empty($log['context']))
+                                                    <div>
+                                                        <div class="text-muted small">Context / Stacktrace</div>
+                                                        <pre class="mb-0 small" style="white-space: pre-wrap; word-break: break-word;">{{ $log['context'] }}</pre>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">Belum ada data log database untuk ditampilkan.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-end">
+                            @if (isset($logs) && ($logs instanceof \Illuminate\Contracts\Pagination\Paginator || $logs instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator))
+                                {{ $logs->withQueryString()->links() }}
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

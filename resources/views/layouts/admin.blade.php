@@ -457,20 +457,42 @@
                     
                     <!-- Right Side: User Profile -->
                     <div class="d-flex align-items-center">
+                        <style>
+                        .profile-toggle { transition: all .2s ease; background-color: var(--light-color, #f8f9fa); border: 1px solid rgba(39,174,96,.2); }
+                        .profile-toggle:hover { background: rgba(39,174,96,.08); box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+                        .profile-toggle:active { transform: translateY(0.5px); }
+                        .avatar-circle { width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary-color); background: linear-gradient(135deg, rgba(39,174,96,.08), var(--light-color, #ffffff)); border: 1px solid rgba(39,174,96,.25); }
+                        .dropdown-menu.profile-menu { min-width: 220px; box-shadow: 0 8px 24px rgba(0,0,0,.08); border: 1px solid rgba(39,174,96,.15); }
+                        .dropdown-header.small { font-size: .8rem; color: rgba(44,62,80,.7); }
+                        .dropdown-item:hover { background: rgba(39,174,96,.08); }
+                        .dropdown-divider { border-top-color: rgba(39,174,96,.2); }
+                        @media (max-width: 575.98px) {
+                            .profile-toggle { padding-left: .5rem !important; padding-right: .5rem !important; gap: .5rem !important; }
+                        }
+                        </style>
                         <div class="dropdown">
-                            <button class="btn btn-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user-circle fa-lg"></i>
-                                <span class="ms-2">{{ session('admin_name') ?? 'Admin' }}</span>
+                            @php
+                                $adminName = session('admin_name') ?? 'Admin';
+                                $parts = preg_split('/\s+/', trim($adminName));
+                                $initials = strtoupper(mb_substr($parts[0] ?? 'A',0,1) . (isset($parts[1]) ? mb_substr($parts[1],0,1) : ''));
+                            @endphp
+                            <button class="btn border-0 d-flex align-items-center gap-2 px-3 py-1 rounded-pill shadow-sm profile-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="avatar-circle">{{ $initials }}</span>
+                                <span class="fw-semibold d-none d-sm-inline" style="color: var(--primary-color)">{{ $adminName }}</span>
+                                <i class="fas fa-chevron-down small ms-1" style="color: var(--primary-color)"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profil Saya</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end profile-menu">
+                                <li class="dropdown-header small px-3 pt-2 pb-1">Masuk sebagai</li>
+                                <li class="px-3 pb-2"><span class="fw-semibold">{{ $adminName }}</span></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="{{ route('admin.password.edit') }}"><i class="fas fa-lock me-2" style="color: var(--primary-color)"></i> Ganti Password</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fas fa-cog me-2" style="color: var(--primary-color)"></i> Pengaturan</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
                                         @csrf
-                                        <button type="submit" class="dropdown-item text-danger">
-                                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                        <button type="submit" class="dropdown-item d-flex align-items-center" style="color: var(--accent-color)">
+                                            <i class="fas fa-sign-out-alt me-2" style="color: var(--accent-color)"></i> Logout
                                         </button>
                                     </form>
                                 </li>

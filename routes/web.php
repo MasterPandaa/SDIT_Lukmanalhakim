@@ -61,6 +61,9 @@ Route::prefix('adminpanel')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+        // Password Management
+        Route::get('/password', [AdminController::class, 'changePasswordForm'])->name('admin.password.edit');
+        Route::put('/password', [AdminController::class, 'changePasswordUpdate'])->name('admin.password.update');
         
         // Sambutan Kepsek
         Route::get('/sambutan-kepsek', [App\Http\Controllers\Admin\SambutanKepsekController::class, 'index'])->name('admin.sambutan-kepsek.index');
