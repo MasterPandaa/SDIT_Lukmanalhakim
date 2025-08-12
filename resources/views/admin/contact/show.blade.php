@@ -129,27 +129,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Message Statistics -->
-            <div class="card border-0 shadow mt-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 fw-bold text-secondary">Statistik</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row text-center">
-                        <div class="col-6">
-                            <div class="border-end">
-                                <h4 class="text-primary">{{ \App\Models\ContactMessage::unread()->count() }}</h4>
-                                <small class="text-muted">Belum Dibaca</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <h4 class="text-success">{{ \App\Models\ContactMessage::replied()->count() }}</h4>
-                            <small class="text-muted">Sudah Dibalas</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

@@ -17,13 +17,17 @@ class ContactSetting extends Model
         'facebook',
         'instagram',
         'youtube',
-        'google_maps_embed',
+        // map coordinates for Leaflet/OSM
+        'latitude',
+        'longitude',
         'office_hours',
         'is_active'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 
     public static function getSettings()

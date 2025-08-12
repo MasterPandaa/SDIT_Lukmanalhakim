@@ -58,16 +58,22 @@ class ContactController extends Controller
             'facebook' => 'nullable|url|max:255',
             'instagram' => 'nullable|url|max:255',
             'youtube' => 'nullable|url|max:255',
-            'google_maps_embed' => 'nullable|string',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
             'office_hours' => 'nullable|string',
         ]);
 
         $settings = ContactSetting::getSettings();
-        
+        $payload = $request->only([
+            'address','phone','email','whatsapp','facebook','instagram','youtube','latitude','longitude','office_hours'
+        ]);
+
         if ($settings) {
-            $settings->update($request->all());
+            $settings->update($payload);
         } else {
-            ContactSetting::create($request->all());
+            // Ensure there is only one active settings row
+            $payload['is_active'] = true;
+            ContactSetting::create($payload);
         }
 
         return redirect()->route('admin.contact.index')->with('success', 'Pengaturan kontak berhasil diperbarui.');
