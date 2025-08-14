@@ -15,7 +15,7 @@ class AlumniController extends Controller
     public function index()
     {
         $alumni = Alumni::orderBy('tahun_lulus', 'desc')->get();
-        return view('admin.alumni.index', compact('alumni'));
+        return view('admin.about.alumni.index', compact('alumni'));
     }
 
     /**
@@ -23,7 +23,7 @@ class AlumniController extends Controller
      */
     public function create()
     {
-        return view('admin.alumni.form', [
+        return view('admin.about.alumni.form', [
             'alumni' => null,
             'action' => route('admin.alumni.store'),
             'method' => 'POST',
@@ -83,7 +83,7 @@ class AlumniController extends Controller
     public function edit($id)
     {
         $alumni = Alumni::findOrFail($id);
-        return view('admin.alumni.form', [
+        return view('admin.about.alumni.form', [
             'alumni' => $alumni,
             'action' => route('admin.alumni.update', $alumni->id),
             'method' => 'PUT',

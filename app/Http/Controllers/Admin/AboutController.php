@@ -19,12 +19,12 @@ class AboutController extends Controller
 
     public function fasilitas()
     {
-        return view('admin.about.fasilitas.index');
+        return redirect()->route('admin.fasilitas.index');
     }
 
     public function galeri()
     {
-        return view('admin.about.galeri.index');
+        return redirect()->route('admin.galeri.index');
     }
 
     public function alumni()

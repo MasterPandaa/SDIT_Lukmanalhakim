@@ -7,6 +7,8 @@ use App\Models\Alumni;
 use App\Models\Artikel;
 use App\Models\Prestasi;
 use App\Models\Ekstrakurikuler;
+use App\Models\Fasilitas;
+use App\Models\Galeri;
 
 class AboutController extends Controller
 {
@@ -19,67 +21,11 @@ class AboutController extends Controller
         return view('about.ekstrakurikuler', compact('ekstrakurikuler'));
     }
     public function fasilitas() {
-        $fasilitas = [
-            [
-                'foto' => asset('assets/images/feature/01.png'),
-                'nama' => 'Ruang Kelas',
-                'deskripsi' => 'Ruang kelas yang nyaman dan dilengkapi fasilitas belajar modern.'
-            ],
-            [
-                'foto' => asset('assets/images/feature/02.png'),
-                'nama' => 'Laboratorium',
-                'deskripsi' => 'Laboratorium IPA, Komputer, dan Bahasa untuk menunjang pembelajaran.'
-            ],
-            [
-                'foto' => asset('assets/images/feature/03.png'),
-                'nama' => 'Perpustakaan',
-                'deskripsi' => 'Perpustakaan dengan koleksi buku lengkap dan ruang baca yang nyaman.'
-            ],
-            [
-                'foto' => asset('assets/images/feature/04.png'),
-                'nama' => 'Sarana Olahraga',
-                'deskripsi' => 'Lapangan olahraga, ruang senam, dan fasilitas pendukung lainnya.'
-            ],
-            [
-                'foto' => asset('assets/images/feature/05.png'),
-                'nama' => 'Ruang Ibadah',
-                'deskripsi' => 'Mushola yang bersih dan nyaman untuk kegiatan keagamaan.'
-            ],
-            [
-                'foto' => asset('assets/images/feature/06.png'),
-                'nama' => 'Ruang Kesehatan',
-                'deskripsi' => 'UKS untuk pertolongan pertama dan layanan kesehatan siswa.'
-            ],
-        ];
+        $fasilitas = Fasilitas::active()->ordered()->get();
         return view('about.fasilitas', compact('fasilitas'));
     }
     public function galeri() {
-        $galeri = [
-            [
-                'foto' => asset('assets/images/galeri/01.jpg'),
-                'judul' => 'Test TOEFL',
-            ],
-            [
-                'foto' => asset('assets/images/galeri/02.jpg'),
-                'judul' => 'Sholat Jama’ah',
-            ],
-            [
-                'foto' => asset('assets/images/galeri/03.jpg'),
-                'judul' => 'Apel Pandu',
-            ],
-            [
-                'foto' => asset('assets/images/galeri/04.jpg'),
-                'judul' => 'Tahsin Makhorijul Huruf',
-            ],
-            [
-                'foto' => asset('assets/images/galeri/05.jpg'),
-                'judul' => 'Team Work GPH',
-            ],
-            [
-                'foto' => asset('assets/images/galeri/06.jpg'),
-                'judul' => 'Upacara Sekolah',
-            ],
-        ];
+        $galeri = Galeri::active()->ordered()->paginate(24);
         return view('about.galeri', compact('galeri'));
     }
     public function alumni() {

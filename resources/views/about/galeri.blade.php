@@ -26,13 +26,17 @@
         @foreach($galeri as $item)
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
             <div class="card h-100 text-center shadow-sm">
-                <img src="{{ $item['foto'] }}" class="card-img-top" alt="Galeri" style="height:200px;object-fit:cover;">
+                @php
+                    $img = $item->foto ? asset('storage/'.$item->foto) : asset('assets/images/galeri/01.jpg');
+                @endphp
+                <img src="{{ $img }}" class="card-img-top" alt="Galeri" style="height:200px;object-fit:cover;">
                 <div class="card-body p-2">
-                    <h6 class="card-title mb-0">{{ $item['judul'] }}</h6>
+                    <h6 class="card-title mb-0">{{ $item->judul }}</h6>
                 </div>
             </div>
         </div>
         @endforeach
     </div>
+    <div class="d-flex justify-content-end">{{ $galeri->links() }}</div>
 </div>
-@endsection 
+@endsection

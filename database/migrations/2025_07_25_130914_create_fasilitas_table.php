@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('fasilitas', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
+            $table->text('deskripsi')->nullable();
+            $table->string('kategori')->nullable();
+            $table->string('foto')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->integer('urutan')->default(0);
             $table->timestamps();
         });
     }

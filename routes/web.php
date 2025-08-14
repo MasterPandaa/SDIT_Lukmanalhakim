@@ -123,6 +123,24 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         Route::put('/ekstrakurikuler/{ekstrakurikuler}', [App\Http\Controllers\Admin\EkstrakurikulerController::class, 'update'])->name('admin.ekstrakurikuler.update');
         Route::delete('/ekstrakurikuler/{ekstrakurikuler}', [App\Http\Controllers\Admin\EkstrakurikulerController::class, 'destroy'])->name('admin.ekstrakurikuler.destroy');
         Route::post('/ekstrakurikuler/{ekstrakurikuler}/toggle', [App\Http\Controllers\Admin\EkstrakurikulerController::class, 'toggleStatus'])->name('admin.ekstrakurikuler.toggle');
+
+        // Fasilitas Management Routes
+        Route::get('/fasilitas', [App\Http\Controllers\Admin\FasilitasController::class, 'index'])->name('admin.fasilitas.index');
+        Route::get('/fasilitas/create', [App\Http\Controllers\Admin\FasilitasController::class, 'create'])->name('admin.fasilitas.create');
+        Route::post('/fasilitas', [App\Http\Controllers\Admin\FasilitasController::class, 'store'])->name('admin.fasilitas.store');
+        Route::get('/fasilitas/{fasilitas}/edit', [App\Http\Controllers\Admin\FasilitasController::class, 'edit'])->name('admin.fasilitas.edit');
+        Route::put('/fasilitas/{fasilitas}', [App\Http\Controllers\Admin\FasilitasController::class, 'update'])->name('admin.fasilitas.update');
+        Route::delete('/fasilitas/{fasilitas}', [App\Http\Controllers\Admin\FasilitasController::class, 'destroy'])->name('admin.fasilitas.destroy');
+        Route::post('/fasilitas/{fasilitas}/toggle', [App\Http\Controllers\Admin\FasilitasController::class, 'toggleStatus'])->name('admin.fasilitas.toggle');
+
+        // Galeri Management Routes
+        Route::get('/galeri', [App\Http\Controllers\Admin\GaleriController::class, 'index'])->name('admin.galeri.index');
+        Route::get('/galeri/create', [App\Http\Controllers\Admin\GaleriController::class, 'create'])->name('admin.galeri.create');
+        Route::post('/galeri', [App\Http\Controllers\Admin\GaleriController::class, 'store'])->name('admin.galeri.store');
+        Route::get('/galeri/{galeri}/edit', [App\Http\Controllers\Admin\GaleriController::class, 'edit'])->name('admin.galeri.edit');
+        Route::put('/galeri/{galeri}', [App\Http\Controllers\Admin\GaleriController::class, 'update'])->name('admin.galeri.update');
+        Route::delete('/galeri/{galeri}', [App\Http\Controllers\Admin\GaleriController::class, 'destroy'])->name('admin.galeri.destroy');
+        Route::post('/galeri/{galeri}/toggle', [App\Http\Controllers\Admin\GaleriController::class, 'toggleStatus'])->name('admin.galeri.toggle');
         
         // Visi Misi Management Routes
         Route::get('/visi-misi', [App\Http\Controllers\Admin\VisiMisiController::class, 'index'])->name('admin.visi-misi.index');
@@ -181,7 +199,7 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         Route::delete('/profil/guru-karyawan/{id}', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'destroy'])->name('admin.profil.guru-karyawan.destroy');
         Route::get('/profil/guru-karyawan/{id}/toggle', [App\Http\Controllers\Admin\GuruKaryawanController::class, 'toggleGuruStatus'])->name('admin.profil.guru-karyawan.guru.toggle');
         
-        // About Management Routes
+        // About Management Routes (shortcuts/redirections)
         Route::get('/about/prestasi', [App\Http\Controllers\Admin\AboutController::class, 'prestasi'])->name('admin.about.prestasi.index');
         Route::get('/about/ekstrakurikuler', [App\Http\Controllers\Admin\AboutController::class, 'ekstrakurikuler'])->name('admin.about.ekstrakurikuler.index');
         Route::get('/about/fasilitas', [App\Http\Controllers\Admin\AboutController::class, 'fasilitas'])->name('admin.about.fasilitas.index');

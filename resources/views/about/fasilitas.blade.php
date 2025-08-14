@@ -26,10 +26,15 @@
         @foreach($fasilitas as $item)
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
-                <img src="{{ $item['foto'] }}" class="card-img-top" alt="Fasilitas" style="height:200px;object-fit:cover;">
+                @php
+                    $img = $item->foto ? asset('storage/'.$item->foto) : asset('assets/images/feature/01.png');
+                @endphp
+                <img src="{{ $img }}" class="card-img-top" alt="Fasilitas" style="height:200px;object-fit:cover;">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $item['nama'] }}</h5>
-                    <p class="card-text">{{ $item['deskripsi'] }}</p>
+                    <h5 class="card-title">{{ $item->nama }}</h5>
+                    @if($item->deskripsi)
+                    <p class="card-text">{{ $item->deskripsi }}</p>
+                    @endif
                 </div>
             </div>
         </div>
