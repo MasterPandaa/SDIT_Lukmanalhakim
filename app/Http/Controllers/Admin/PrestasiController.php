@@ -9,9 +9,29 @@ use App\Models\Prestasi;
 
 class PrestasiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = Prestasi::ordered()->paginate(15);
+        $query = Prestasi::query()->ordered();
+
+        if ($request->filled('q')) {
+            $q = $request->input('q');
+            $query->where(function ($sub) use ($q) {
+                $sub->where('judul', 'like', "%{$q}%")
+                    ->orWhere('deskripsi', 'like', "%{$q}%")
+                    ->orWhere('peraih', 'like', "%{$q}%")
+                    ->orWhere('penyelenggara', 'like', "%{$q}%");
+            });
+        }
+
+        if ($request->filled('status')) {
+            if ($request->status === 'active') {
+                $query->where('is_active', true);
+            } elseif ($request->status === 'inactive') {
+                $query->where('is_active', false);
+            }
+        }
+
+        $items = $query->paginate(15)->appends($request->query());
         return view('admin.about.prestasi.index', compact('items'));
     }
 
@@ -30,8 +50,6 @@ class PrestasiController extends Controller
             'tingkat' => 'nullable|string|max:100',
             'peraih' => 'nullable|string|max:255',
             'penyelenggara' => 'nullable|string|max:255',
-            'is_active' => 'nullable|boolean',
-            'urutan' => 'nullable|integer',
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -39,7 +57,6 @@ class PrestasiController extends Controller
         }
 
         $data['is_active'] = $request->boolean('is_active', true);
-        $data['urutan'] = $data['urutan'] ?? 0;
 
         Prestasi::create($data);
 
@@ -61,8 +78,6 @@ class PrestasiController extends Controller
             'tingkat' => 'nullable|string|max:100',
             'peraih' => 'nullable|string|max:255',
             'penyelenggara' => 'nullable|string|max:255',
-            'is_active' => 'nullable|boolean',
-            'urutan' => 'nullable|integer',
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -73,19 +88,21 @@ class PrestasiController extends Controller
         }
 
         $data['is_active'] = $request->boolean('is_active', true);
-        $data['urutan'] = $data['urutan'] ?? 0;
 
         $prestasi->update($data);
 
         return redirect()->route('admin.prestasi.index')->with('success', 'Prestasi berhasil diperbarui');
     }
 
-    public function destroy(Prestasi $prestasi)
+    public function destroy(Request $request, Prestasi $prestasi)
     {
         if ($prestasi->gambar) {
             Storage::disk('public')->delete($prestasi->gambar);
         }
         $prestasi->delete();
+        if ($request->wantsJson() || $request->expectsJson()) {
+            return response()->json(['message' => 'Prestasi berhasil dihapus']);
+        }
         return redirect()->route('admin.prestasi.index')->with('success', 'Prestasi berhasil dihapus');
     }
 

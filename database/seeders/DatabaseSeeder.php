@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             VisiMisiSeeder::class,
             ContactSettingSeeder::class,
             GuruKaryawanSeeder::class,
+            PrestasiSeeder::class,
+            EkstrakurikulerSeeder::class,
         ]);
     }
 }

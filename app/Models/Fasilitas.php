@@ -14,12 +14,10 @@ class Fasilitas extends Model
         'kategori',
         'foto',
         'is_active',
-        'urutan',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'urutan' => 'integer',
     ];
 
     // Scopes
@@ -30,6 +28,7 @@ class Fasilitas extends Model
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('urutan')->orderBy('id');
+        return $query->orderBy('nama')
+                     ->orderByDesc('created_at');
     }
 }

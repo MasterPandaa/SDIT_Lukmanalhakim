@@ -16,12 +16,10 @@ class Prestasi extends Model
         'peraih',
         'penyelenggara',
         'is_active',
-        'urutan',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'urutan' => 'integer',
         'tanggal' => 'date',
     ];
 
@@ -33,6 +31,6 @@ class Prestasi extends Model
 
     public function scopeOrdered($query)
     {
-        return $query->orderByDesc('urutan')->orderByDesc('tanggal');
+        return $query->orderByDesc('tanggal')->orderByDesc('created_at');
     }
 }

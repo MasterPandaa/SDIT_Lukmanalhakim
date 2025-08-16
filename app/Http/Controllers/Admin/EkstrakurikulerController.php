@@ -9,9 +9,27 @@ use App\Models\Ekstrakurikuler;
 
 class EkstrakurikulerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = Ekstrakurikuler::ordered()->paginate(15);
+        $query = Ekstrakurikuler::query()->ordered();
+
+        if ($request->filled('q')) {
+            $q = $request->input('q');
+            $query->where(function ($sub) use ($q) {
+                $sub->where('nama', 'like', "%{$q}%")
+                    ->orWhere('deskripsi', 'like', "%{$q}%");
+            });
+        }
+
+        if ($request->filled('status')) {
+            if ($request->status === 'active') {
+                $query->where('is_active', true);
+            } elseif ($request->status === 'inactive') {
+                $query->where('is_active', false);
+            }
+        }
+
+        $items = $query->paginate(15)->appends($request->query());
         return view('admin.about.ekstrakurikuler.index', compact('items'));
     }
 
@@ -26,8 +44,6 @@ class EkstrakurikulerController extends Controller
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'gambar' => 'nullable|image|max:2048',
-            'is_active' => 'nullable|boolean',
-            'urutan' => 'nullable|integer',
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -35,7 +51,6 @@ class EkstrakurikulerController extends Controller
         }
 
         $data['is_active'] = $request->boolean('is_active', true);
-        $data['urutan'] = $data['urutan'] ?? 0;
 
         Ekstrakurikuler::create($data);
 
@@ -53,8 +68,6 @@ class EkstrakurikulerController extends Controller
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'gambar' => 'nullable|image|max:2048',
-            'is_active' => 'nullable|boolean',
-            'urutan' => 'nullable|integer',
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -65,19 +78,21 @@ class EkstrakurikulerController extends Controller
         }
 
         $data['is_active'] = $request->boolean('is_active', true);
-        $data['urutan'] = $data['urutan'] ?? 0;
 
         $ekstrakurikuler->update($data);
 
         return redirect()->route('admin.ekstrakurikuler.index')->with('success', 'Ekstrakurikuler berhasil diperbarui');
     }
 
-    public function destroy(Ekstrakurikuler $ekstrakurikuler)
+    public function destroy(Request $request, Ekstrakurikuler $ekstrakurikuler)
     {
         if ($ekstrakurikuler->gambar) {
             Storage::disk('public')->delete($ekstrakurikuler->gambar);
         }
         $ekstrakurikuler->delete();
+        if ($request->wantsJson() || $request->expectsJson()) {
+            return response()->json(['message' => 'Ekstrakurikuler berhasil dihapus']);
+        }
         return redirect()->route('admin.ekstrakurikuler.index')->with('success', 'Ekstrakurikuler berhasil dihapus');
     }
 

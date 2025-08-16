@@ -9,10 +9,38 @@ use App\Models\Fasilitas;
 
 class FasilitasController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = Fasilitas::ordered()->paginate(15);
-        return view('admin.about.fasilitas.index', compact('items'));
+        $q = trim($request->get('q', ''));
+        $status = $request->get('status');
+
+        $query = Fasilitas::query()->ordered();
+
+        if ($q) {
+            $query->where(function($sub) use ($q) {
+                $sub->where('nama', 'like', "%{$q}%")
+                    ->orWhere('deskripsi', 'like', "%{$q}%")
+                    ->orWhere('kategori', 'like', "%{$q}%");
+            });
+        }
+
+        if ($status === 'active') {
+            $query->where('is_active', true);
+        } elseif ($status === 'inactive') {
+            $query->where('is_active', false);
+        }
+
+        $items = $query->paginate(15)->appends($request->query());
+
+        if ($request->ajax()) {
+            $html = view('admin.about.fasilitas.partials.table', compact('items'))->render();
+            return response()->json([
+                'html' => $html,
+                'total' => $items->total(),
+            ]);
+        }
+
+        return view('admin.about.fasilitas.index', compact('items', 'q', 'status'));
     }
 
     public function create()
@@ -28,15 +56,13 @@ class FasilitasController extends Controller
             'kategori' => 'nullable|string|max:100',
             'foto' => 'nullable|image|max:2048',
             'is_active' => 'nullable|boolean',
-            'urutan' => 'nullable|integer',
         ]);
 
         if ($request->hasFile('foto')) {
             $data['foto'] = $request->file('foto')->store('about/fasilitas', 'public');
         }
 
-        $data['is_active'] = $request->boolean('is_active', true);
-        $data['urutan'] = $data['urutan'] ?? 0;
+        $data['is_active'] = $request->boolean('is_active');
 
         Fasilitas::create($data);
 
@@ -56,7 +82,6 @@ class FasilitasController extends Controller
             'kategori' => 'nullable|string|max:100',
             'foto' => 'nullable|image|max:2048',
             'is_active' => 'nullable|boolean',
-            'urutan' => 'nullable|integer',
         ]);
 
         if ($request->hasFile('foto')) {
@@ -66,27 +91,32 @@ class FasilitasController extends Controller
             $data['foto'] = $request->file('foto')->store('about/fasilitas', 'public');
         }
 
-        $data['is_active'] = $request->boolean('is_active', true);
-        $data['urutan'] = $data['urutan'] ?? 0;
+        $data['is_active'] = $request->boolean('is_active');
 
         $fasilitas->update($data);
 
         return redirect()->route('admin.fasilitas.index')->with('success', 'Fasilitas berhasil diperbarui');
     }
 
-    public function destroy(Fasilitas $fasilitas)
+    public function destroy(Request $request, Fasilitas $fasilitas)
     {
         if ($fasilitas->foto) {
             Storage::disk('public')->delete($fasilitas->foto);
         }
         $fasilitas->delete();
+        if ($request->ajax()) {
+            return response()->json(['success' => true]);
+        }
         return redirect()->route('admin.fasilitas.index')->with('success', 'Fasilitas berhasil dihapus');
     }
 
-    public function toggleStatus(Fasilitas $fasilitas)
+    public function toggleStatus(Request $request, Fasilitas $fasilitas)
     {
         $fasilitas->is_active = !$fasilitas->is_active;
         $fasilitas->save();
+        if ($request->ajax()) {
+            return response()->json(['success' => true, 'is_active' => $fasilitas->is_active]);
+        }
         return redirect()->route('admin.fasilitas.index')->with('success', 'Status fasilitas diperbarui');
     }
 }

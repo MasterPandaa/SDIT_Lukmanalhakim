@@ -11,12 +11,10 @@ class Ekstrakurikuler extends Model
         'deskripsi',
         'gambar',
         'is_active',
-        'urutan',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'urutan' => 'integer',
     ];
 
     public function scopeActive($query)
@@ -26,6 +24,6 @@ class Ekstrakurikuler extends Model
 
     public function scopeOrdered($query)
     {
-        return $query->orderByDesc('urutan')->orderBy('nama');
+        return $query->orderBy('nama')->orderByDesc('created_at');
     }
 }

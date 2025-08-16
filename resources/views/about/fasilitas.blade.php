@@ -21,24 +21,73 @@
     </div>
 </div>
 <div class="container py-5">
-    <h3 class="mb-4">Daftar Fasilitas Sekolah</h3>
-    <div class="row">
-        @foreach($fasilitas as $item)
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                @php
-                    $img = $item->foto ? asset('storage/'.$item->foto) : asset('assets/images/feature/01.png');
-                @endphp
-                <img src="{{ $img }}" class="card-img-top" alt="Fasilitas" style="height:200px;object-fit:cover;">
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $item->nama }}</h5>
-                    @if($item->deskripsi)
-                    <p class="card-text">{{ $item->deskripsi }}</p>
-                    @endif
+                    <form id="filterForm" class="row g-2 align-items-center" action="{{ route('about.fasilitas') }}" method="GET">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
+                                <input type="text" name="q" id="q" value="{{ $q ?? request('q') }}" class="form-control" placeholder="Cari fasilitas (nama, kategori, deskripsi)">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        @endforeach
+    </div>
+    <div id="listContainer">
+        @include('about.partials.fasilitas_list', ['fasilitas' => $fasilitas])
     </div>
 </div>
-@endsection 
+
+@push('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    const form = document.getElementById('filterForm');
+    const input = document.getElementById('q');
+    const container = document.getElementById('listContainer');
+    let t;
+
+    function fetchList(url){
+      const u = new URL(url || form.action, window.location.origin);
+      const qv = (input?.value || '').trim();
+      if (qv) { u.searchParams.set('q', qv); } else { u.searchParams.delete('q'); }
+      fetch(u.toString(), {
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.html !== undefined) {
+          container.innerHTML = data.html;
+          const newUrl = u.pathname + (u.search ? u.search : '');
+          window.history.replaceState({}, '', newUrl);
+        }
+      })
+      .catch(()=>{});
+    }
+
+    if (input) {
+      input.addEventListener('input', function(){
+        clearTimeout(t);
+        t = setTimeout(()=>fetchList(), 400);
+      });
+    }
+
+    container.addEventListener('click', function(e){
+      const a = e.target.closest('a');
+      if (!a) return;
+      if (a.closest('.pagination')) {
+        e.preventDefault();
+        fetchList(a.href);
+      }
+    });
+  });
+</script>
+@endpush
+
+@endsection
