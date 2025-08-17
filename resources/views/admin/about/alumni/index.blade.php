@@ -22,80 +22,36 @@
 
             <!-- Daftar Alumni -->
             <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-success">
-                        <i class="fas fa-list mr-2"></i>
-                        Daftar Alumni
-                    </h6>
-                    <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus mr-1"></i> Tambah Alumni Baru
-                    </a>
-                </div>
+                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                     <h6 class="m-0 font-weight-bold text-success">
+                         <i class="fas fa-list mr-2"></i>
+                         Daftar Alumni
+                     </h6>
+                     <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary btn-sm">
+                         <i class="fas fa-plus mr-1"></i> Tambah Alumni Baru
+                     </a>
+                 </div>
                 <div class="card-body">
-                    @if(isset($alumni) && $alumni->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="alumniTable" width="100%" cellspacing="0">
-                                <thead class="bg-light">
-                                    <tr>
-                                        <th width="70">Foto</th>
-                                        <th>Nama</th>
-                                        <th>Tahun Lulus</th>
-                                        <th>Pendidikan Lanjutan</th>
-                                        <th>Pekerjaan</th>
-                                        <th width="80">Status</th>
-                                        <th width="120">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($alumni as $item)
-                                        <tr>
-                                            <td class="text-center">
-                                                @if($item->foto)
-                                                    <img src="{{ $item->foto_url }}" alt="{{ $item->nama }}" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
-                                                @else
-                                                    <div class="bg-secondary rounded d-flex align-items-center  text-white" style="width: 50px; height: 50px;">
-                                                        <i class="fas fa-user"></i>
-                                                    </div>
-                                                @endif
-                                            </td>
-                                            <td>{{ $item->nama }}</td>
-                                            <td>{{ $item->tahun_lulus }}</td>
-                                            <td>{{ $item->pendidikan_lanjutan ?? '-' }}</td>
-                                            <td>{{ $item->pekerjaan ?? '-' }}</td>
-                                            <td class="text-center">
-                                                <span class="badge badge-{{ $item->is_active ? 'success' : 'secondary' }} px-3 py-2">
-                                                    {{ $item->is_active ? 'Aktif' : 'Nonaktif' }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a href="{{ route('admin.alumni.edit', $item->id) }}" class="btn btn-sm btn-warning">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <a href="{{ route('admin.alumni.toggle', $item->id) }}" class="btn btn-sm btn-{{ $item->is_active ? 'secondary' : 'success' }}">
-                                                        <i class="fas fa-{{ $item->is_active ? 'eye-slash' : 'eye' }}"></i>
-                                                    </a>
-                                                    <form action="{{ route('admin.alumni.destroy', $item->id) }}" method="POST" style="display:inline-block;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus alumni ini?')">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                    <form method="GET" action="{{ route('admin.alumni.index') }}" class="row g-2 align-items-center mb-3">
+                        <div class="col-12 col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
+                                <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Cari nama, tahun, pendidikan, atau pekerjaan...">
+                            </div>
                         </div>
-                    @else
-                        <div class="text-center py-5">
-                            <i class="fas fa-user-graduate fa-3x text-gray-300 mb-3"></i>
-                            <h5 class="text-gray-500">Belum ada data alumni</h5>
-                            <p class="text-gray-400">Klik tombol "Tambah Alumni Baru" untuk menambahkan alumni pertama.</p>
+                        <div class="col-8 col-md-3">
+                            <select name="status" class="form-select" onchange="this.form.submit()">
+                                <option value="">Semua Status</option>
+                                <option value="active" {{ request('status')==='active' ? 'selected' : '' }}>Aktif</option>
+                                <option value="inactive" {{ request('status')==='inactive' ? 'selected' : '' }}>Nonaktif</option>
+                            </select>
                         </div>
-                    @endif
+                        <div class="col-4 col-md-3 text-end">
+                            <button class="btn btn-outline-secondary me-1" type="submit"><i class="fas fa-filter me-1"></i>Filter</button>
+                            <a href="{{ route('admin.alumni.index') }}" class="btn btn-light"><i class="fas fa-undo me-1"></i>Reset</a>
+                        </div>
+                    </form>
+                    @include('admin.about.alumni.partials.table')
                 </div>
             </div>
         </div>
@@ -116,24 +72,77 @@
 
 @push('scripts')
 <script>
-$(document).ready(function() {
-    $('#alumniTable').DataTable({
-        "language": {
-            "lengthMenu": "Tampilkan _MENU_ data per halaman",
-            "zeroRecords": "Tidak ada data yang ditemukan",
-            "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
-            "infoEmpty": "Tidak ada data yang tersedia",
-            "infoFiltered": "(difilter dari _MAX_ total data)",
-            "search": "Cari:",
-            "paginate": {
-                "first": "Pertama",
-                "last": "Terakhir",
-                "next": "Selanjutnya",
-                "previous": "Sebelumnya"
-            }
-        },
-        "order": [[ 2, "desc" ]]
-    });
-});
+  document.addEventListener('click', async function(e){
+    const btn = e.target.closest('.btn-delete');
+    if(!btn) return;
+    const url = btn.getAttribute('data-url');
+    const csrf = (document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')) || '{{ csrf_token() }}';
+    if (typeof Swal !== 'undefined' && Swal.fire) {
+      const res = await Swal.fire({
+        title: 'Hapus data ini?',
+        text: 'Tindakan ini tidak dapat dibatalkan',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, hapus',
+        cancelButtonText: 'Batal'
+      });
+      if (!res.isConfirmed) return;
+    } else {
+      if (!confirm('Hapus data ini?')) return;
+    }
+    try {
+      const resp = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-TOKEN': csrf,
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+      if (!resp.ok) throw new Error('Gagal menghapus');
+      const data = await resp.json().catch(()=>({message:'Berhasil dihapus'}));
+      if (typeof Swal !== 'undefined' && Swal.fire) {
+        await Swal.fire({ icon: 'success', title: 'Berhasil', text: data.message || 'Data berhasil dihapus' });
+        window.location.reload();
+      } else {
+        alert(data.message || 'Data berhasil dihapus');
+        window.location.reload();
+      }
+    } catch (err) {
+      if (typeof Swal !== 'undefined' && Swal.fire) {
+        Swal.fire({ icon: 'error', title: 'Gagal', text: err.message || 'Terjadi kesalahan' });
+      } else {
+        alert(err.message || 'Terjadi kesalahan');
+      }
+    }
+  });
+
+  document.addEventListener('change', async function(e){
+    const sw = e.target.closest('.toggle-status');
+    if (!sw) return;
+    const url = sw.getAttribute('data-url');
+    const checked = sw.checked;
+    const csrf = (document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')) || '{{ csrf_token() }}';
+    try {
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrf,
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+      if (!resp.ok) throw new Error('Gagal memperbarui status');
+      const data = await resp.json().catch(()=>({success:true}));
+      if (!data.success) throw new Error('Gagal memperbarui status');
+    } catch (err) {
+      sw.checked = !checked;
+      if (typeof Swal !== 'undefined' && Swal.fire) {
+        Swal.fire({ icon: 'error', title: 'Gagal', text: err.message || 'Terjadi kesalahan' });
+      } else {
+        alert(err.message || 'Terjadi kesalahan');
+      }
+    }
+  });
 </script>
 @endpush

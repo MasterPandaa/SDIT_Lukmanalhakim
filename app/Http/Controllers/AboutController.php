@@ -100,21 +100,82 @@ class AboutController extends Controller
 
         return view('about.fasilitas', compact('fasilitas', 'q'));
     }
-    public function galeri() {
-        $galeri = Galeri::active()->ordered()->paginate(24);
-        return view('about.galeri', compact('galeri'));
+    public function galeri(Request $request) {
+        $q = trim($request->get('q', ''));
+        $query = Galeri::active()->ordered();
+
+        if ($q) {
+            $query->where(function($sub) use ($q) {
+                $sub->where('judul', 'like', "%{$q}%")
+                    ->orWhere('deskripsi', 'like', "%{$q}%");
+            });
+        }
+
+        $galeri = $query->paginate(12)->appends($request->query());
+
+        if ($request->ajax()) {
+            $html = view('about.partials.galeri_list', compact('galeri'))->render();
+            return response()->json([
+                'html' => $html,
+                'total' => $galeri->total(),
+            ]);
+        }
+
+        return view('about.galeri', compact('galeri', 'q'));
     }
-    public function alumni() {
-        $alumni = Alumni::where('is_active', true)->orderBy('tahun_lulus', 'desc')->get();
-        return view('about.alumni', compact('alumni'));
+    public function alumni(Request $request) {
+        $q = trim($request->get('q', ''));
+        $query = Alumni::where('is_active', true)
+            ->orderBy('tahun_lulus', 'desc')
+            ->orderBy('created_at', 'desc');
+
+        if ($q) {
+            $query->where(function($sub) use ($q) {
+                $sub->where('nama', 'like', "%{$q}%")
+                    ->orWhere('tahun_lulus', 'like', "%{$q}%")
+                    ->orWhere('pendidikan_lanjutan', 'like', "%{$q}%")
+                    ->orWhere('pekerjaan', 'like', "%{$q}%")
+                    ->orWhere('prestasi', 'like', "%{$q}%")
+                    ->orWhere('testimoni', 'like', "%{$q}%");
+            });
+        }
+
+        $alumni = $query->paginate(12)->appends($request->query());
+
+        if ($request->ajax()) {
+            $html = view('about.partials.alumni_list', compact('alumni'))->render();
+            return response()->json([
+                'html' => $html,
+                'total' => $alumni->total(),
+            ]);
+        }
+
+        return view('about.alumni', compact('alumni', 'q'));
     }
-    public function artikel() {
-        $artikels = Artikel::where('is_active', true)
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->orderBy('published_at', 'desc')
-            ->paginate(12);
-        
-        return view('about.artikel', compact('artikels'));
+    public function artikel(Request $request) {
+        $q = trim($request->get('q', ''));
+        $query = Artikel::published()->orderBy('published_at', 'desc');
+
+        if ($q) {
+            $query->where(function($sub) use ($q) {
+                $sub->where('judul', 'like', "%{$q}%")
+                    ->orWhere('ringkasan', 'like', "%{$q}%")
+                    ->orWhere('konten', 'like', "%{$q}%")
+                    ->orWhere('penulis', 'like', "%{$q}%")
+                    ->orWhere('kategori', 'like', "%{$q}%");
+            });
+        }
+
+        $artikels = $query->paginate(12)->appends($request->query());
+
+        if ($request->ajax()) {
+            $html = view('about.partials.artikel_list', compact('artikels'))->render();
+            return response()->json([
+                'html' => $html,
+                'total' => $artikels->total(),
+            ]);
+        }
+
+        return view('about.artikel', compact('artikels', 'q'));
     }
 } 

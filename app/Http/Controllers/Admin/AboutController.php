@@ -29,12 +29,12 @@ class AboutController extends Controller
 
     public function alumni()
     {
-        return view('admin.about.alumni.index');
+        return redirect()->route('admin.alumni.index');
     }
 
     public function artikel()
     {
-        return view('admin.about.artikel.index');
+        return redirect()->route('admin.artikel.index');
     }
 
     public function guru()

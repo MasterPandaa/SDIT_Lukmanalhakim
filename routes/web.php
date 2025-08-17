@@ -88,7 +88,7 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         Route::get('/alumni/{id}/edit', [App\Http\Controllers\Admin\AlumniController::class, 'edit'])->name('admin.alumni.edit');
         Route::put('/alumni/{id}', [App\Http\Controllers\Admin\AlumniController::class, 'update'])->name('admin.alumni.update');
         Route::delete('/alumni/{id}', [App\Http\Controllers\Admin\AlumniController::class, 'destroy'])->name('admin.alumni.destroy');
-        Route::get('/alumni/{id}/toggle', [App\Http\Controllers\Admin\AlumniController::class, 'toggleStatus'])->name('admin.alumni.toggle');
+        Route::post('/alumni/{id}/toggle', [App\Http\Controllers\Admin\AlumniController::class, 'toggleStatus'])->name('admin.alumni.toggle');
         
         // DEPRECATED: Guru Management Routes moved to Profil section
         // All guru CRUD operations are now handled by GuruKaryawanController
@@ -104,7 +104,7 @@ Route::get('/sambutan-kepsek/toggle', [App\Http\Controllers\Admin\SambutanKepsek
         Route::get('/artikel/{id}/edit', [App\Http\Controllers\Admin\ArtikelController::class, 'edit'])->name('admin.artikel.edit');
         Route::put('/artikel/{id}', [App\Http\Controllers\Admin\ArtikelController::class, 'update'])->name('admin.artikel.update');
         Route::delete('/artikel/{id}', [App\Http\Controllers\Admin\ArtikelController::class, 'destroy'])->name('admin.artikel.destroy');
-        Route::get('/artikel/{id}/toggle', [App\Http\Controllers\Admin\ArtikelController::class, 'toggleStatus'])->name('admin.artikel.toggle');
+        Route::post('/artikel/{id}/toggle', [App\Http\Controllers\Admin\ArtikelController::class, 'toggleStatus'])->name('admin.artikel.toggle');
 
         // Prestasi Management Routes
         Route::get('/prestasi', [App\Http\Controllers\Admin\PrestasiController::class, 'index'])->name('admin.prestasi.index');

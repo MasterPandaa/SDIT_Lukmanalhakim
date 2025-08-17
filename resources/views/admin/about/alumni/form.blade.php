@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-lg-10">
+        <div class="col-12">
             <!-- Header -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">
@@ -67,16 +67,10 @@
                                         <label class="custom-file-label" for="foto">Pilih file foto</label>
                                     </div>
                                     <small class="form-text text-muted">Format: JPG, JPEG, PNG. Maks: 2MB</small>
-                                </div>
-                                
-                                @if(isset($alumni) && $alumni->foto)
-                                    <div class="form-group">
-                                        <label class="font-weight-bold">Foto Saat Ini</label>
-                                        <div class="mb-2">
-                                            <img src="{{ $alumni->foto_url }}" alt="{{ $alumni->nama }}" class="img-thumbnail" style="max-height: 150px;">
-                                        </div>
+                                    <div class="mt-2">
+                                        <img id="preview-foto" src="{{ isset($alumni) && $alumni->foto ? $alumni->foto_url : asset('assets/images/default/alumni-default.jpg') }}" alt="Preview Foto" class="img-thumbnail" style="max-height: 150px;">
                                     </div>
-                                @endif
+                                </div>
                                 
                                 <div class="form-group">
                                     <label for="prestasi" class="font-weight-bold">Prestasi</label>
@@ -90,7 +84,8 @@
                                 
                                 <div class="form-group">
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" {{ (old('is_active', $alumni->is_active ?? true) ? 'checked' : '') }}>
+                                        <input type="hidden" name="is_active" value="0">
+                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ (old('is_active', $alumni->is_active ?? true) ? 'checked' : '') }}>
                                         <label class="custom-control-label font-weight-bold" for="is_active">Aktif</label>
                                         <small class="form-text text-muted">Alumni yang aktif akan ditampilkan di halaman publik</small>
                                     </div>
@@ -153,6 +148,19 @@ CKEDITOR.replace('prestasi', {
 $('.custom-file-input').on('change', function() {
     let fileName = $(this).val().split('\\').pop();
     $(this).next('.custom-file-label').addClass("selected").html(fileName);
+});
+
+// Live image preview
+document.getElementById('foto')?.addEventListener('change', function (e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const img = document.getElementById('preview-foto');
+    if (!img) return;
+    const reader = new FileReader();
+    reader.onload = function (ev) {
+        img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
 });
 </script>
 @endpush

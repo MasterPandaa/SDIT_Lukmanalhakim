@@ -9,10 +9,37 @@ use App\Models\Galeri;
 
 class GaleriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = Galeri::ordered()->paginate(24);
-        return view('admin.about.galeri.index', compact('items'));
+        $q = trim($request->get('q', ''));
+        $status = $request->get('status');
+
+        $query = Galeri::query()->ordered();
+
+        if ($q) {
+            $query->where(function($sub) use ($q) {
+                $sub->where('judul', 'like', "%{$q}%")
+                    ->orWhere('deskripsi', 'like', "%{$q}%");
+            });
+        }
+
+        if ($status === 'active') {
+            $query->where('is_active', true);
+        } elseif ($status === 'inactive') {
+            $query->where('is_active', false);
+        }
+
+        $items = $query->paginate(15)->appends($request->query());
+
+        if ($request->ajax()) {
+            $html = view('admin.about.galeri.partials.table', compact('items'))->render();
+            return response()->json([
+                'html' => $html,
+                'total' => $items->total(),
+            ]);
+        }
+
+        return view('admin.about.galeri.index', compact('items', 'q', 'status'));
     }
 
     public function create()
@@ -27,15 +54,13 @@ class GaleriController extends Controller
             'deskripsi' => 'nullable|string',
             'foto' => 'nullable|image|max:4096',
             'is_active' => 'nullable|boolean',
-            'urutan' => 'nullable|integer',
         ]);
 
         if ($request->hasFile('foto')) {
             $data['foto'] = $request->file('foto')->store('about/galeri', 'public');
         }
 
-        $data['is_active'] = $request->boolean('is_active', true);
-        $data['urutan'] = $data['urutan'] ?? 0;
+        $data['is_active'] = $request->boolean('is_active');
 
         Galeri::create($data);
 
@@ -54,7 +79,6 @@ class GaleriController extends Controller
             'deskripsi' => 'nullable|string',
             'foto' => 'nullable|image|max:4096',
             'is_active' => 'nullable|boolean',
-            'urutan' => 'nullable|integer',
         ]);
 
         if ($request->hasFile('foto')) {
@@ -64,27 +88,32 @@ class GaleriController extends Controller
             $data['foto'] = $request->file('foto')->store('about/galeri', 'public');
         }
 
-        $data['is_active'] = $request->boolean('is_active', true);
-        $data['urutan'] = $data['urutan'] ?? 0;
+        $data['is_active'] = $request->boolean('is_active');
 
         $galeri->update($data);
 
         return redirect()->route('admin.galeri.index')->with('success', 'Foto galeri berhasil diperbarui');
     }
 
-    public function destroy(Galeri $galeri)
+    public function destroy(Request $request, Galeri $galeri)
     {
         if ($galeri->foto) {
             Storage::disk('public')->delete($galeri->foto);
         }
         $galeri->delete();
+        if ($request->ajax()) {
+            return response()->json(['success' => true]);
+        }
         return redirect()->route('admin.galeri.index')->with('success', 'Foto galeri berhasil dihapus');
     }
 
-    public function toggleStatus(Galeri $galeri)
+    public function toggleStatus(Request $request, Galeri $galeri)
     {
         $galeri->is_active = !$galeri->is_active;
         $galeri->save();
+        if ($request->ajax()) {
+            return response()->json(['success' => true, 'is_active' => $galeri->is_active]);
+        }
         return redirect()->route('admin.galeri.index')->with('success', 'Status galeri diperbarui');
     }
 }

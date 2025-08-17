@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-lg-9">
+        <div class="col-12">
             <div class="card border-0 shadow">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 fw-bold text-success">Edit Artikel</h6>
@@ -50,18 +50,22 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Gambar Sampul</label>
-                                <input type="file" name="gambar" class="form-control">
+                                <input type="file" name="gambar" id="gambarInput" class="form-control" accept="image/*">
                                 @error('gambar')<div class="text-danger small">{{ $message }}</div>@enderror
                                 @if($artikel->gambar)
                                     <div class="mt-2">
                                         <img src="{{ $artikel->gambar_url }}" alt="Gambar" class="img-thumbnail" style="max-height: 160px;">
                                     </div>
                                 @endif
+                                <img id="previewImage" src="#" alt="Preview" class="img-thumbnail mt-2" style="max-height: 180px; display: none;">
                             </div>
                             <div class="col-md-6 mb-3 d-flex align-items-end">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="is_active" id="is_active" {{ old('is_active', $artikel->is_active) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="is_active">Aktif</label>
+                                <div>
+                                    <input type="hidden" name="is_active" value="0">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', $artikel->is_active) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_active">Aktif</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -76,3 +80,21 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+  (function() {
+    const input = document.getElementById('gambarInput');
+    const img = document.getElementById('previewImage');
+    if (input && img) {
+      input.addEventListener('change', function() {
+        const file = this.files && this.files[0];
+        if (!file) { img.style.display = 'none'; img.src = '#'; return; }
+        const url = URL.createObjectURL(file);
+        img.src = url;
+        img.style.display = 'block';
+      });
+    }
+  })();
+  </script>
+@endpush

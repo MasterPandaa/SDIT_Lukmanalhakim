@@ -13,12 +13,10 @@ class Galeri extends Model
         'deskripsi',
         'foto',
         'is_active',
-        'urutan',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'urutan' => 'integer',
     ];
 
     // Scopes
@@ -29,6 +27,6 @@ class Galeri extends Model
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('urutan')->orderBy('id');
+        return $query->orderBy('judul', 'asc')->orderBy('created_at', 'desc');
     }
 }

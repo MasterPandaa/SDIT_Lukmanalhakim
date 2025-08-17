@@ -20,6 +20,10 @@ class DatabaseSeeder extends Seeder
             GuruKaryawanSeeder::class,
             PrestasiSeeder::class,
             EkstrakurikulerSeeder::class,
+            FasilitasSeeder::class,
+            GaleriSeeder::class,
+            AlumniSeeder::class,
+            ArtikelSeeder::class,
         ]);
     }
 }

@@ -14,43 +14,104 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Halaman pengelolaan galeri foto sekolah.
-                    </div>
-                    
-                    <div class="row">
-                        @forelse($items as $item)
-                        <div class="col-md-3 mb-3">
-                            <div class="card border-0 shadow-sm h-100">
-                                @php $img = $item->foto ? asset('storage/'.$item->foto) : 'https://via.placeholder.com/300x200'; @endphp
-                                <img src="{{ $img }}" class="card-img-top" alt="Galeri">
-                                <div class="card-body d-flex flex-column">
-                                    <h6 class="card-title">{{ $item->judul }}</h6>
-                                    <p class="text-muted small mb-3">Urutan: {{ $item->urutan }}</p>
-                                    <div class="mt-auto d-flex gap-1">
-                                        <a href="{{ route('admin.galeri.edit', $item) }}" class="btn btn-sm btn-primary w-100"><i class="fas fa-edit"></i></a>
-                                        <form action="{{ route('admin.galeri.destroy', $item) }}" method="POST" onsubmit="return confirm('Hapus foto ini?')" class="w-100">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-sm btn-danger w-100"><i class="fas fa-trash"></i></button>
-                                        </form>
-                                        <form action="{{ route('admin.galeri.toggle', $item) }}" method="POST" class="w-100">
-                                            @csrf
-                                            <button class="btn btn-sm btn-warning w-100"><i class="fas fa-toggle-on"></i></button>
-                                        </form>
-                                    </div>
-                                </div>
+                    <form method="GET" action="{{ route('admin.galeri.index') }}" class="row g-2 align-items-center mb-3">
+                        <div class="col-12 col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
+                                <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Cari judul atau deskripsi...">
                             </div>
                         </div>
-                        @empty
-                        <div class="col-12 text-center text-muted">Belum ada data.</div>
-                        @endforelse
-                    </div>
-                    <div class="d-flex justify-content-end">{{ $items->links() }}</div>
+                        <div class="col-8 col-md-3">
+                            <select name="status" class="form-select" onchange="this.form.submit()">
+                                <option value="">Semua Status</option>
+                                <option value="active" {{ request('status')==='active' ? 'selected' : '' }}>Aktif</option>
+                                <option value="inactive" {{ request('status')==='inactive' ? 'selected' : '' }}>Nonaktif</option>
+                            </select>
+                        </div>
+                        <div class="col-4 col-md-3 text-end">
+                            <button class="btn btn-outline-secondary me-1" type="submit"><i class="fas fa-filter me-1"></i>Filter</button>
+                            <a href="{{ route('admin.galeri.index') }}" class="btn btn-light"><i class="fas fa-undo me-1"></i>Reset</a>
+                        </div>
+                    </form>
+                    @include('admin.about.galeri.partials.table')
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection 
+@push('scripts')
+<script>
+  document.addEventListener('click', async function(e){
+    const btn = e.target.closest('.btn-delete');
+    if(!btn) return;
+    const url = btn.getAttribute('data-url');
+    const csrf = (document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')) || '{{ csrf_token() }}';
+    if (typeof Swal !== 'undefined' && Swal.fire) {
+      const res = await Swal.fire({
+        title: 'Hapus data ini?',
+        text: 'Tindakan ini tidak dapat dibatalkan',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, hapus',
+        cancelButtonText: 'Batal'
+      });
+      if (!res.isConfirmed) return;
+    } else {
+      if (!confirm('Hapus data ini?')) return;
+    }
+    try {
+      const resp = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-TOKEN': csrf,
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+      if (!resp.ok) throw new Error('Gagal menghapus');
+      const data = await resp.json().catch(()=>({message:'Berhasil dihapus'}));
+      if (typeof Swal !== 'undefined' && Swal.fire) {
+        await Swal.fire({ icon: 'success', title: 'Berhasil', text: data.message || 'Galeri berhasil dihapus' });
+        window.location.reload();
+      } else {
+        alert(data.message || 'Galeri berhasil dihapus');
+        window.location.reload();
+      }
+    } catch (err) {
+      if (typeof Swal !== 'undefined' && Swal.fire) {
+        Swal.fire({ icon: 'error', title: 'Gagal', text: err.message || 'Terjadi kesalahan' });
+      } else {
+        alert(err.message || 'Terjadi kesalahan');
+      }
+    }
+  });
+  document.addEventListener('change', async function(e){
+    const sw = e.target.closest('.toggle-status');
+    if (!sw) return;
+    const url = sw.getAttribute('data-url');
+    const checked = sw.checked;
+    const csrf = (document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')) || '{{ csrf_token() }}';
+    try {
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrf,
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+      if (!resp.ok) throw new Error('Gagal memperbarui status');
+      const data = await resp.json().catch(()=>({success:true}));
+      if (!data.success) throw new Error('Gagal memperbarui status');
+    } catch (err) {
+      sw.checked = !checked;
+      if (typeof Swal !== 'undefined' && Swal.fire) {
+        Swal.fire({ icon: 'error', title: 'Gagal', text: err.message || 'Terjadi kesalahan' });
+      } else {
+        alert(err.message || 'Terjadi kesalahan');
+      }
+    }
+  });
+</script>
+@endpush

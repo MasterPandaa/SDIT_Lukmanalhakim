@@ -9,10 +9,32 @@ use Illuminate\Support\Str;
 
 class ArtikelController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $artikels = Artikel::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.about.artikel.index', compact('artikels'));
+        $q = trim($request->get('q', ''));
+        $status = $request->get('status');
+
+        $query = Artikel::orderBy('created_at', 'desc');
+
+        if ($q) {
+            $query->where(function($sub) use ($q) {
+                $sub->where('judul', 'like', "%{$q}%")
+                    ->orWhere('ringkasan', 'like', "%{$q}%")
+                    ->orWhere('konten', 'like', "%{$q}%")
+                    ->orWhere('penulis', 'like', "%{$q}%")
+                    ->orWhere('kategori', 'like', "%{$q}%");
+            });
+        }
+
+        if ($status === 'active') {
+            $query->where('is_active', true);
+        } elseif ($status === 'inactive') {
+            $query->where('is_active', false);
+        }
+
+        $items = $query->paginate(10)->appends($request->query());
+
+        return view('admin.about.artikel.index', compact('items', 'q', 'status'));
     }
 
     public function create()
@@ -112,22 +134,26 @@ class ArtikelController extends Controller
             ->with('success', 'Artikel berhasil diperbarui!');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $artikel = Artikel::findOrFail($id);
 
         // Delete image if exists
         if ($artikel->gambar && file_exists(public_path('assets/images/artikel/' . $artikel->gambar))) {
-            unlink(public_path('assets/images/artikel/' . $artikel->gambar));
+            @unlink(public_path('assets/images/artikel/' . $artikel->gambar));
         }
 
         $artikel->delete();
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Artikel berhasil dihapus']);
+        }
 
         return redirect()->route('admin.artikel.index')
             ->with('success', 'Artikel berhasil dihapus!');
     }
 
-    public function toggleStatus($id)
+    public function toggleStatus(Request $request, $id)
     {
         $artikel = Artikel::findOrFail($id);
         $artikel->is_active = !$artikel->is_active;
@@ -138,6 +164,10 @@ class ArtikelController extends Controller
         }
         
         $artikel->save();
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json(['success' => true, 'is_active' => $artikel->is_active]);
+        }
 
         $status = $artikel->is_active ? 'diaktifkan' : 'dinonaktifkan';
         return redirect()->route('admin.artikel.index')
