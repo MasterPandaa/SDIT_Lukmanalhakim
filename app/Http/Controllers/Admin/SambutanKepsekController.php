@@ -25,7 +25,7 @@ class SambutanKepsekController extends Controller
             ]);
         }
         
-        return view('admin.sambutan-kepsek.index', compact('sambutanKepsek'));
+        return view('admin.profil.sambutan-kepsek.index', compact('sambutanKepsek'));
     }
 
     public function update(Request $request)
@@ -193,11 +193,11 @@ class SambutanKepsekController extends Controller
             $sambutanKepsek->fill($updateData);
             $sambutanKepsek->save();
             
-            return redirect()->route('admin.sambutan-kepsek.index')
+            return redirect()->route('admin.profil.sambutan-kepsek.index')
                 ->with('success', 'Konten Sambutan Kepala Sekolah berhasil diperbarui!');
         }
 
-        return redirect()->route('admin.sambutan-kepsek.index')
+        return redirect()->route('admin.profil.sambutan-kepsek.index')
             ->with('info', 'Tidak ada perubahan yang dilakukan.');
     }
 
@@ -206,7 +206,7 @@ class SambutanKepsekController extends Controller
         $sambutanKepsek = SambutanKepsek::first();
         
         if (!$sambutanKepsek) {
-            return redirect()->route('admin.sambutan-kepsek.index')
+            return redirect()->route('admin.profil.sambutan-kepsek.index')
                 ->with('error', 'Konten Sambutan Kepala Sekolah tidak ditemukan!');
         }
 
@@ -214,7 +214,7 @@ class SambutanKepsekController extends Controller
         $sambutanKepsek->save();
 
         $status = $sambutanKepsek->is_active ? 'diaktifkan' : 'dinonaktifkan';
-        return redirect()->route('admin.sambutan-kepsek.index')
+        return redirect()->route('admin.profil.sambutan-kepsek.index')
             ->with('success', "Konten Sambutan Kepala Sekolah berhasil {$status}!");
     }
 }

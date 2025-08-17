@@ -334,11 +334,6 @@
                                 <i class="fas fa-newspaper"></i> Artikel
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->is('adminpanel/about/guru*') ? 'active' : '' }}" href="{{ route('admin.about.guru.index') }}">
-                                <i class="fas fa-chalkboard-teacher"></i> Guru
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </li>

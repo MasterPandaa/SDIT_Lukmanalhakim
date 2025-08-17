@@ -24,7 +24,7 @@ class VisiMisiController extends Controller
             ]);
         }
         
-        return view('admin.visi-misi.index', compact('visiMisi'));
+        return view('admin.profil.visi-misi.index', compact('visiMisi'));
     }
 
     public function update(Request $request)
@@ -115,11 +115,11 @@ class VisiMisiController extends Controller
             $visiMisi->fill($updateData);
             $visiMisi->save();
             
-            return redirect()->route('admin.visi-misi.index')
+            return redirect()->route('admin.profil.visi-misi.index')
                 ->with('success', 'Konten Visi Misi berhasil diperbarui!');
         }
 
-        return redirect()->route('admin.visi-misi.index')
+        return redirect()->route('admin.profil.visi-misi.index')
             ->with('info', 'Tidak ada perubahan yang dilakukan.');
     }
 
@@ -128,7 +128,7 @@ class VisiMisiController extends Controller
         $visiMisi = VisiMisi::first();
         
         if (!$visiMisi) {
-            return redirect()->route('admin.visi-misi.index')
+            return redirect()->route('admin.profil.visi-misi.index')
                 ->with('error', 'Konten Visi Misi tidak ditemukan!');
         }
 
@@ -136,7 +136,7 @@ class VisiMisiController extends Controller
         $visiMisi->save();
 
         $status = $visiMisi->is_active ? 'diaktifkan' : 'dinonaktifkan';
-        return redirect()->route('admin.visi-misi.index')
+        return redirect()->route('admin.profil.visi-misi.index')
             ->with('success', "Konten Visi Misi berhasil {$status}!");
     }
 } 
