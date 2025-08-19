@@ -219,6 +219,7 @@
             }
         }
     </style>
+    @stack('styles')
 </head>
 <body>
 <div class="wrapper">
@@ -580,6 +581,7 @@ document.addEventListener('DOMContentLoaded', function() {
   @endif
 });
 </script>
+@stack('scripts')
 @yield('scripts')
 </body>
 </html>

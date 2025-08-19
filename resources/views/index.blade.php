@@ -10,10 +10,20 @@
                 <div class="row align-items-center">
                     <div class="col-xxl-5 col-xl-6 col-lg-10">
                         <div class="banner-content">
-                            <h6 class="subtitle text-uppercase fw-medium">Islamic education</h6>
-                            <h2 class="title"><span class="d-lg-block">Sekolah Dasar</span> Islam Terpadu <span class="d-lg-block">Luqman Al Hakim</span></h2>
-                            <p class="desc">"Membangun Generasi Qur'ani yang Cerdas, Berprestasi, dan Berakhlak Mulia untuk Masa Depan Gemilang"</p>
-                            <a href="https://psb.luqmanalhakim.sch.id/" class="lab-btn"><span>Daftar Segera</span></a>
+                            <h6 class="subtitle text-uppercase fw-medium">{{ $home->subtitle_hero ?? 'Islamic education' }}</h6>
+                            <h2 class="title">
+                                @if(!empty($home->judul_hero))
+                                    {!! $home->judul_hero !!}
+                                @else
+                                    <span class="d-lg-block">Sekolah Dasar</span> Islam Terpadu <span class="d-lg-block">Luqman Al Hakim</span>
+                                @endif
+                            </h2>
+                            <p class="desc">{{ $home->deskripsi_hero ?? "\"Membangun Generasi Qur'ani yang Cerdas, Berprestasi, dan Berakhlak Mulia untuk Masa Depan Gemilang\"" }}</p>
+                            @php
+                                $ctaUrl = $home->link_tombol ?? ($home->header_psb_link ?? 'https://psb.luqmanalhakim.sch.id/');
+                                $ctaText = $home->teks_tombol ?? 'Daftar Segera';
+                            @endphp
+                            <a href="{{ $ctaUrl }}" class="lab-btn"><span>{{ $ctaText }}</span></a>
                             <div class="banner-catagory d-flex flex-wrap">
                                 <p>Didik, Bekali, Antarkan Masa Depan Cerah!</p>
                             </div>
@@ -21,7 +31,7 @@
                     </div>
                     <div class="col-xxl-7 col-xl-6">
                         <div class="banner-thumb">
-                            <img src="{{ asset('assets/images/banner/01.png') }}" alt="img">
+                            <img src="{{ $home->gambar_hero ? asset('storage/'.$home->gambar_hero) : asset('assets/images/banner/01.png') }}" alt="img">
                         </div>
                     </div>
                 </div>
@@ -85,95 +95,123 @@
     <div class="category-section padding-tb">
         <div class="container">
             <div class="section-header text-center">
-                <span class="subtitle">Program Unggulan</span>
-                <h2 class="title">Bangun Generasi Berkarakter bersama Kami</h2>
+                <span class="subtitle">{{ $home->program_section_title ?? 'Program Unggulan' }}</span>
+                <h2 class="title">{{ $home->program_section_subtitle ?? 'Bangun Generasi Berkarakter bersama Kami' }}</h2>
             </div>
             <div class="section-wrapper">
                 <div class="row g-4 justify-content-center row-cols-xl-6 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
-                    <div class="col">
-                        <div class="category-item">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/01.jpg') }}" alt="Tahfiz Quran">
+                    @php
+                        $programs = [];
+                        for ($i = 1; $i <= 6; $i++) {
+                            $text = $home->{"program_{$i}_text"} ?? null;
+                            $url = $home->{"program_{$i}_url"} ?? '#';
+                            $image = $home->{"program_{$i}_image"} ? asset('storage/'.$home->{"program_{$i}_image"}) : null;
+                            if ($text) { $programs[] = ['text' => $text, 'url' => $url, 'image' => $image]; }
+                        }
+                    @endphp
+                    @if(count($programs))
+                        @foreach($programs as $prog)
+                            <div class="col">
+                                <div class="category-item">
+                                    <div class="category-inner">
+                                        <div class="category-thumb">
+                                            <img src="{{ $prog['image'] ?? asset('assets/images/category/icon/01.jpg') }}" alt="{{ $prog['text'] }}">
+                                        </div>
+                                        <div class="category-content">
+                                            <a href="{{ $prog['url'] ?: '#' }}">
+                                                <h6>{{ $prog['text'] }}</h6>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="category-content">
-                                    <a href="{{ route('course') }}">
-                                        <h6>Tahfiz Quran 10 juz</h6>
-                                    </a>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="col">
+                            <div class="category-item">
+                                <div class="category-inner">
+                                    <div class="category-thumb">
+                                        <img src="{{ asset('assets/images/category/icon/01.jpg') }}" alt="Tahfiz Quran">
+                                    </div>
+                                    <div class="category-content">
+                                        <a href="{{ route('course') }}">
+                                            <h6>Tahfiz Quran 10 juz</h6>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="category-item">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/02.jpg') }}" alt="Pendidikan Karakter">
-                                </div>
-                                <div class="category-content">
-                                    <a href="{{ route('course') }}">
-                                        <h6>Pendidikan Karakter</h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="category-item">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/03.jpg') }}" alt="Fasih Membaca Quran">
-                                </div>
-                                <div class="category-content">
-                                    <a href="{{ route('course') }}">
-                                        <h6>Fasih Membaca Quran</h6>
-                                    </a>
+                        <div class="col">
+                            <div class="category-item">
+                                <div class="category-inner">
+                                    <div class="category-thumb">
+                                        <img src="{{ asset('assets/images/category/icon/02.jpg') }}" alt="Pendidikan Karakter">
+                                    </div>
+                                    <div class="category-content">
+                                        <a href="{{ route('course') }}">
+                                            <h6>Pendidikan Karakter</h6>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="category-item">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/04.jpg') }}" alt="Hafal Hadis">
-                                </div>
-                                <div class="category-content">
-                                    <a href="{{ route('course') }}">
-                                        <h6>Hafal 20 Hadis Pilihan</h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="category-item">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/05.jpg') }}" alt="Asessmen AKM">
-                                </div>
-                                <div class="category-content">
-                                    <a href="{{ route('course') }}">
-                                        <h6>Sukses Asessmen AKM</h6>
-                                    </a>
+                        <div class="col">
+                            <div class="category-item">
+                                <div class="category-inner">
+                                    <div class="category-thumb">
+                                        <img src="{{ asset('assets/images/category/icon/03.jpg') }}" alt="Fasih Membaca Quran">
+                                    </div>
+                                    <div class="category-content">
+                                        <a href="{{ route('course') }}">
+                                            <h6>Fasih Membaca Quran</h6>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="category-item">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ asset('assets/images/category/icon/06.jpg') }}" alt="Program Kepesantrenan">
-                                </div>
-                                <div class="category-content">
-                                    <a href="{{ route('course') }}">
-                                        <h6>Program Kepesantrenan</h6>
-                                    </a>
+                        <div class="col">
+                            <div class="category-item">
+                                <div class="category-inner">
+                                    <div class="category-thumb">
+                                        <img src="{{ asset('assets/images/category/icon/04.jpg') }}" alt="Hafal Hadis">
+                                    </div>
+                                    <div class="category-content">
+                                        <a href="{{ route('course') }}">
+                                            <h6>Hafal 20 Hadis Pilihan</h6>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col">
+                            <div class="category-item">
+                                <div class="category-inner">
+                                    <div class="category-thumb">
+                                        <img src="{{ asset('assets/images/category/icon/05.jpg') }}" alt="Asessmen AKM">
+                                    </div>
+                                    <div class="category-content">
+                                        <a href="{{ route('course') }}">
+                                            <h6>Sukses Asessmen AKM</h6>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="category-item">
+                                <div class="category-inner">
+                                    <div class="category-thumb">
+                                        <img src="{{ asset('assets/images/category/icon/06.jpg') }}" alt="Program Kepesantrenan">
+                                    </div>
+                                    <div class="category-content">
+                                        <a href="{{ route('course') }}">
+                                            <h6>Program Kepesantrenan</h6>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -181,7 +219,15 @@
     <!-- category section start here -->
 
     <!-- Achievement section start here -->
-    <div class="achievement-section style-3 padding-tb">
+    <div class="achievement-section style-3 padding-tb wave-bg">
+        <!-- Layered waves (top) -->
+        <div class="wave wave-top-3" aria-hidden="true"></div>
+        <div class="wave wave-top-2" aria-hidden="true"></div>
+        <div class="wave wave-top" aria-hidden="true"></div>
+        <!-- Layered waves (bottom) -->
+        <div class="wave wave-bottom-3" aria-hidden="true"></div>
+        <div class="wave wave-bottom-2" aria-hidden="true"></div>
+        <div class="wave wave-bottom" aria-hidden="true"></div>
         <div class="container">
             <div class="section-wrapper">
                 <div class="counter-part">
@@ -193,7 +239,7 @@
                                         <i class="icofont-users-alt-4"></i>
                                     </div>
                                     <div class="count-content">
-                                        <h2><span class="count" data-to="465" data-speed="1500"></span><span></span></h2>
+                                        <h2><span class="count" data-to="{{ $home->stat_peserta_didik ?? 465 }}" data-speed="1500"></span><span></span></h2>
                                         <p>Peserta Didik</p>
                                     </div>
                                 </div>
@@ -206,7 +252,7 @@
                                         <i class="icofont-graduate-alt"></i>
                                     </div>
                                     <div class="count-content">
-                                        <h2><span class="count" data-to="76" data-speed="1500"></span><span></span></h2>
+                                        <h2><span class="count" data-to="{{ $home->stat_guru ?? 76 }}" data-speed="1500"></span><span></span></h2>
                                         <p>Guru dan Staff Profesional</p>
                                     </div>
                                 </div>
@@ -219,7 +265,7 @@
                                         <i class="icofont-notification"></i>
                                     </div>
                                     <div class="count-content">
-                                        <h2><span class="count" data-to="28" data-speed="1500"></span><span></span></h2>
+                                        <h2><span class="count" data-to="{{ $home->stat_kelas ?? 28 }}" data-speed="1500"></span><span></span></h2>
                                         <p>Jumlah Kelas</p>
                                     </div>
                                 </div>
@@ -232,7 +278,7 @@
                                         <i class="icofont-clock-time"></i>
                                     </div>
                                     <div class="count-content">
-                                        <h2><span class="count" data-to="10" data-speed="1500"></span><span></span></h2>
+                                        <h2><span class="count" data-to="{{ $home->stat_ekstrakurikuler ?? 10 }}" data-speed="1500"></span><span></span></h2>
                                         <p>Ekstakulikuer</p>
                                     </div>
                                 </div>
@@ -243,6 +289,120 @@
             </div>
         </div>
     </div>
+    @push('styles')
+    <style>
+      /* Wave background for statistics section */
+      .achievement-section.wave-bg {
+        position: relative;
+        background-color: #f5f6f7; /* light gray to match screenshot */
+        z-index: 0;
+      }
+      .achievement-section.wave-bg .section-wrapper {
+        position: relative;
+        z-index: 2; /* ensure content sits above waves */
+      }
+      .achievement-section.wave-bg .wave {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 220px; /* increased wave height for stronger overlap */
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        pointer-events: none; /* don't block clicks */
+        z-index: 1;
+      }
+      .achievement-section.wave-bg .wave.wave-top {
+        top: -120px; /* deeper overlap into the section above */
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'><path fill='%23f5f6f7' d='M0,0 C240,80 480,80 720,40 C960,0 1200,0 1440,40 L1440,120 L0,120 Z'/></svg>");
+      }
+      .achievement-section.wave-bg .wave.wave-bottom {
+        bottom: -120px; /* deeper overlap into the section below */
+        transform: scaleY(-1); /* mirror for the bottom edge */
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'><path fill='%23f5f6f7' d='M0,0 C240,80 480,80 720,40 C960,0 1200,0 1440,40 L1440,120 L0,120 Z'/></svg>");
+      }
+      /* Additional layers for depth */
+      .achievement-section.wave-bg .wave.wave-top-2 {
+        top: -160px;
+        height: 260px;
+        opacity: .6;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'><path fill='%23f5f6f7' d='M0,0 C240,80 480,80 720,40 C960,0 1200,0 1440,40 L1440,120 L0,120 Z'/></svg>");
+      }
+      .achievement-section.wave-bg .wave.wave-top-3 {
+        top: -190px;
+        height: 300px;
+        opacity: .3;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'><path fill='%23f5f6f7' d='M0,0 C240,80 480,80 720,40 C960,0 1200,0 1440,40 L1440,120 L0,120 Z'/></svg>");
+      }
+      .achievement-section.wave-bg .wave.wave-bottom-2 {
+        bottom: -160px;
+        height: 260px;
+        opacity: .6;
+        transform: scaleY(-1);
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'><path fill='%23f5f6f7' d='M0,0 C240,80 480,80 720,40 C960,0 1200,0 1440,40 L1440,120 L0,120 Z'/></svg>");
+      }
+      .achievement-section.wave-bg .wave.wave-bottom-3 {
+        bottom: -190px;
+        height: 300px;
+        opacity: .3;
+        transform: scaleY(-1);
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'><path fill='%23f5f6f7' d='M0,0 C240,80 480,80 720,40 C960,0 1200,0 1440,40 L1440,120 L0,120 Z'/></svg>");
+      }
+    </style>
+    @endpush
+    @push('scripts')
+    <script>
+      // One-time counter animation for statistics section
+      (function() {
+        const section = document.querySelector('.achievement-section.wave-bg');
+        if (!section) return;
+        const originals = Array.from(section.querySelectorAll('span.count'));
+        if (originals.length === 0) return;
+
+        // Detach any previously bound plugin handlers by cloning and replacing nodes
+        const counters = originals.map((el) => {
+          const clone = el.cloneNode(true);
+          // Ensure initial text is 0 for animation start
+          clone.textContent = '0';
+          // Remove class to avoid other scripts targeting it again
+          clone.classList.remove('count');
+          el.replaceWith(clone);
+          return clone;
+        });
+
+        const animate = (el, to, duration = 1500) => {
+          const start = performance.now();
+          const from = parseInt(el.textContent, 10) || 0;
+          const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const value = Math.floor(from + (to - from) * progress);
+            el.textContent = value;
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              el.textContent = to; // ensure final value
+            }
+          };
+          requestAnimationFrame(step);
+        };
+
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const el = entry.target;
+              if (el.dataset.counted === 'true') { io.unobserve(el); return; }
+              const toAttr = el.getAttribute('data-to') || el.getAttribute('data-count') || el.getAttribute('data-target') || el.dataset.to || el.dataset.count || el.dataset.target || '0';
+              const to = parseInt(toAttr, 10) || 0;
+              animate(el, to);
+              el.dataset.counted = 'true';
+              io.unobserve(el);
+            }
+          });
+        }, { threshold: 0.3 });
+
+        counters.forEach(el => io.observe(el));
+      })();
+    </script>
+    @endpush
     <!-- Achievement section ending here -->
 
     <!-- student feedbak section start here -->
@@ -258,64 +418,95 @@
                         <div class="sf-left">
                             <div class="sfl-thumb">
                                 <img src="{{ asset('assets/images/feedback/01.jpg') }}" alt="student feedback">
-                                <a href="https://www.youtube.com/embed/09QEtaoi2Lk" class="video-button" data-rel="lightcase"><i class="icofont-ui-play"></i></a>
+                                <a href="{{ ($sambutanKepsek?->video_embed_url ?? 'https://www.youtube-nocookie.com/embed/jP649ZHA8Tg?rel=0&modestbranding=1') }}" class="video-button" data-rel="lightcase" target="_blank" rel="noopener">
+                                    <i class="icofont-ui-play"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="stu-feed-item">
-                            <div class="stu-feed-inner">
-                                <div class="stu-feed-top">
-                                    <div class="sft-left">
-                                        <div class="sftl-thumb">
-                                            <img src="{{ asset('assets/images/feedback/student/01.jpg') }}" alt="student feedback">
+                        @php
+                            $defaultTestimonials = [
+                                [
+                                    'name' => 'Ibu Siti',
+                                    'role' => 'Wali Murid Kelas 2',
+                                    'text' => 'Alhamdulillah, anak saya semakin semangat belajar sejak bersekolah di SDIT Luqman Al Hakim Sleman. Guru-gurunya sabar, pembelajarannya menarik, dan nilai-nilai Islam diterapkan dengan baik. Terima kasih!',
+                                    'rating' => 5,
+                                    'photo_path' => 'assets/images/feedback/student/01.jpg',
+                                ],
+                                [
+                                    'name' => 'Bapak Ahmad',
+                                    'role' => 'Wali Murid Kelas 3',
+                                    'text' => 'Anak saya jadi lebih disiplin, mandiri, dan mencintai ilmu agama sejak sekolah di SDIT Luqman Al Hakim. Lingkungan belajar yang nyaman membuatnya betah. Sangat puas dengan sekolah ini!',
+                                    'rating' => 5,
+                                    'photo_path' => 'assets/images/feedback/student/02.jpg',
+                                ],
+                            ];
+                            $testimonials = !empty($sambutanKepsek?->testimonials) ? $sambutanKepsek->testimonials : $defaultTestimonials;
+                        @endphp
+                        <div id="homeTestimonialsList">
+                            @foreach($testimonials as $i => $t)
+                            @php
+                                $photo = !empty($t['photo_path']) ? asset($t['photo_path']) : asset('assets/images/feedback/student/01.jpg');
+                                $name = $t['name'] ?? 'Anonim';
+                                $role = $t['role'] ?? '';
+                                $text = $t['text'] ?? '';
+                                $rating = (int)($t['rating'] ?? 5);
+                                $visibleClass = $i < 2 ? 'd-block' : 'd-none';
+                            @endphp
+                            <div class="stu-feed-item testimonial-item {{ $visibleClass }}" data-idx="{{ $i }}">
+                                <div class="stu-feed-inner">
+                                    <div class="stu-feed-top">
+                                        <div class="sft-left">
+                                            <div class="sftl-thumb">
+                                                <img src="{{ $photo }}" alt="student feedback">
+                                            </div>
+                                            <div class="sftl-content">
+                                                <a href="#"><h6>{{ $name }}</h6></a>
+                                                @if($role)
+                                                <span>{{ $role }}</span>
+                                                @endif
+                                            </div>
                                         </div>
-                                        <div class="sftl-content">
-                                            <a href="#"><h6>Ibu Siti</h6></a>
-                                            <span>Wali Murid Kelas 2</span>
+                                        <div class="sft-right">
+                                            <span class="ratting">
+                                                @for($r=0; $r<max(1, min(5, $rating)); $r++)
+                                                    <i class="icofont-ui-rating"></i>
+                                                @endfor
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="sft-right">
-                                        <span class="ratting">
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                        </span>
+                                    <div class="stu-feed-bottom">
+                                        <p>"{{ $text }}"</p>
                                     </div>
-                                </div>
-                                <div class="stu-feed-bottom">
-                                    <p>"Alhamdulillah, anak saya semakin semangat belajar sejak bersekolah di SDIT Luqman Al Hakim Sleman. Guru-gurunya sabar, pembelajarannya menarik, dan nilai-nilai Islam diterapkan dengan baik. Terima kasih!</p>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
-                        <div class="stu-feed-item">
-                            <div class="stu-feed-inner">
-                                <div class="stu-feed-top">
-                                    <div class="sft-left">
-                                        <div class="sftl-thumb">
-                                            <img src="{{ asset('assets/images/feedback/student/02.jpg') }}" alt="student feedback">
-                                        </div>
-                                        <div class="sftl-content">
-                                            <a href="#"><h6>Bapak Ahmad</h6></a>
-                                            <span>Wali Murid Kelas 3</span>
-                                        </div>
-                                    </div>
-                                    <div class="sft-right">
-                                        <span class="ratting">
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="stu-feed-bottom">
-                                    <p>"Anak saya jadi lebih disiplin, mandiri, dan mencintai ilmu agama sejak sekolah di SDIT Luqman Al Hakim. Lingkungan belajar yang nyaman membuatnya betah. Sangat puas dengan sekolah ini!"</p>
-                                </div>
-                            </div>
+                        @if(count($testimonials) > 2)
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function(){
+                                    const items = Array.from(document.querySelectorAll('#homeTestimonialsList .testimonial-item'));
+                                    let start = 0;
+                                    function showPair(){
+                                        items.forEach(el => el.classList.add('d-none'));
+                                        const first = items[start % items.length];
+                                        const second = items[(start + 1) % items.length];
+                                        first.classList.remove('d-none');
+                                        second.classList.remove('d-none');
+                                    }
+                                    showPair();
+                                    if(items.length > 2){
+                                        setInterval(() => {
+                                            start = (start + 2) % items.length;
+                                            showPair();
+                                        }, 5000);
+                                    }
+                                });
+                            </script>
+                        @endif
+                        <div class="text-center mt-3">
+                            <a href="{{ route('sambutan-kepsek') }}" class="lab-btn"><span>Lihat Selengkapnya</span></a>
                         </div>
                     </div>
                 </div>
@@ -343,14 +534,15 @@
                                                 <img src="{{ $guru->foto_url }}" alt="{{ $guru->nama }}">
                                             </div>
                                             <div class="instructor-content">
-                                                <a href="{{ route('guru.detail', $guru->id) }}"><h4>{{ $guru->nama_lengkap }}</h4></a>
-                                                <p>{{ $guru->jabatan }}</p>
-                                                <span class="ratting">
-                                                    @for($i = 1; $i <= 5; $i++)
-                                                        <i class="icofont-ui-rating{{ $i <= $guru->rating ? '' : ' icofont-ui-rating-disabled' }}"></i>
-                                                    @endfor
-                                                </span>
-                                                <div class="social-media-icons mt-2">
+                                                <div class="text-center mb-3">
+                                                    <a href="{{ route('guru.detail', $guru->id) }}" class="text-decoration-none">
+                                                        <h4 class="m-0">{{ $guru->nama }}</h4>
+                                                    </a>
+                                                    <p class="m-0">{{ $guru->jabatan }}</p>
+                                                </div>
+                                                
+                                                <!-- Social Media Icons -->
+                                                <div class="social-media-icons">
                                                     @if($guru->whatsapp)
                                                         <a href="https://wa.me/{{ $guru->whatsapp }}" target="_blank" class="social-icon whatsapp" title="WhatsApp">
                                                             <i class="icofont-whatsapp"></i>
@@ -367,13 +559,11 @@
                                                         </a>
                                                     @endif
                                                 </div>
+                                                
+                                                <div class="teaching-years">
+                                                    <i class="icofont-book-alt"></i> {{ $guru->pengalaman_mengajar }} Tahun Mengajar
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="instructor-footer">
-                                            <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
-                                                <li><i class="icofont-book-alt"></i> {{ $guru->pengalaman_mengajar }} Tahun Mengajar</li>
-                                                <li><i class="icofont-users-alt-3"></i> {{ $guru->jumlah_siswa }} Siswa</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -387,22 +577,27 @@
                                             <img src="{{ asset('assets/images/instructor/01.jpg') }}" alt="instructor">
                                         </div>
                                         <div class="instructor-content">
-                                            <a href="{{ route('guru') }}"><h4>Ahmad Faizal Bhakti Islami, S.Pd.</h4></a>
-                                            <p>Guru Mupel PAIBP</p>
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
+                                            <div class="text-center mb-3">
+                                                <a href="{{ route('guru') }}" class="text-decoration-none">
+                                                    <h4 class="m-0">Ahmad Faizal Bhakti Islami, S.Pd.</h4>
+                                                </a>
+                                                <p class="m-0">Guru Mupel PAIBP</p>
+                                            </div>
+                                            <div class="social-media-icons">
+                                                <a href="https://wa.me/6281111111111" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+                                                    <i class="icofont-whatsapp"></i>
+                                                </a>
+                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
+                                                    <i class="icofont-instagram"></i>
+                                                </a>
+                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
+                                                    <i class="icofont-facebook"></i>
+                                                </a>
+                                            </div>
+                                            <div class="teaching-years">
+                                                <i class="icofont-book-alt"></i> 5 Tahun Mengajar
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="instructor-footer">
-                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
-                                            <li><i class="icofont-book-alt"></i> 5 Tahun Mengajar</li>
-                                            <li><i class="icofont-users-alt-3"></i> 120 Siswa</li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -413,22 +608,27 @@
                                             <img src="{{ asset('assets/images/instructor/02.jpg') }}" alt="instructor">
                                         </div>
                                         <div class="instructor-content">
-                                            <a href="{{ route('guru') }}"><h4>Atika Nurmaningtyas, S.Pd., Gr.</h4></a>
-                                            <p>Guru Tema Kelas 6B</p>
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
+                                            <div class="text-center mb-3">
+                                                <a href="{{ route('guru') }}" class="text-decoration-none">
+                                                    <h4 class="m-0">Atika Nurmaningtyas, S.Pd., Gr.</h4>
+                                                </a>
+                                                <p class="m-0">Guru Mupel Bahasa Inggris</p>
+                                            </div>
+                                            <div class="social-media-icons">
+                                                <a href="https://wa.me/6282222222222" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+                                                    <i class="icofont-whatsapp"></i>
+                                                </a>
+                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
+                                                    <i class="icofont-instagram"></i>
+                                                </a>
+                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
+                                                    <i class="icofont-facebook"></i>
+                                                </a>
+                                            </div>
+                                            <div class="teaching-years">
+                                                <i class="icofont-book-alt"></i> 7 Tahun Mengajar
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="instructor-footer">
-                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
-                                            <li><i class="icofont-book-alt"></i> 8 Tahun Mengajar</li>
-                                            <li><i class="icofont-users-alt-3"></i> 150 Siswa</li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -439,22 +639,27 @@
                                             <img src="{{ asset('assets/images/instructor/03.jpg') }}" alt="instructor">
                                         </div>
                                         <div class="instructor-content">
-                                            <a href="{{ route('guru') }}"><h4>Rofidah Qonitah Taqqiyah, S.Psi.</h4></a>
-                                            <p>Guru Bimbingan Konseling</p>
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
+                                            <div class="text-center mb-3">
+                                                <a href="{{ route('guru') }}" class="text-decoration-none">
+                                                    <h4 class="m-0">Budi Santoso, S.Pd.</h4>
+                                                </a>
+                                                <p class="m-0">Guru Mupel IPS</p>
+                                            </div>
+                                            <div class="social-media-icons">
+                                                <a href="https://wa.me/6285555555555" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+                                                    <i class="icofont-whatsapp"></i>
+                                                </a>
+                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
+                                                    <i class="icofont-instagram"></i>
+                                                </a>
+                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
+                                                    <i class="icofont-facebook"></i>
+                                                </a>
+                                            </div>
+                                            <div class="teaching-years">
+                                                <i class="icofont-book-alt"></i> 9 Tahun Mengajar
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="instructor-footer">
-                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
-                                            <li><i class="icofont-book-alt"></i> 6 Tahun Mengajar</li>
-                                            <li><i class="icofont-users-alt-3"></i> 200 Siswa</li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -465,22 +670,27 @@
                                             <img src="{{ asset('assets/images/instructor/04.jpg') }}" alt="instructor">
                                         </div>
                                         <div class="instructor-content">
-                                            <a href="{{ route('guru') }}"><h4>Muhammad FajarKholilulloh, S.Pd</h4></a>
-                                            <p>Guru Tahfidz Kelas 6A</p>
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
+                                            <div class="text-center mb-3">
+                                                <a href="{{ route('guru') }}" class="text-decoration-none">
+                                                    <h4 class="m-0">Dewi Sartika, S.Pd.</h4>
+                                                </a>
+                                                <p class="m-0">Guru Mupel IPA</p>
+                                            </div>
+                                            <div class="social-media-icons">
+                                                <a href="https://wa.me/6284444444444" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+                                                    <i class="icofont-whatsapp"></i>
+                                                </a>
+                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
+                                                    <i class="icofont-instagram"></i>
+                                                </a>
+                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
+                                                    <i class="icofont-facebook"></i>
+                                                </a>
+                                            </div>
+                                            <div class="teaching-years">
+                                                <i class="icofont-book-alt"></i> 8 Tahun Mengajar
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="instructor-footer">
-                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
-                                            <li><i class="icofont-book-alt"></i> 10 Tahun Mengajar</li>
-                                            <li><i class="icofont-users-alt-3"></i> 180 Siswa</li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -491,22 +701,27 @@
                                             <img src="{{ asset('assets/images/instructor/05.jpg') }}" alt="instructor">
                                         </div>
                                         <div class="instructor-content">
-                                            <a href="{{ route('guru') }}"><h4>Nurul Hidayah, S.Pd</h4></a>
-                                            <p>Guru Kelas 1A</p>
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
+                                            <div class="text-center mb-3">
+                                                <a href="{{ route('guru') }}" class="text-decoration-none">
+                                                    <h4 class="m-0">Muhammad FajarKholilulloh, S.Pd</h4>
+                                                </a>
+                                                <p class="m-0">Guru Tahfidz Kelas 6A</p>
+                                            </div>
+                                            <div class="social-media-icons">
+                                                <a href="https://wa.me/6281444444444" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+                                                    <i class="icofont-whatsapp"></i>
+                                                </a>
+                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
+                                                    <i class="icofont-instagram"></i>
+                                                </a>
+                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
+                                                    <i class="icofont-facebook"></i>
+                                                </a>
+                                            </div>
+                                            <div class="teaching-years">
+                                                <i class="icofont-book-alt"></i> 10 Tahun Mengajar
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="instructor-footer">
-                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
-                                            <li><i class="icofont-book-alt"></i> 7 Tahun Mengajar</li>
-                                            <li><i class="icofont-users-alt-3"></i> 100 Siswa</li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -517,22 +732,27 @@
                                             <img src="{{ asset('assets/images/instructor/06.jpg') }}" alt="instructor">
                                         </div>
                                         <div class="instructor-content">
-                                            <a href="{{ route('guru') }}"><h4>Ahmad Rizki, S.Pd</h4></a>
-                                            <p>Guru Kelas 2B</p>
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
+                                            <div class="text-center mb-3">
+                                                <a href="{{ route('guru') }}" class="text-decoration-none">
+                                                    <h4 class="m-0">Nurul Hidayah, S.Pd</h4>
+                                                </a>
+                                                <p class="m-0">Guru Kelas 1A</p>
+                                            </div>
+                                            <div class="social-media-icons">
+                                                <a href="https://wa.me/6281555555555" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+                                                    <i class="icofont-whatsapp"></i>
+                                                </a>
+                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
+                                                    <i class="icofont-instagram"></i>
+                                                </a>
+                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
+                                                    <i class="icofont-facebook"></i>
+                                                </a>
+                                            </div>
+                                            <div class="teaching-years">
+                                                <i class="icofont-book-alt"></i> 7 Tahun Mengajar
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="instructor-footer">
-                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
-                                            <li><i class="icofont-book-alt"></i> 4 Tahun Mengajar</li>
-                                            <li><i class="icofont-users-alt-3"></i> 90 Siswa</li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -543,22 +763,27 @@
                                             <img src="{{ asset('assets/images/instructor/07.jpg') }}" alt="instructor">
                                         </div>
                                         <div class="instructor-content">
-                                            <a href="{{ route('guru') }}"><h4>Siti Aminah, S.Pd</h4></a>
-                                            <p>Guru Kelas 3A</p>
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
+                                            <div class="text-center mb-3">
+                                                <a href="{{ route('guru') }}" class="text-decoration-none">
+                                                    <h4 class="m-0">Ahmad Rizki, S.Pd</h4>
+                                                </a>
+                                                <p class="m-0">Guru Kelas 2B</p>
+                                            </div>
+                                            <div class="social-media-icons">
+                                                <a href="https://wa.me/6281666666666" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+                                                    <i class="icofont-whatsapp"></i>
+                                                </a>
+                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
+                                                    <i class="icofont-instagram"></i>
+                                                </a>
+                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
+                                                    <i class="icofont-facebook"></i>
+                                                </a>
+                                            </div>
+                                            <div class="teaching-years">
+                                                <i class="icofont-book-alt"></i> 4 Tahun Mengajar
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="instructor-footer">
-                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
-                                            <li><i class="icofont-book-alt"></i> 9 Tahun Mengajar</li>
-                                            <li><i class="icofont-users-alt-3"></i> 140 Siswa</li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -569,23 +794,27 @@
                                             <img src="{{ asset('assets/images/instructor/08.jpg') }}" alt="instructor">
                                         </div>
                                         <div class="instructor-content">
-                                            <a href="{{ route('guru') }}"><h4>Muhammad Yusuf, S.Pd</h4></a>
-                                            <p>Guru Kelas 4B</p>
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
+                                            <div class="text-center mb-3">
+                                                <a href="{{ route('guru') }}" class="text-decoration-none">
+                                                    <h4 class="m-0">Muhammad Yusuf, S.Pd</h4>
+                                                </a>
+                                                <p class="m-0">Guru Kelas 4B</p>
+                                            </div>
+                                            <div class="social-media-icons">
+                                                <a href="https://wa.me/6281234567899" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+                                                    <i class="icofont-whatsapp"></i>
+                                                </a>
+                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
+                                                    <i class="icofont-instagram"></i>
+                                                </a>
+                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
+                                                    <i class="icofont-facebook"></i>
+                                                </a>
+                                            </div>
+                                            <div class="teaching-years">
+                                                <i class="icofont-book-alt"></i> 6 Tahun Mengajar
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="instructor-footer">
-                                        <ul class="lab-ul d-flex flex-wrap justify-content-between align-items-center">
-                                            <li><i class="icofont-book-alt"></i> 6 Tahun Mengajar</li>
-                                            <li><i class="icofont-users-alt-3"></i> 110 Siswa</li>
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
                         @endif
@@ -598,6 +827,105 @@
         </div>
     </div>
     <!-- Instructors Section Ending Here -->
+
+    @push('styles')
+    <style>
+    /* Social icon chips like Guru & Karyawan page */
+    .social-media-icons { display: flex; gap: 8px; justify-content: center; flex-wrap: nowrap; white-space: nowrap; margin: 15px 0; }
+    .social-icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: #fff; text-decoration: none; transition: all .3s ease; font-size: 16px; }
+    .social-media-icons .social-icon { flex: 0 0 auto; }
+    .social-icon:hover { transform: translateY(-2px); color: #fff; text-decoration: none; }
+    .social-icon.whatsapp { background-color: #25D366; }
+    .social-icon.whatsapp:hover { background-color: #128C7E; }
+    .social-icon.instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
+    .social-icon.instagram:hover { background: linear-gradient(45deg, #e6683c 0%,#dc2743 25%,#cc2366 50%,#bc1888 75%,#f09433 100%); }
+    .social-icon.facebook { background-color: #1877F2; }
+    .social-icon.facebook:hover { background-color: #0d6efd; }
+
+    /* Card layout and sizing */
+    .instructor-item {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .instructor-inner {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 20px 15px 15px;
+    }
+    
+    .instructor-thumb {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 15px;
+        border-radius: 50% !important;
+        overflow: hidden;
+        border: 3px solid #f8f9fa;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .instructor-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .instructor-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 0 5px;
+    }
+    
+    .instructor-content h4 {
+        font-size: 18px;
+        margin-bottom: 5px;
+        color: #2c3e50;
+    }
+    
+    .instructor-content p {
+        color: #6c757d;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+    
+    .teaching-years {
+        margin-top: auto;
+        padding: 12px 0 0;
+        text-align: center;
+        font-size: 14px;
+        color: #6c757d;
+        border-top: 1px solid #eee;
+        margin-top: 10px;
+    }
+    
+    .teaching-years i {
+        margin-right: 5px;
+        color: #ff6b6b;
+    }
+    
+    .instructor-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    /* Small screens: slightly smaller icons to keep inline */
+    @media (max-width: 575.98px) {
+        .social-media-icons { gap: 8px; }
+        .social-icon { width: 30px; height: 30px; font-size: 14px; }
+    }
+
+    
+    </style>
+    @endpush
 
     <!-- blog section start here -->
     <div class="blog-section padding-tb section-bg">
@@ -808,6 +1136,9 @@
 
 .category-item {
     margin-bottom: 15px;
+    height: 100%;
+    display: flex;
+    width: 100%;
 }
 
 .category-inner {
@@ -822,6 +1153,11 @@
     justify-content: center;
     min-height: 140px;
     text-align: center;
+}
+
+/* Make columns flex to allow equal-height cards */
+.category-section .row > .col {
+    display: flex;
 }
 
 .category-thumb {
@@ -1035,14 +1371,26 @@
 }
 
 .instructor-slider .swiper-wrapper {
-    align-items: stretch;
+    align-items: flex-start;
 }
 
 .instructor-slider .swiper-slide {
-    width: 280px;
+    width: 320px;
     height: auto;
     margin-right: 20px;
     display: flex;
+}
+@media (min-width: 576px) {
+    .instructor-slider .swiper-slide { width: 360px; }
+}
+@media (min-width: 768px) {
+    .instructor-slider .swiper-slide { width: 440px; }
+}
+@media (min-width: 992px) {
+    .instructor-slider .swiper-slide { width: 520px; }
+}
+@media (min-width: 1200px) {
+    .instructor-slider .swiper-slide { width: 560px; }
 }
 
 .instructor-item {
@@ -1051,12 +1399,12 @@
     padding: 25px 20px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    height: 100%;
+    height: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    min-height: 320px;
+    justify-content: flex-start;
+    min-height: 0;
 }
 
 .instructor-item:hover {
@@ -1068,11 +1416,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    gap: 8px;
 }
 
 .instructor-thumb {
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     overflow: hidden;
     margin: 0 auto 20px;
@@ -1091,7 +1440,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .instructor-content h4 {
@@ -1107,6 +1456,8 @@
     color: #666;
     margin-bottom: 12px;
     line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .ratting {
@@ -1128,13 +1479,15 @@
 .social-media-icons {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: auto;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .social-icon {
-    width: 35px;
-    height: 35px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1158,13 +1511,13 @@
 }
 
 .social-icon:hover {
-    transform: scale(1.1);
+    transform: translateY(-2px);
 }
 
 .instructor-footer {
     border-top: 1px solid #eee;
     padding-top: 15px;
-    margin-top: auto;
+    margin-top: 12px;
 }
 
 .instructor-footer ul {
@@ -1205,12 +1558,6 @@
     overflow-wrap: break-word;
 }
 
-/* Fix for social media icons alignment */
-.social-media-icons {
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     .category-inner {
@@ -1232,10 +1579,8 @@
         font-size: 24px;
     }
     
-    .instructor-slider .swiper-slide {
-        width: 260px;
-        margin-right: 15px;
-    }
+    /* Keep narrower on small screens; base width above already handles <576px */
+    .instructor-slider .swiper-slide { margin-right: 15px; }
     
     .instructor-item {
         padding: 20px 15px;

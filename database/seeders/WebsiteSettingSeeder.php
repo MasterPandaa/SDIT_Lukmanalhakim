@@ -13,7 +13,7 @@ class WebsiteSettingSeeder extends Seeder
      */
     public function run(): void
     {
-        WebsiteSetting::create([
+        WebsiteSetting::updateOrCreate(['id' => 1], [
             // Header Settings
             'header_phone' => '+62 857-4725-5761',
             'header_address' => 'Sleman, Yogyakarta',
@@ -79,6 +79,42 @@ class WebsiteSettingSeeder extends Seeder
             'footer_bottom_link_3_url' => '#',
             'footer_bottom_link_4_text' => 'Alumni',
             'footer_bottom_link_4_url' => '/about/alumni',
+
+            // Home: Hero/Title Section
+            'judul_hero' => '<span class="d-lg-block">Sekolah Dasar</span> Islam Terpadu <span class="d-lg-block">Luqman Al Hakim</span>',
+            'subtitle_hero' => 'Islamic education',
+            'deskripsi_hero' => "Membangun Generasi Qur'ani yang Cerdas, Berprestasi, dan Berakhlak Mulia untuk Masa Depan Gemilang",
+            'teks_tombol' => 'Daftar Segera',
+            'link_tombol' => 'https://psb.luqmanalhakim.sch.id/',
+            'gambar_hero' => null,
+
+            // Home: Program Unggulan Section
+            'program_section_title' => 'Program Unggulan',
+            'program_section_subtitle' => 'Bangun Generasi Berkarakter bersama Kami',
+            'program_1_text' => 'Tahfiz Quran 10 juz',
+            'program_1_url' => '#',
+            'program_1_image' => null,
+            'program_2_text' => 'Pendidikan Karakter',
+            'program_2_url' => '#',
+            'program_2_image' => null,
+            'program_3_text' => 'Fasih Membaca Quran',
+            'program_3_url' => '#',
+            'program_3_image' => null,
+            'program_4_text' => 'Hafal 20 Hadis Pilihan',
+            'program_4_url' => '#',
+            'program_4_image' => null,
+            'program_5_text' => 'Sukses Asessmen AKM',
+            'program_5_url' => '#',
+            'program_5_image' => null,
+            'program_6_text' => 'Program Kepesantrenan',
+            'program_6_url' => '#',
+            'program_6_image' => null,
+
+            // Home: Statistik Section
+            'stat_peserta_didik' => 465,
+            'stat_guru' => 76,
+            'stat_kelas' => 28,
+            'stat_ekstrakurikuler' => 10,
         ]);
     }
 }

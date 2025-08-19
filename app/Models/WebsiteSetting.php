@@ -76,6 +76,30 @@ class WebsiteSetting extends Model
         'footer_bottom_link_3_url',
         'footer_bottom_link_4_text',
         'footer_bottom_link_4_url',
+
+        // Home: Hero/Title Section
+        'judul_hero',
+        'subtitle_hero',
+        'deskripsi_hero',
+        'teks_tombol',
+        'link_tombol',
+        'gambar_hero',
+
+        // Home: Program Unggulan Section
+        'program_section_title',
+        'program_section_subtitle',
+        'program_1_text', 'program_1_url', 'program_1_image',
+        'program_2_text', 'program_2_url', 'program_2_image',
+        'program_3_text', 'program_3_url', 'program_3_image',
+        'program_4_text', 'program_4_url', 'program_4_image',
+        'program_5_text', 'program_5_url', 'program_5_image',
+        'program_6_text', 'program_6_url', 'program_6_image',
+
+        // Home: Statistik Section
+        'stat_peserta_didik',
+        'stat_guru',
+        'stat_kelas',
+        'stat_ekstrakurikuler',
     ];
 
     /**

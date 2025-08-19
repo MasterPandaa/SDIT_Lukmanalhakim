@@ -15,7 +15,8 @@ class WebsiteSettingController extends Controller
      */
     public function home()
     {
-        return view('admin.website.home.index');
+        $settings = WebsiteSetting::getSettings();
+        return view('admin.website.home.index', ['home' => $settings]);
     }
 
     /**
@@ -42,6 +43,104 @@ class WebsiteSettingController extends Controller
             Log::error('Error loading website settings: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan saat memuat pengaturan website.');
         }
+    }
+
+    /**
+     * Update Home (Hero, Program Unggulan, Statistik)
+     */
+    public function updateHome(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                // Hero/Title
+                'judul_hero' => 'required|string|max:255',
+                'subtitle_hero' => 'nullable|string|max:255',
+                'deskripsi_hero' => 'nullable|string',
+                'teks_tombol' => 'nullable|string|max:255',
+                'link_tombol' => 'nullable|string|max:255', // allow relative URLs
+                'gambar_hero' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+
+                // Program Unggulan section
+                'program_section_title' => 'nullable|string|max:255',
+                'program_section_subtitle' => 'nullable|string|max:255',
+            ] + $this->programValidationRules() + [
+                // Statistik
+                'stat_peserta_didik' => 'nullable|integer|min:0',
+                'stat_guru' => 'nullable|integer|min:0',
+                'stat_kelas' => 'nullable|integer|min:0',
+                'stat_ekstrakurikuler' => 'nullable|integer|min:0',
+            ]);
+
+            $settings = WebsiteSetting::getSettings();
+
+            // Handle hero image
+            if ($request->hasFile('gambar_hero')) {
+                try {
+                    $file = $request->file('gambar_hero');
+                    if ($settings->gambar_hero && \Storage::disk('public')->exists($settings->gambar_hero)) {
+                        \Storage::disk('public')->delete($settings->gambar_hero);
+                    }
+                    $path = $file->store('website/home', 'public');
+                    $settings->gambar_hero = $path;
+                } catch (\Exception $e) {
+                    Log::error('Error uploading hero image: ' . $e->getMessage());
+                    return redirect()->back()->with('error', 'Gagal mengunggah gambar hero: ' . $e->getMessage());
+                }
+            }
+
+            // Handle program images upload (program_1_image ... program_6_image)
+            for ($i = 1; $i <= 6; $i++) {
+                $inputName = "program_{$i}_image";
+                if ($request->hasFile($inputName)) {
+                    try {
+                        $file = $request->file($inputName);
+                        $current = $settings->{"program_{$i}_image"};
+                        if ($current && \Storage::disk('public')->exists($current)) {
+                            \Storage::disk('public')->delete($current);
+                        }
+                        $path = $file->store('website/home/programs', 'public');
+                        $settings->{"program_{$i}_image"} = $path;
+                    } catch (\Exception $e) {
+                        Log::error("Error uploading {$inputName}: " . $e->getMessage());
+                        return redirect()->back()->with('error', 'Gagal mengunggah gambar program: ' . $e->getMessage());
+                    }
+                }
+            }
+
+            // Update text/url/number fields
+            $fields = [
+                'judul_hero','subtitle_hero','deskripsi_hero','teks_tombol','link_tombol',
+                'program_section_title','program_section_subtitle',
+                'stat_peserta_didik','stat_guru','stat_kelas','stat_ekstrakurikuler',
+            ];
+            for ($i = 1; $i <= 6; $i++) {
+                $fields[] = "program_{$i}_text";
+                $fields[] = "program_{$i}_url";
+            }
+            $settings->update($request->only($fields));
+
+            // Clear cache
+            try { \Cache::forget('website_settings'); } catch (\Exception $e) { Log::warning('Could not clear cache: ' . $e->getMessage()); }
+
+            return redirect()->route('admin.website.home')->with('success', 'Pengaturan halaman utama berhasil diperbarui!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation error in home settings: ' . json_encode($e->errors()));
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            Log::error('Error updating home settings: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan pengaturan halaman utama.');
+        }
+    }
+
+    private function programValidationRules(): array
+    {
+        $rules = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $rules["program_{$i}_text"] = 'nullable|string|max:255';
+            $rules["program_{$i}_url"] = 'nullable|string|max:255';
+            $rules["program_{$i}_image"] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+        }
+        return $rules;
     }
 
     /**

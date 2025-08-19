@@ -165,6 +165,7 @@ Route::prefix('adminpanel')->group(function () {
         
         // Website Management Routes
         Route::get('/website/home', [App\Http\Controllers\Admin\WebsiteSettingController::class, 'home'])->name('admin.website.home');
+        Route::put('/website/home', [App\Http\Controllers\Admin\WebsiteSettingController::class, 'updateHome'])->name('admin.website.home.update');
         
         // Website Settings Routes
         Route::get('/website/settings', [App\Http\Controllers\Admin\WebsiteSettingController::class, 'index'])->name('admin.website.settings.index');

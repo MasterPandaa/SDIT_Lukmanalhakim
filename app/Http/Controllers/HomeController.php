@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Guru;
+use App\Models\WebsiteSetting;
+use App\Models\SambutanKepsek;
 
 class HomeController extends Controller
 {
@@ -20,6 +22,12 @@ class HomeController extends Controller
                     ->limit(8)
                     ->get();
         
-        return view('index', compact('gurus'));
+        // Ambil pengaturan website untuk homepage (hero, program unggulan, statistik)
+        $home = WebsiteSetting::getSettings();
+        
+        // Ambil data Sambutan Kepsek aktif untuk ditampilkan ulang (testimonials & video)
+        $sambutanKepsek = SambutanKepsek::where('is_active', true)->first();
+        
+        return view('index', compact('gurus', 'home', 'sambutanKepsek'));
     }
 }
