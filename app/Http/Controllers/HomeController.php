@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Guru;
 use App\Models\WebsiteSetting;
 use App\Models\SambutanKepsek;
+use App\Models\Artikel;
+use App\Models\Alumni;
 
 class HomeController extends Controller
 {
@@ -27,7 +29,20 @@ class HomeController extends Controller
         
         // Ambil data Sambutan Kepsek aktif untuk ditampilkan ulang (testimonials & video)
         $sambutanKepsek = SambutanKepsek::where('is_active', true)->first();
+
+        // Ambil 3 artikel terbaru yang aktif
+        $articles = Artikel::where('is_active', true)
+                         ->where('published_at', '<=', now())
+                         ->orderBy('published_at', 'desc')
+                         ->take(3)
+                         ->get();
+
+        // Ambil 3 alumni aktif terbaru
+        $alumni = Alumni::where('is_active', true)
+                       ->orderBy('tahun_lulus', 'desc')
+                       ->take(3)
+                       ->get();
         
-        return view('index', compact('gurus', 'home', 'sambutanKepsek'));
+        return view('index', compact('gurus', 'home', 'sambutanKepsek', 'articles', 'alumni'));
     }
 }

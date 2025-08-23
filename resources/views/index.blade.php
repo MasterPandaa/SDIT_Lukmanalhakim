@@ -531,7 +531,7 @@
                                     <div class="instructor-item">
                                         <div class="instructor-inner">
                                             <div class="instructor-thumb">
-                                                <img src="{{ $guru->foto_url }}" alt="{{ $guru->nama }}">
+                                                <img src="{{ $guru->foto_url }}" alt="{{ $guru->nama }}" class="img-fluid" style="width: 100%; height: 200px; object-fit: cover;">
                                             </div>
                                             <div class="instructor-content">
                                                 <div class="text-center mb-3">
@@ -563,6 +563,12 @@
                                                 <div class="teaching-years">
                                                     <i class="icofont-book-alt"></i> {{ $guru->pengalaman_mengajar }} Tahun Mengajar
                                                 </div>
+                                                
+                                                @if($guru->pernyataan_pribadi)
+                                                <div class="pernyataan-pribadi">
+                                                    <p>"{{ $guru->pernyataan_pribadi }}"</p>
+                                                </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -815,6 +821,7 @@
                                                 <i class="icofont-book-alt"></i> 6 Tahun Mengajar
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
                             </div>
                         @endif
@@ -851,7 +858,7 @@
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: transform 0.3s ease;
     }
     
     .instructor-inner {
@@ -868,7 +875,7 @@
         border-radius: 50% !important;
         overflow: hidden;
         border: 3px solid #f8f9fa;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
     
     .instructor-thumb img {
@@ -891,9 +898,11 @@
     }
     
     .instructor-content p {
-        color: #6c757d;
-        margin-bottom: 15px;
+        color: #666;
         font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex-grow: 1;
     }
     
     .teaching-years {
@@ -901,14 +910,14 @@
         padding: 12px 0 0;
         text-align: center;
         font-size: 14px;
-        color: #6c757d;
+        color: #666;
         border-top: 1px solid #eee;
         margin-top: 10px;
     }
     
     .teaching-years i {
         margin-right: 5px;
-        color: #ff6b6b;
+        color: var(--primary-color);
     }
     
     .instructor-content {
@@ -936,94 +945,50 @@
             </div>
             <div class="section-wrapper">
                 <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center g-4">
+                    @forelse($articles as $article)
                     <div class="col">
                         <div class="post-item">
                             <div class="post-inner">
                                 <div class="post-thumb">
-                                    <a href="{{ route('blog-single', 'bagaimana-mengelola-uang-dengan-bijak') }}"><img src="{{ asset('assets/images/blog/01.jpg') }}" alt="blog thumb"></a>
+                                    <a href="{{ route('blog-single', $article->slug) }}">
+                                        <img src="{{ $article->gambar_url }}" alt="{{ $article->judul }}" class="img-fluid" style="width: 100%; height: 200px; object-fit: cover;">
+                                    </a>
                                 </div>
                                 <div class="post-content">
-                                    <a href="{{ route('blog-single', 'bagaimana-mengelola-uang-dengan-bijak') }}"><h4>Bagaimana Mengelola Uang dengan Bijak</h4></a>
+                                    <a href="{{ route('blog-single', $article->slug) }}">
+                                        <h4>{{ $article->judul }}</h4>
+                                    </a>
                                     <div class="meta-post">
                                         <ul class="lab-ul">
-                                            <li><i class="icofont-ui-user"></i>Umi Salamah</li>
-                                            <li><i class="icofont-calendar"></i>Oktober 05, 2024</li>
+                                            <li><i class="icofont-ui-user"></i>{{ $article->penulis ?? 'Admin' }}</li>
+                                            <li><i class="icofont-calendar"></i>{{ $article->published_at ? $article->published_at->format('F d, Y') : 'N/A' }}</li>
                                         </ul>
                                     </div>
-                                    <p>Mengelola uang dengan bijak membantu kita menggunakan keuangan secara efektif, memastikan kebutuhan terpenuhi, serta menabung dan berinvestasi untuk masa depan </p>
+                                    <p>{{ $article->ringkasan ?? Str::limit(strip_tags($article->konten), 150) }}</p>
                                 </div>
                                 <div class="post-footer">
                                     <div class="pf-left">
-                                        <a href="{{ route('blog-single', 'bagaimana-mengelola-uang-dengan-bijak') }}" class="lab-btn-text">Read more <i class="icofont-external-link"></i></a>
+                                        <a href="{{ route('blog-single', $article->slug) }}" class="lab-btn-text">Baca selengkapnya <i class="icofont-external-link"></i></a>
                                     </div>
                                     <div class="pf-right">
                                         <i class="icofont-comment"></i>
-                                        <span class="comment-count">3</span>
+                                        <span class="comment-count">0</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="post-item">
-                            <div class="post-inner">
-                                <div class="post-thumb">
-                                    <a href="{{ route('blog-single', 'sebuah-sekolah-yang-menyenangkan') }}"><img src="{{ asset('assets/images/blog/02.jpg') }}" alt="blog thumb"></a>
-                                </div>
-                                <div class="post-content">
-                                    <a href="{{ route('blog-single', 'sebuah-sekolah-yang-menyenangkan') }}"><h4>Sebuah Sekolah yang Menyenangkan</h4></a>
-                                    <div class="meta-post">
-                                        <ul class="lab-ul">
-                                            <li><i class="icofont-ui-user"></i>Berliana</li>
-                                            <li><i class="icofont-calendar"></i>Desember 13, 2024</li>
-                                        </ul>
-                                    </div>
-                                    <p>Sekolah yang menyenangkan adalah tempat di mana belajar terasa seru, guru dan teman-teman saling mendukung, serta setiap hari penuh dengan pengalaman baru yang menginspirasi.</p>
-                                </div>
-                                <div class="post-footer">
-                                    <div class="pf-left">
-                                        <a href="{{ route('blog-single', 'sebuah-sekolah-yang-menyenangkan') }}" class="lab-btn-text">Read more <i class="icofont-external-link"></i></a>
-                                    </div>
-                                    <div class="pf-right">
-                                        <i class="icofont-comment"></i>
-                                        <span class="comment-count">3</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    @empty
+                    <div class="col-12 text-center">
+                        <p>Tidak ada artikel yang tersedia saat ini.</p>
                     </div>
-                    <div class="col">
-                        <div class="post-item">
-                            <div class="post-inner">
-                                <div class="post-thumb">
-                                    <a href="{{ route('blog-single', 'perkembangan-ai-untuk-pembelajaran') }}"><img src="{{ asset('assets/images/blog/03.jpg') }}" alt="blog thumb"></a>
-                                </div>
-                                <div class="post-content">
-                                    <a href="{{ route('blog-single', 'perkembangan-ai-untuk-pembelajaran') }}"><h4>Perkembangan AI untuk Pembelajaran</h4></a>
-                                    <div class="meta-post">
-                                        <ul class="lab-ul">
-                                            <li><i class="icofont-ui-user"></i>Ahmad Faizal</li>
-                                            <li><i class="icofont-calendar"></i>April 23, 2024</li>
-                                        </ul>
-                                    </div>
-                                    <p>Artificial Intelligence (AI) dalam pembelajaran membantu siswa belajar lebih interaktif, personal, dan efisien dengan teknologi cerdas yang menyesuaikan materi sesuai kebutuhan mereka.</p>
-                                </div>
-                                <div class="post-footer">
-                                    <div class="pf-left">
-                                        <a href="{{ route('blog-single', 'perkembangan-ai-untuk-pembelajaran') }}" class="lab-btn-text">Read more <i class="icofont-external-link"></i></a>
-                                    </div>
-                                    <div class="pf-right">
-                                        <i class="icofont-comment"></i>
-                                        <span class="comment-count">3</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center footer-btn">
-                        <p>Ingin mengetahui lebih lanjut?<a href="{{ route('blog') }}"> Klik di sini</a></p>
-                    </div>
+                    @endforelse
                 </div>
+                @if($articles->count() > 0)
+                <div class="text-center mt-5">
+                    <a href="{{ route('blog') }}" class="lab-btn"><span>Lihat Semua Artikel</span></a>
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -1038,60 +1003,203 @@
             <div class="section-wrapper">
                 <div class="clients-slider overflow-hidden">
                     <div class="swiper-wrapper">
+                        @forelse($alumni as $alumnus)
                         <div class="swiper-slide">
                             <div class="client-item">
                                 <div class="client-inner">
                                     <div class="client-thumb">
-                                        <img src="{{ asset('assets/images/clients/01.jpg') }}" alt="education">
+                                        <img src="{{ $alumnus->foto_url }}" alt="{{ $alumnus->nama }}" class="img-fluid">
                                     </div>
                                     <div class="client-content">
-                                        <p>"Aku bangga jadi alumni SDIT Luqman Al Hakim! Gurunya baik dan sabar banget, ngajarin kita bukan cuma pelajaran sekolah, tapi juga cara jadi anak yang shalih. Kegiatan di sekolah juga seru, ada outbound, tahfidz, dan lomba-lomba yang bikin aku jadi lebih percaya diri. Sekolah ini benar-benar ngajarin ilmu dunia dan akhirat!"</p>
+                                        <p>{{ $alumnus->testimoni }}</p>
                                         <div class="client-info">
-                                            <h6 class="client-name">Aulia Rahmawati</h6>
-                                            <span class="client-degi">Alumni 2022</span>
+                                            <h6 class="client-name">{{ $alumnus->nama }}</h6>
+                                            <span class="client-degi">
+                                                Alumni {{ $alumnus->tahun_lulus }}
+                                                @if($alumnus->pendidikan_lanjutan || $alumnus->pekerjaan)
+                                                    • {{ $alumnus->pendidikan_lanjutan ?: $alumnus->pekerjaan }}
+                                                @endif
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        @empty
+                        <!-- Fallback content if no alumni found -->
                         <div class="swiper-slide">
                             <div class="client-item">
                                 <div class="client-inner">
                                     <div class="client-thumb">
-                                        <img src="{{ asset('assets/images/clients/02.jpg') }}" alt="education">
+                                        <img src="{{ asset('assets/images/default/alumni-default.jpg') }}" alt="Alumni" class="img-fluid">
                                     </div>
                                     <div class="client-content">
-                                        <p>Belajar di SDIT Luqman Al Hakim itu pengalaman yang nggak terlupakan! Selain akademiknya bagus, sekolah ini juga ngajarin akhlak dan nilai-nilai Islam dengan cara yang seru. Aku jadi lebih disiplin, hafalan Qur'anku bertambah, dan yang paling penting, aku punya banyak teman yang baik. Terima kasih, SDIT Luqman Al Hakim!"</p>
+                                        <p>SDIT Luqman Al Hakim telah memberikan pondasi yang kuat untuk masa depan saya. Terima kasih atas semua ilmu dan pengalaman berharga yang diberikan.</p>
                                         <div class="client-info">
-                                            <h6 class="client-name">Aisyah Rahmawati</h6>
-                                            <span class="client-degi">Alumni 2019</span>
+                                            <h6 class="client-name">Nama Alumni</h6>
+                                            <span class="client-degi">Alumni 2023</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="client-item">
-                                <div class="client-inner">
-                                    <div class="client-thumb">
-                                        <img src="{{ asset('assets/images/clients/03.jpg') }}" alt="education">
-                                    </div>
-                                    <div class="client-content">
-                                        <p>"Sekolah di SDIT Luqman Al Hakim bikin aku banyak belajar tentang arti persahabatan, kerja sama, dan kepemimpinan. Aku dulu sering ikut organisasi sekolah dan berbagai lomba, yang bikin aku jadi lebih percaya diri. Ilmu yang aku dapat di sini nggak cuma akademik, tapi juga ilmu kehidupan!"</p>
-                                        <div class="client-info">
-                                            <h6 class="client-name">Ahmad Zaki</h6>
-                                            <span class="client-degi">Alumni 2020</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforelse
                     </div>
+                    <div class="client-pagination mt-4"></div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Clients Section Ending Here -->
+
+    @push('styles')
+    <style>
+        /* Alumni Testimonial Styles */
+        .clients-section {
+            background-color: #f8f9fa;
+            padding: 80px 0;
+        }
+        .client-item {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+        .client-inner {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 0;
+        }
+        .client-inner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .client-thumb {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .client-thumb img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .client-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        .client-content p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 25px;
+            flex: 1;
+            font-style: italic;
+            position: relative;
+            padding: 0 10px;
+            font-weight: 400;
+        }
+        .client-content p:before,
+        .client-content p:after {
+            content: '"';
+            font-size: 50px;
+            position: absolute;
+            color: rgba(0, 0, 0, 0.07);
+            font-family: serif;
+            line-height: 1;
+        }
+        .client-content p:before {
+            left: -5px;
+            top: -15px;
+        }
+        .client-content p:after {
+            right: -5px;
+            bottom: -30px;
+        }
+        .client-info {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .client-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .client-degi {
+            font-size: 14px;
+            color: #7f8c8d;
+            display: block;
+            font-weight: 400;
+        }
+        
+        /* Slider Navigation */
+        .client-pagination {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .client-pagination .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            background: #ddd;
+            opacity: 1;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        .client-pagination .swiper-pagination-bullet-active {
+            background: #3498db;
+            width: 30px;
+            border-radius: 5px;
+        }
+        
+        /* Ensure all slides have the same height */
+        .swiper-slide {
+            height: auto;
+        }
+        
+        /* Section Header */
+        .section-header .title {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        .section-header .title:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: #3498db;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .section-header .subtitle {
+            color: #3498db;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+    @endpush
 
     <!-- WhatsApp Floating Button -->
     @if(config('whatsapp.enabled', true))
@@ -1468,8 +1576,7 @@
 }
 
 .ratting i {
-    color: #ffc107;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .ratting i.icofont-ui-rating-disabled {
@@ -1537,7 +1644,7 @@
 }
 
 .instructor-footer i {
-    color: #ff6b35;
+    color: var(--primary-color);
     font-size: 14px;
     flex-shrink: 0;
 }
@@ -1651,7 +1758,7 @@ function openWhatsAppChat() {
 }
 
 // Auto show popup after delay dari konfigurasi
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function(){
     const delay = {{ config("whatsapp.popup_delay", 3) }} * 1000; // Convert to milliseconds
     setTimeout(function() {
         const popup = document.getElementById('whatsapp-popup');

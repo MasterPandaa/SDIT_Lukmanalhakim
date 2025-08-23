@@ -10,23 +10,16 @@ class Guru extends Model
         'nama',
         'jabatan',
         'foto',
-        'deskripsi',
-        'pernyataan_pribadi',
-        'alamat',
-        'email',
-        'telepon',
-        'website',
-        'whatsapp',
-        'instagram',
-        'facebook',
         'pengalaman_mengajar',
-        'is_active'
+        'pernyataan_pribadi',
+        'is_active',
+        'urutan'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
         'pengalaman_mengajar' => 'integer',
-        // removed: jumlah_siswa, rating, kemampuan_bahasa, penghargaan
+        'urutan' => 'integer'
     ];
 
     // Scope for active content

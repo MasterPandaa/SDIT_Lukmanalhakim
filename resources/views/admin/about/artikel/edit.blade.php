@@ -62,7 +62,7 @@
                             <div class="col-md-6 mb-3 d-flex align-items-end">
                                 <div>
                                     <input type="hidden" name="is_active" value="0">
-                                    <div class="form-check">
+                                       <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', $artikel->is_active) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_active">Aktif</label>
                                     </div>

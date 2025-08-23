@@ -82,11 +82,17 @@ class Artikel extends Model
             return asset('assets/images/default/artikel-default.jpg');
         }
 
-        // Jika file ada di public/assets/images, return URL
+        // Check if the image exists in storage
+        if (file_exists(storage_path('app/public/' . $this->gambar))) {
+            return asset('storage/' . $this->gambar);
+        }
+
+        // Check if the image exists in public directory (for backward compatibility)
         if (file_exists(public_path('assets/images/artikel/' . $this->gambar))) {
             return asset('assets/images/artikel/' . $this->gambar);
         }
 
+        // Default image if no image is found
         return asset('assets/images/default/artikel-default.jpg');
     }
 }
