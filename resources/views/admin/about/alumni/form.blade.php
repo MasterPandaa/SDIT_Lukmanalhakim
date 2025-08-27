@@ -120,30 +120,7 @@
 @endpush
 
 @push('scripts')
-<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <script>
-// Initialize CKEditor for testimoni
-CKEDITOR.replace('testimoni', {
-    height: 150,
-    toolbar: [
-        ['Bold', 'Italic', 'Underline'],
-        ['NumberedList', 'BulletedList'],
-        ['Link', 'Unlink'],
-        ['Maximize']
-    ]
-});
-
-// Initialize CKEditor for prestasi
-CKEDITOR.replace('prestasi', {
-    height: 150,
-    toolbar: [
-        ['Bold', 'Italic', 'Underline'],
-        ['NumberedList', 'BulletedList'],
-        ['Link', 'Unlink'],
-        ['Maximize']
-    ]
-});
-
 // Custom file input
 $('.custom-file-input').on('change', function() {
     let fileName = $(this).val().split('\\').pop();

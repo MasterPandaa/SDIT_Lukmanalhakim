@@ -25,7 +25,7 @@
         @if($item->testimoni)
         <div class="card-footer bg-transparent border-0 pt-0">
           <blockquote class="blockquote mb-0 small text-muted">
-            <em>“{{ $item->testimoni }}”</em>
+            <em>“{{ $item->testimoni_plain }}”</em>
           </blockquote>
         </div>
         @endif

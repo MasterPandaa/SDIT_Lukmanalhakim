@@ -37,10 +37,10 @@ class HomeController extends Controller
                          ->take(3)
                          ->get();
 
-        // Ambil 3 alumni aktif terbaru
+        // Ambil maksimal 9 alumni aktif terbaru (jika <9 maka semua akan tampil)
         $alumni = Alumni::where('is_active', true)
                        ->orderBy('tahun_lulus', 'desc')
-                       ->take(3)
+                       ->take(9)
                        ->get();
         
         return view('index', compact('gurus', 'home', 'sambutanKepsek', 'articles', 'alumni'));

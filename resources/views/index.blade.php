@@ -477,7 +477,7 @@
                                         </div>
                                     </div>
                                     <div class="stu-feed-bottom">
-                                        <p>"{{ $text }}"</p>
+                                        <p>"{{ strip_tags(html_entity_decode($text)) }}"</p>
                                     </div>
                                 </div>
                             </div>
@@ -951,7 +951,8 @@
                             <div class="post-inner">
                                 <div class="post-thumb">
                                     <a href="{{ route('blog-single', $article->slug) }}">
-                                        <img src="{{ $article->gambar_url }}" alt="{{ $article->judul }}" class="img-fluid" style="width: 100%; height: 200px; object-fit: cover;">
+                                        <img src="{{ $article->gambar_url }}" alt="{{ $article->judul }}" class="img-fluid" style="width: 100%; height: 200px; object-fit: cover;"
+                                             onerror="this.onerror=null;this.src='{{ asset('assets/images/blog/01.jpg') }}';">
                                     </a>
                                 </div>
                                 <div class="post-content">
@@ -970,10 +971,7 @@
                                     <div class="pf-left">
                                         <a href="{{ route('blog-single', $article->slug) }}" class="lab-btn-text">Baca selengkapnya <i class="icofont-external-link"></i></a>
                                     </div>
-                                    <div class="pf-right">
-                                        <i class="icofont-comment"></i>
-                                        <span class="comment-count">0</span>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -994,6 +992,23 @@
     </div>
     <!-- blog section ending here -->
 
+    @push('styles')
+    <style>
+      /* Equal height blog cards */
+      .blog-section .post-item { height: 100%; }
+      .blog-section .post-inner { display: flex; flex-direction: column; height: 100%; }
+      .blog-section .post-thumb img { display: block; width: 100%; height: 200px; object-fit: cover; }
+      .blog-section .post-content { flex: 1; display: flex; flex-direction: column; }
+      .blog-section .post-content h4 {
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em;
+      }
+      .blog-section .post-content p {
+        margin-top: 8px; color: #555; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 3.9em;
+      }
+      .blog-section .post-footer { margin-top: auto; display: flex; align-items: center; justify-content: space-between; }
+    </style>
+    @endpush
+
     <!-- Clients Section Start Here -->
     <div class="clients-section padding-tb">
         <div class="container">
@@ -1011,7 +1026,7 @@
                                         <img src="{{ $alumnus->foto_url }}" alt="{{ $alumnus->nama }}" class="img-fluid">
                                     </div>
                                     <div class="client-content">
-                                        <p>{{ $alumnus->testimoni }}</p>
+                                        <p>{{ $alumnus->testimoni_plain }}</p>
                                         <div class="client-info">
                                             <h6 class="client-name">{{ $alumnus->nama }}</h6>
                                             <span class="client-degi">
@@ -1080,18 +1095,55 @@
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
-        .client-thumb {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 20px;
+        .clients-section .client-thumb {
+            position: relative;
+            width: 128px !important;    /* hard cap: resist theme overrides */
+            height: 128px !important;
+            flex: 0 0 128px !important; /* prevent flex stretch */
+            margin: 0 auto 20px !important; /* center */
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;           /* clip the image */
+            border-radius: 50% !important; /* always circle */
+            padding: 0 !important;
+            line-height: 0;
+            box-sizing: border-box;
+            aspect-ratio: 1 / 1;        /* keep square */
+            border: 4px solid #fff;     /* inner white ring */
+            /* remove any theme shadows that might look like oval rings */
+            box-shadow: none !important;
+            background: transparent !important;
         }
-        .client-thumb img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
+        /* Draw a guaranteed circular orange ring independent of parent distortions */
+        .clients-section .client-thumb::after {
+            content: "";
+            position: absolute;
+            inset: -3px;                 /* expand 3px around */
+            width: calc(100% + 6px);
+            height: calc(100% + 6px);
+            aspect-ratio: 1 / 1;
+            border: 3px solid #ff6a00;
             border-radius: 50%;
-            border: 4px solid #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+            box-sizing: border-box;
+        }
+        .clients-section .client-thumb img {
+            width: 100% !important;    /* fill wrapper */
+            height: 100% !important;
+            aspect-ratio: 1 / 1;
+            display: block;
+            object-fit: cover;         /* crop to circle */
+            object-position: center;
+            border: none !important;   /* ring handled by wrapper */
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            transform: translateZ(0);  /* avoid subpixel blurring on some browsers */
+        }
+        /* Prevent any inherited transforms/scales that could turn circle into ellipse */
+        .clients-section .client-thumb,
+        .clients-section .client-thumb img {
+            transform: none !important;
         }
         .client-content {
             flex: 1;

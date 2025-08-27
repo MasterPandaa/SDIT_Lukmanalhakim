@@ -40,7 +40,7 @@
                                             <img src="{{ $artikel->gambar_url }}" alt="{{ $artikel->judul }}" class="w-100 rounded shadow-sm">
                                         </div>
                                         @else
-                                        <div class="post-thumb bg-light d-flex align-items-center justify-content-center" style="height: 300px;">
+                                        <div class="post-thumb bg-light d-flex align-items-center justify-content-center">
                                             <i class="fas fa-newspaper fa-4x text-muted"></i>
                                         </div>
                                         @endif
@@ -203,21 +203,6 @@
             
             <div class="col-lg-4 col-12">
                 <aside class="blog-sidebar">
-                    <div class="widget widget-search mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h6 class="card-title"><i class="fas fa-search me-2"></i>Cari Artikel</h6>
-                                <form action="{{ route('about.artikel') }}" method="GET" class="search-wrapper">
-                                    <div class="input-group">
-                                        <input type="text" name="search" class="form-control" placeholder="Cari artikel..." value="{{ request('search') }}">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="icofont-search-2"></i>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="widget widget-category mb-4">
                         <div class="card">
@@ -236,7 +221,7 @@
                                     
                                     @foreach($categories as $category)
                                     <li class="mb-2">
-                                        <a href="{{ route('about.artikel') }}?kategori={{ urlencode($category->kategori) }}" 
+                                        <a href="{{ route('blog') }}?kategori={{ urlencode($category->kategori) }}" 
                                            class="d-flex justify-content-between align-items-center text-decoration-none">
                                             <span><i class="icofont-double-right me-2"></i>{{ $category->kategori }}</span>
                                             <span class="badge bg-primary">{{ $category->count }}</span>
@@ -315,7 +300,7 @@
                                 <ul class="list-unstyled">
                                     @foreach($archives as $archive)
                                     <li class="mb-2">
-                                        <a href="{{ route('about.artikel') }}?year={{ $archive->year }}&month={{ $archive->month }}" 
+                                        <a href="{{ route('blog') }}?year={{ $archive->year }}&month={{ $archive->month }}" 
                                            class="d-flex justify-content-between align-items-center text-decoration-none">
                                             <span>
                                                 <i class="icofont-double-right me-2"></i>
@@ -340,7 +325,7 @@
                                     @endphp
                                     
                                     @foreach($tags as $tag)
-                                    <a href="{{ route('about.artikel') }}?tag={{ urlencode($tag) }}" 
+                                    <a href="{{ route('blog') }}?tag={{ urlencode($tag) }}" 
                                        class="badge bg-light text-dark text-decoration-none me-1 mb-1">
                                         {{ $tag }}
                                     </a>
@@ -419,10 +404,81 @@
     margin-bottom: 0.5rem;
 }
 
+/* Enforce 16:9 aspect ratio for main article image */
+.blog-article .post-item .post-thumb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+.blog-article .post-item .post-inner {
+    border-radius: 12px;
+    overflow: hidden; /* clip image/content to rounded corners */
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.blog-article .post-item .post-thumb > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.blog-article .post-item .post-thumb.bg-light {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+}
+
 .blog-article .article-footer {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid #eee;
+}
+
+/* Footer layout: stack on mobile */
+.blog-article .article-footer { display: flex !important; flex-direction: column; gap: 1rem; }
+.blog-article .article-footer .tags-section,
+.blog-article .article-footer .social-share { display: block; width: 100%; clear: both; }
+/* Force vertical stacking inside tags-section */
+.blog-article .article-footer .tags-section {
+    display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: .5rem;
+}
+.blog-article .article-footer .tags-section > * { width: 100%; }
+.blog-article .article-footer .tags-section h6 { display: block; margin: 0 0 .5rem 0; float: none; order: 1; width: 100%; }
+.blog-article .article-footer .tags-section .tags { order: 2; }
+/* Remove any top borders/separators causing misalignment */
+.blog-article .article-footer .tags-section,
+.blog-article .article-footer .tags-section * {
+    border-top: 0 !important;
+}
+.blog-article .article-footer .tags-section { margin-top: 0 !important; padding-top: 0 !important; }
+.blog-article .article-footer .tags-section hr { display: none !important; height: 0 !important; margin: 0 !important; }
+/* Ensure tag items are below the label (not floating to the right) */
+.blog-article .article-footer .tags-section .tags {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: .5rem;
+    float: none;
+    clear: both;
+    justify-content: flex-start;
+    width: 100% !important;
+}
+.blog-article .tags-section .tags { margin: 0 !important; }
+.blog-article .tags-section .tags .badge { margin: 0; }
+.blog-article .article-footer .social-share { margin-top: 1rem; }
+
+/* Desktop: two equal columns, aligned to the top */
+@media (min-width: 768px) {
+  .blog-article .article-footer {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    column-gap: 2rem;
+  }
+  .blog-article .article-footer .social-share { order: 1; width: 100%; margin-top: 0; }
+  .blog-article .article-footer .tags-section { order: 2; width: 100%; margin-top: 0; }
 }
 
 .blog-article .tags-section,
@@ -432,7 +488,9 @@
 
 .blog-article .tags-section h6,
 .blog-article .social-share h6 {
-    margin-bottom: 1rem;
+    margin: 0 0 1rem 0; /* remove any top margin offset */
+    padding: 0;         /* normalize heading padding */
+    border: 0;          /* ensure no top border on headings */
     color: #333;
 }
 

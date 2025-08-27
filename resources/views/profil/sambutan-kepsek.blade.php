@@ -268,7 +268,7 @@
                                     </div>
                                 </div>
                                 <div class="stu-feed-bottom">
-                                    <p>"{{ $text }}"</p>
+                                    <p>"{{ strip_tags(html_entity_decode($text)) }}"</p>
                                 </div>
                             </div>
                         </div>

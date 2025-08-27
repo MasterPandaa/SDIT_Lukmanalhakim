@@ -50,6 +50,27 @@
 </div>
 @endsection 
 
+@push('styles')
+<style>
+  /* Match Home blog card behavior for Artikel list */
+  #artikelListWrapper .post-item { height: 100%; }
+  #artikelListWrapper .post-inner { display: flex; flex-direction: column; height: 100%; }
+  #artikelListWrapper .post-thumb img { display: block; width: 100%; height: 200px; object-fit: cover; }
+  #artikelListWrapper .post-content { flex: 1; display: flex; flex-direction: column; }
+  #artikelListWrapper .post-content h4 {
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em;
+  }
+  #artikelListWrapper .post-content p {
+    margin-top: 8px; color: #555; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 3.9em;
+  }
+  #artikelListWrapper .post-footer { margin-top: auto; display: flex; align-items: center; justify-content: space-between; }
+  /* Optional: tighten gaps on small screens */
+  @media (max-width: 575.98px) {
+    #artikelGrid { row-gap: 1rem; }
+  }
+</style>
+@endpush
+
 @push('scripts')
 <script>
   (function() {
