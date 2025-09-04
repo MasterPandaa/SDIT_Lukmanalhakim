@@ -36,6 +36,12 @@
                                 @error('kategori')<div class="text-danger small">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-md-4 mb-3">
+                                <label class="form-label">YouTube URL (opsional)</label>
+                                <input type="url" name="youtube_url" class="form-control" value="{{ old('youtube_url') }}" placeholder="https://youtu.be/xxxxxx atau https://www.youtube.com/watch?v=xxxxxx">
+                                <small class="text-muted">Tempelkan tautan video YouTube. Akan otomatis di-embed di halaman artikel.</small>
+                                @error('youtube_url')<div class="text-danger small">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label">Tanggal Publikasi</label>
                                 <input type="datetime-local" name="published_at" class="form-control" value="{{ old('published_at') }}">
                                 @error('published_at')<div class="text-danger small">{{ $message }}</div>@enderror

@@ -51,6 +51,7 @@ class ArtikelController extends Controller
             'ringkasan' => 'nullable|string|max:500',
             'penulis' => 'nullable|string|max:100',
             'kategori' => 'nullable|string|max:100',
+            'youtube_url' => 'nullable|url',
             'is_active' => 'boolean',
             'published_at' => 'nullable|date'
         ]);
@@ -100,6 +101,7 @@ class ArtikelController extends Controller
             'ringkasan' => 'nullable|string|max:500',
             'penulis' => 'nullable|string|max:100',
             'kategori' => 'nullable|string|max:100',
+            'youtube_url' => 'nullable|url',
             'is_active' => 'boolean',
             'published_at' => 'nullable|date'
         ]);

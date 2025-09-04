@@ -109,8 +109,19 @@
                             </button>
                         @endif
                         
-                        <a href="mailto:{{ $message->email }}?subject=Re: {{ $message->subject }}" class="btn btn-primary w-100">
-                            <i class="fas fa-envelope me-1"></i> Kirim Email
+                        @php
+                            $rawAppName = config('app.name');
+                            $siteName = ($rawAppName && strtolower($rawAppName) !== 'laravel') ? $rawAppName : 'SDIT Lukman Al Hakim';
+                            $replyText = trim((string) ($message->admin_reply ?? ''));
+                            $bodyMain = $replyText !== '' ? $replyText : 'Terima kasih telah menghubungi '.$siteName.'.';
+                            $gmailBody = "Halo {$message->name},\n\n{$bodyMain}\n\n— Admin {$siteName}";
+                            $gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1'
+                                .'&to=' . urlencode($message->email)
+                                .'&su=' . urlencode('Re: '.$message->subject)
+                                .'&body=' . urlencode($gmailBody);
+                        @endphp
+                        <a href="{{ $gmailUrl }}" target="_blank" rel="noopener" class="btn btn-primary w-100">
+                            <i class="fas fa-envelope me-1"></i> Kirim via Gmail
                         </a>
                         
                         @if($message->phone)

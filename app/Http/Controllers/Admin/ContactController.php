@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ContactMessage;
 use App\Models\ContactSetting;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactReplyMail;
 
 class ContactController extends Controller
 {
@@ -43,9 +45,34 @@ class ContactController extends Controller
         ]);
 
         $message = ContactMessage::findOrFail($id);
-        $message->markAsReplied($request->admin_reply);
 
-        return redirect()->route('admin.contact.index')->with('success', 'Balasan telah dikirim.');
+        // Build the mailable
+        $mailable = new ContactReplyMail(
+            $request->input('admin_reply'),
+            $message->subject ?? 'Pesan Anda',
+            $message->name ?? 'Pengguna'
+        );
+
+        // Determine from address
+        $settings = ContactSetting::getSettings();
+        $fromAddress = $settings->email ?? config('mail.from.address');
+        $fromName = config('mail.from.name') ?? config('app.name');
+
+        try {
+            if ($fromAddress) {
+                Mail::to($message->email)->send($mailable->from($fromAddress, $fromName));
+            } else {
+                // fallback without explicit from
+                Mail::to($message->email)->send($mailable);
+            }
+
+            // Update status and store reply text
+            $message->markAsReplied($request->admin_reply);
+
+            return redirect()->route('admin.contact.index')->with('success', 'Balasan email berhasil dikirim dan status pesan diperbarui.');
+        } catch (\Throwable $e) {
+            return back()->withInput()->with('error', 'Gagal mengirim email: ' . $e->getMessage());
+        }
     }
 
     public function updateSettings(Request $request)
@@ -57,6 +84,7 @@ class ContactController extends Controller
             'whatsapp' => 'nullable|string|max:20',
             'facebook' => 'nullable|url|max:255',
             'instagram' => 'nullable|url|max:255',
+            'tiktok' => 'nullable|url|max:255',
             'youtube' => 'nullable|url|max:255',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
@@ -65,7 +93,7 @@ class ContactController extends Controller
 
         $settings = ContactSetting::getSettings();
         $payload = $request->only([
-            'address','phone','email','whatsapp','facebook','instagram','youtube','latitude','longitude','office_hours'
+            'address','phone','email','whatsapp','facebook','instagram','tiktok','youtube','latitude','longitude','office_hours'
         ]);
 
         if ($settings) {

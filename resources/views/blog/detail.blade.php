@@ -76,8 +76,14 @@
                                                 </div>
                                             @endif
 
+                                            @if($artikel->youtube_iframe)
+                                                <div class="article-video">
+                                                    {!! $artikel->youtube_iframe !!}
+                                                </div>
+                                            @endif
+
                                             <div class="article-content">
-                                                {!! $artikel->konten !!}
+                                                {!! $artikel->konten_rendered !!}
                                             </div>
 
                                             @if($artikel->kategori)

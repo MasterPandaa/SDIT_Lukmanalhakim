@@ -172,9 +172,13 @@
         transition: all 0.3s ease;
     }
     
-    .social-link.facebook { background: #1877f2; }
-    .social-link.instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
-    .social-link.youtube { background: #ff0000; }
+    /* Green theme for all social icons to match site palette */
+    .social-link { background: #198754; }
+    .social-link.facebook { background: #198754; }
+    .social-link.instagram { background: #198754; }
+    .social-link.youtube { background: #198754; }
+    .social-link.whatsapp { background: #198754; }
+    .social-link.tiktok { background: #198754; }
     
     .social-link:hover {
         transform: translateY(-3px);
@@ -425,7 +429,7 @@
                         </div>
                         
                         <!-- Social Media Links -->
-                        @if($contactSettings && ($contactSettings->facebook || $contactSettings->instagram || $contactSettings->youtube))
+                        @if($contactSettings && ($contactSettings->facebook || $contactSettings->instagram || $contactSettings->youtube || ($contactSettings->whatsapp ?? false) || ($contactSettings->tiktok ?? false)))
                         <div class="social-section">
                             <h6 class="mb-3">
                                 <i class="icofont-social-media me-2"></i>
@@ -445,6 +449,23 @@
                                 @if($contactSettings->youtube)
                                     <a href="{{ $contactSettings->youtube }}" target="_blank" class="social-link youtube" title="YouTube">
                                         <i class="icofont-youtube"></i>
+                                    </a>
+                                @endif
+                                @if(!empty($contactSettings->whatsapp))
+                                    @php
+                                        $wa = preg_replace('/\D+/', '', $contactSettings->whatsapp);
+                                        if ($wa && substr($wa, 0, 1) === '0') { $wa = '62'.substr($wa, 1); }
+                                        $waUrl = $wa ? ('https://wa.me/'.$wa) : null;
+                                    @endphp
+                                    @if($waUrl)
+                                    <a href="{{ $waUrl }}" target="_blank" class="social-link whatsapp" title="WhatsApp">
+                                        <i class="icofont-whatsapp"></i>
+                                    </a>
+                                    @endif
+                                @endif
+                                @if(!empty($contactSettings->tiktok))
+                                    <a href="{{ $contactSettings->tiktok }}" target="_blank" class="social-link tiktok" title="TikTok">
+                                        <i class="icofont-tiktok"></i>
                                     </a>
                                 @endif
                             </div>

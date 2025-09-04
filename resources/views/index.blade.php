@@ -347,6 +347,35 @@
         transform: scaleY(-1);
         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'><path fill='%23f5f6f7' d='M0,0 C240,80 480,80 720,40 C960,0 1200,0 1440,40 L1440,120 L0,120 Z'/></svg>");
       }
+      /* Theme overrides for floating labels on hero (Tahfidz, Pendidikan Karakter, etc.) */
+      .banner-section .cbs-content-list ul li.ccl-shape a {
+        color: #fff;
+      }
+      /* Use site green (#26c976) and orange (#f16126) accents */
+      .banner-section .cbs-content-list ul li.shape-1 a {
+        background-image: linear-gradient(to right, #26c976, #00b894);
+      }
+      .banner-section .cbs-content-list ul li.shape-1 a::after { background: #26c976; }
+
+      .banner-section .cbs-content-list ul li.shape-2 a {
+        background-image: linear-gradient(to right, #f16126, #ff7a3d);
+      }
+      .banner-section .cbs-content-list ul li.shape-2 a::after { background: #f16126; }
+
+      .banner-section .cbs-content-list ul li.shape-3 a {
+        background-image: linear-gradient(to right, #26c976, #00b894);
+      }
+      .banner-section .cbs-content-list ul li.shape-3 a::after { background: #26c976; }
+
+      .banner-section .cbs-content-list ul li.shape-4 a {
+        background-image: linear-gradient(to right, #f16126, #ff7a3d);
+      }
+      .banner-section .cbs-content-list ul li.shape-4 a::after { background: #f16126; }
+
+      .banner-section .cbs-content-list ul li.shape-5 a {
+        background-image: linear-gradient(to right, #26c976, #00b894);
+      }
+      .banner-section .cbs-content-list ul li.shape-5 a::after { background: #26c976; }
     </style>
     @endpush
     @push('scripts')

@@ -16,6 +16,7 @@ class ContactSetting extends Model
         'whatsapp',
         'facebook',
         'instagram',
+        'tiktok',
         'youtube',
         // map coordinates for Leaflet/OSM
         'latitude',

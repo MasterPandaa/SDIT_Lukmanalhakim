@@ -17,6 +17,30 @@
     <link rel="stylesheet" href="{{ asset('assets/css/lightcase.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     
+    <!-- Global overrides: page header title and breadcrumb sizes -->
+    <style>
+      /* Page header title */
+      .pageheader-section .pageheader-content h2 {
+        font-weight: 800;
+        line-height: 1.2;
+        font-size: 36px;
+      }
+      @media (min-width: 768px) {
+        .pageheader-section .pageheader-content h2 { font-size: 46px; }
+      }
+      @media (min-width: 1200px) {
+        .pageheader-section .pageheader-content h2 { font-size: 56px; }
+      }
+      /* Page header description */
+      .pageheader-section .pageheader-content p.desc {
+        font-size: 19px;
+      }
+      /* Breadcrumb */
+      .pageheader-section .breadcrumb {
+        font-size: 17px;
+      }
+    </style>
+    
     <!-- Font Awesome for WhatsApp icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     

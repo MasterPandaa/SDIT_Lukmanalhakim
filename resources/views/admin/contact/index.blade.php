@@ -212,6 +212,10 @@
                                     <input type="url" name="instagram" class="form-control" value="{{ $contactSettings->instagram ?? '' }}" placeholder="https://instagram.com/...">
                                 </div>
                                 <div class="col-md-6">
+                                    <label class="form-label">TikTok</label>
+                                    <input type="url" name="tiktok" class="form-control" value="{{ $contactSettings->tiktok ?? '' }}" placeholder="https://www.tiktok.com/@username">
+                                </div>
+                                <div class="col-md-6">
                                     <label class="form-label">YouTube</label>
                                     <input type="url" name="youtube" class="form-control" value="{{ $contactSettings->youtube ?? '' }}" placeholder="https://youtube.com/...">
                                 </div>
