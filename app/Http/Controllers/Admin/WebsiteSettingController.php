@@ -234,10 +234,11 @@ class WebsiteSettingController extends Controller
                 'footer_phone' => 'nullable|string|max:255',
                 'footer_email' => 'nullable|email|max:255',
                 'footer_facebook' => 'nullable|url|max:255',
-                'footer_twitter' => 'nullable|url|max:255',
-                'footer_linkedin' => 'nullable|url|max:255',
+                'footer_tiktok' => 'nullable|url|max:255',
                 'footer_instagram' => 'nullable|url|max:255',
-                'footer_pinterest' => 'nullable|url|max:255',
+                // synced with Contact Settings
+                'whatsapp' => 'nullable|string|max:20',
+                'youtube'  => 'nullable|url|max:255',
                 'footer_copyright_text' => 'nullable|string|max:255',
                 'footer_designer_text' => 'nullable|string|max:255',
                 'footer_designer_link' => 'nullable|url|max:255',
@@ -286,7 +287,51 @@ class WebsiteSettingController extends Controller
             ]);
 
             $settings = WebsiteSetting::getSettings();
-            $settings->update($request->all());
+
+            // Only update known footer fields on WebsiteSetting
+            $websiteFields = [
+                'footer_description','footer_address','footer_phone','footer_email',
+                'footer_facebook','footer_tiktok','footer_instagram',
+                'footer_copyright_text','footer_designer_text','footer_designer_link',
+
+                // Quick Links
+                'footer_quick_link_1_text','footer_quick_link_1_url',
+                'footer_quick_link_2_text','footer_quick_link_2_url',
+                'footer_quick_link_3_text','footer_quick_link_3_url',
+                'footer_quick_link_4_text','footer_quick_link_4_url',
+                'footer_quick_link_5_text','footer_quick_link_5_url',
+                'footer_quick_link_6_text','footer_quick_link_6_url',
+
+                // Programs
+                'footer_program_1_text','footer_program_1_url',
+                'footer_program_2_text','footer_program_2_url',
+                'footer_program_3_text','footer_program_3_url',
+                'footer_program_4_text','footer_program_4_url',
+                'footer_program_5_text','footer_program_5_url',
+                'footer_program_6_text','footer_program_6_url',
+
+                // News
+                'footer_news_1','footer_news_2',
+
+                // Bottom Links
+                'footer_bottom_link_1_text','footer_bottom_link_1_url',
+                'footer_bottom_link_2_text','footer_bottom_link_2_url',
+                'footer_bottom_link_3_text','footer_bottom_link_3_url',
+                'footer_bottom_link_4_text','footer_bottom_link_4_url',
+            ];
+            $settings->update($request->only($websiteFields));
+
+            // Sync to Contact Settings (WhatsApp, YouTube, and social URLs)
+            $contact = \App\Models\ContactSetting::getSettings();
+            if ($contact) {
+                $contact->update([
+                    'whatsapp'  => $request->input('whatsapp', $contact->whatsapp),
+                    'facebook'  => $request->input('footer_facebook', $contact->facebook),
+                    'instagram' => $request->input('footer_instagram', $contact->instagram),
+                    'tiktok'    => $request->input('footer_tiktok', $contact->tiktok),
+                    'youtube'   => $request->input('youtube', $contact->youtube),
+                ]);
+            }
 
             // Clear cache after update
             try {

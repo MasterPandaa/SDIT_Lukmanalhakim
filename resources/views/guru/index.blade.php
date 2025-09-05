@@ -28,14 +28,43 @@
 <div class="instructor-section padding-tb section-bg">
     <div class="container">
         <div class="section-wrapper">
-            <div class="row g-4 justify-content-center row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
+            <!-- Filter Toolbar -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="p-3 bg-white rounded shadow-sm border">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-6">
+                                <label for="guru-filter-q" class="form-label mb-1">Cari Nama</label>
+                                <input type="text" id="guru-filter-q" class="form-control" placeholder="Ketik nama guru/karyawan...">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="guru-filter-jabatan" class="form-label mb-1">Jabatan</label>
+                                <select id="guru-filter-jabatan" class="form-select">
+                                    <option value="">Semua Jabatan</option>
+                                    @if(isset($gurus) && $gurus->count() > 0)
+                                        @php $jabatans = $gurus->pluck('jabatan')->filter()->unique()->sort()->values(); @endphp
+                                        @foreach($jabatans as $jab)
+                                            <option value="{{ strtolower($jab) }}">{{ $jab }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <div class="w-100 small text-muted" id="guru-filter-count"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 justify-content-center row-cols-1 row-cols-md-2 row-cols-lg-3" id="guru-grid">
                 @if(isset($gurus) && $gurus->count() > 0)
                     @foreach($gurus as $guru)
                         <div class="col">
-                            <div class="instructor-item">
+                            <div class="instructor-item" data-name="{{ strtolower($guru->nama) }}" data-jabatan="{{ strtolower($guru->jabatan) }}">
                                 <div class="instructor-inner">
                                     <div class="instructor-thumb">
-                                        <img src="{{ $guru->foto_url }}" alt="{{ $guru->nama }}">
+                                        <img src="{{ $guru->foto_url }}" alt="{{ $guru->nama }}" style="width: 160px; height: 160px;">
                                     </div>
                                     <div class="instructor-content">
                                         <a href="{{ route('guru.detail', $guru->id) }}"><h4>{{ $guru->nama }}</h4></a>
@@ -391,47 +420,7 @@
 </div>
 <!-- Instructors Section Ending Here -->
 
-@if(isset($articles) && $articles->count() > 0)
-<!-- Blog Section Start Here -->
-<div class="blog-section padding-tb section-bg">
-    <div class="container">
-        <div class="section-header text-center">
-            <span class="subtitle">Berita dan Artikel</span>
-            <h2 class="title">"Setiap Halaman yang Dibaca, Membawa Kita ke Tempat Baru!"</h2>
-        </div>
-        <div class="section-wrapper">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-                @foreach($articles as $article)
-                <div class="col d-flex">
-                    <div class="post-item w-100">
-                        <div class="post-inner">
-                            <div class="post-thumb">
-                                <a href="{{ route('blog-single', $article->slug) }}">
-                                    <img src="{{ $article->gambar_url }}" alt="{{ $article->judul }}" class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <div class="meta-post">
-                                    <a href="#" class="blog-date"><i class="icofont-calendar"></i> {{ $article->published_at->format('d F Y') }}</a>
-                                    <a href="#" class="blog-author"><i class="icofont-user"></i> {{ $article->penulis ?? 'Admin' }}</a>
-                                </div>
-                                <h4><a href="{{ route('blog-single', $article->slug) }}">{{ $article->judul }}</a></h4>
-                                <p>{{ Str::limit(strip_tags($article->ringkasan ?? $article->konten), 100) }}</p>
-                                <a href="{{ route('blog-single', $article->slug) }}" class="lab-btn">Baca Selengkapnya <i class="icofont-double-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            <div class="text-center mt-5">
-                <a href="{{ route('blog') }}" class="lab-btn"><span>Lihat Semua Artikel</span></a>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Blog Section Ending Here -->
-@endif
+<!-- (Bagian Berita & Artikel dihilangkan sesuai permintaan) -->
 
 @push('styles')
 <style>
@@ -741,81 +730,78 @@
         display: flex;
         flex-direction: column;
     }
+
+    .instructor-section .row.g-4 > .col {
+        display: flex;
+    }
+    .instructor-section .instructor-item {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+    .instructor-section .instructor-inner {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .instructor-section .instructor-footer {
+        margin-top: auto;
+    }
+    /* Perfect circular avatar with consistent size */
+    .instructor-section .instructor-thumb {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto 15px;
+        flex: 0 0 auto;
+    }
+    .instructor-section .instructor-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
 </style>
 @endpush
 
-@if(isset($alumni) && $alumni->count() > 0)
-<!-- Alumni Testimonial Section Start -->
-<div class="clients-section padding-tb">
-    <div class="container">
-        <div class="section-header text-center">
-            <span class="subtitle">Testimoni</span>
-            <h2 class="title">Apa Kata Alumni?</h2>
-        </div>
-        <div class="section-wrapper">
-            <div class="clients-slider overflow-hidden">
-                <div class="swiper-wrapper">
-                    @foreach($alumni as $alumnus)
-                    <div class="swiper-slide">
-                        <div class="client-item">
-                            <div class="client-inner">
-                                <div class="client-thumb">
-                                    <img src="{{ $alumnus->foto_url }}" alt="{{ $alumnus->nama }}" class="img-fluid">
-                                </div>
-                                <div class="client-content">
-                                    <p>{{ $alumnus->testimoni }}</p>
-                                    <div class="client-info">
-                                        <h6 class="client-name">{{ $alumnus->nama }}</h6>
-                                        <span class="client-degi">
-                                            Alumni {{ $alumnus->tahun_lulus }}
-                                            @if($alumnus->pendidikan_lanjutan || $alumnus->pekerjaan)
-                                                • {{ $alumnus->pendidikan_lanjutan ?: $alumnus->pekerjaan }}
-                                            @endif
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-                <div class="client-pagination"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Alumni Testimonial Section End -->
-@endif
-
+<!-- (Bagian Testimoni Alumni dihilangkan sesuai permintaan) -->
 @push('scripts')
 <script>
-    // Initialize testimonial slider
-    document.addEventListener('DOMContentLoaded', function() {
-        var swiper = new Swiper('.clients-slider', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.client-pagination',
-                clickable: true,
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                },
-                768: {
-                    slidesPerView: 2,
-                },
-                992: {
-                    slidesPerView: 3,
-                }
-            }
+document.addEventListener('DOMContentLoaded', function() {
+    const qInput = document.getElementById('guru-filter-q');
+    const jabatanSelect = document.getElementById('guru-filter-jabatan');
+    const cards = Array.from(document.querySelectorAll('#guru-grid .instructor-item'));
+    const countEl = document.getElementById('guru-filter-count');
+
+    function applyFilter() {
+        const q = (qInput?.value || '').trim().toLowerCase();
+        const jab = (jabatanSelect?.value || '').toLowerCase();
+        let visible = 0;
+
+        cards.forEach(card => {
+            const name = card.getAttribute('data-name') || '';
+            const jabatan = card.getAttribute('data-jabatan') || '';
+            const matchQ = !q || name.includes(q) || jabatan.includes(q);
+            const matchJ = !jab || jabatan === jab;
+            const show = matchQ && matchJ;
+            card.closest('.col').style.display = show ? '' : 'none';
+            if (show) visible++;
         });
-    });
+
+        if (countEl) {
+            const total = cards.length;
+            countEl.textContent = visible === total ? `Menampilkan ${visible} dari ${total}` : `Ditemukan ${visible} dari ${total}`;
+        }
+    }
+
+    qInput?.addEventListener('input', applyFilter);
+    jabatanSelect?.addEventListener('change', applyFilter);
+    applyFilter();
+});
 </script>
 @endpush
 

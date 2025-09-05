@@ -465,7 +465,7 @@
                                 @endif
                                 @if(!empty($contactSettings->tiktok))
                                     <a href="{{ $contactSettings->tiktok }}" target="_blank" class="social-link tiktok" title="TikTok">
-                                        <i class="icofont-tiktok"></i>
+                                        <i class="fa-brands fa-tiktok"></i>
                                     </a>
                                 @endif
                             </div>

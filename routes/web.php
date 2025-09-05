@@ -31,13 +31,9 @@ Route::get('/guru', [App\Http\Controllers\GuruController::class, 'index'])->name
 Route::get('/guru-karyawan', [App\Http\Controllers\GuruController::class, 'index'])->name('guru-karyawan');
 Route::get('/guru/{id}', [App\Http\Controllers\GuruController::class, 'show'])->name('guru.detail');
 
-// Program/Course routes
-Route::get('/program', [App\Http\Controllers\CourseController::class, 'index'])->name('course');
-Route::get('/program/{id}', [App\Http\Controllers\CourseController::class, 'show'])->name('course.detail');
+// Program/Course routes - REMOVED: Used hardcoded data without proper model
 
-// Blog routes
-Route::get('/blog', [App\Http\Controllers\BlogController::class, 'index'])->name('blog');
-Route::get('/blog/{slug}', [App\Http\Controllers\BlogController::class, 'show'])->name('blog-single');
+// Blog routes - REMOVED: Use artikel routes instead
 
 // Contact routes
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact');

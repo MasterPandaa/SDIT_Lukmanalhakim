@@ -544,33 +544,33 @@
     </div>
     <!-- student feedbak section ending here -->
 
-    <!-- Instructors Section Start Here -->
-    <div class="instructor-section padding-tb section-bg">
+    <!-- Guru & Staf Section (Clients-style) Start Here -->
+    <div class="clients-section padding-tb teachers-clients">
         <div class="container">
             <div class="section-header text-center">
                 <span class="subtitle">Profil Guru & Staf</span>
-                <h2 class="title">Temukan informasi tentang guru dan staf kami</h2>
+                <h2 class="title">Temui Guru & Staf Kami</h2>
             </div>
             <div class="section-wrapper">
-                <div class="instructor-slider overflow-hidden">
+                <div class="clients-slider overflow-hidden">
                     <div class="swiper-wrapper">
-                        @if(isset($gurus) && $gurus->count() > 0)
-                            @foreach($gurus as $guru)
-                                <div class="swiper-slide">
-                                    <div class="instructor-item">
-                                        <div class="instructor-inner">
-                                            <div class="instructor-thumb">
-                                                <img src="{{ $guru->foto_url }}" alt="{{ $guru->nama }}" class="img-fluid" style="width: 100%; height: 200px; object-fit: cover;">
-                                            </div>
-                                            <div class="instructor-content">
-                                                <div class="text-center mb-3">
-                                                    <a href="{{ route('guru.detail', $guru->id) }}" class="text-decoration-none">
-                                                        <h4 class="m-0">{{ $guru->nama }}</h4>
-                                                    </a>
-                                                    <p class="m-0">{{ $guru->jabatan }}</p>
-                                                </div>
-                                                
-                                                <!-- Social Media Icons -->
+                        @forelse($gurus as $guru)
+                        <div class="swiper-slide">
+                            <div class="client-item">
+                                <div class="client-inner">
+                                    <div class="client-thumb">
+                                        <img src="{{ $guru->foto_url }}" alt="{{ $guru->nama }}" class="img-fluid">
+                                    </div>
+                                    <div class="client-content">
+                                        @if(!empty($guru->pernyataan_pribadi))
+                                        <p class="teacher-quote">"{{ $guru->pernyataan_pribadi }}"</p>
+                                        @endif
+                                        <div class="client-info">
+                                            <h6 class="client-name">
+                                                <a href="{{ route('guru.detail', $guru->id) }}" class="text-decoration-none">{{ $guru->nama }}</a>
+                                            </h6>
+                                            <span class="client-degi">{{ $guru->jabatan }}</span>
+                                            <div class="teacher-meta">
                                                 <div class="social-media-icons">
                                                     @if($guru->whatsapp)
                                                         <a href="https://wa.me/{{ $guru->whatsapp }}" target="_blank" class="social-icon whatsapp" title="WhatsApp">
@@ -588,380 +588,85 @@
                                                         </a>
                                                     @endif
                                                 </div>
-                                                
                                                 <div class="teaching-years">
                                                     <i class="icofont-book-alt"></i> {{ $guru->pengalaman_mengajar }} Tahun Mengajar
                                                 </div>
-                                                
-                                                @if($guru->pernyataan_pribadi)
-                                                <div class="pernyataan-pribadi">
-                                                    <p>"{{ $guru->pernyataan_pribadi }}"</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="swiper-slide">
+                            <div class="client-item">
+                                <div class="client-inner">
+                                    <div class="client-thumb">
+                                        <img src="{{ asset('assets/images/instructor/01.jpg') }}" alt="Guru" class="img-fluid">
+                                    </div>
+                                    <div class="client-content">
+                                        <p class="teacher-quote">"Mendidik dengan hati, membimbing dengan teladan."</p>
+                                        <div class="client-info">
+                                            <h6 class="client-name"><a href="{{ route('guru') }}" class="text-decoration-none">Nama Guru</a></h6>
+                                            <span class="client-degi">Jabatan</span>
+                                            <div class="teacher-meta">
+                                                <div class="social-media-icons">
+                                                    <a href="https://wa.me/6281234567890" target="_blank" class="social-icon whatsapp" title="WhatsApp"><i class="icofont-whatsapp"></i></a>
+                                                    <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram"><i class="icofont-instagram"></i></a>
+                                                    <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook"><i class="icofont-facebook"></i></a>
                                                 </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <!-- Fallback static content jika belum ada data dari database -->
-                            <div class="swiper-slide">
-                                <div class="instructor-item">
-                                    <div class="instructor-inner">
-                                        <div class="instructor-thumb">
-                                            <img src="{{ asset('assets/images/instructor/01.jpg') }}" alt="instructor">
-                                        </div>
-                                        <div class="instructor-content">
-                                            <div class="text-center mb-3">
-                                                <a href="{{ route('guru') }}" class="text-decoration-none">
-                                                    <h4 class="m-0">Ahmad Faizal Bhakti Islami, S.Pd.</h4>
-                                                </a>
-                                                <p class="m-0">Guru Mupel PAIBP</p>
-                                            </div>
-                                            <div class="social-media-icons">
-                                                <a href="https://wa.me/6281111111111" target="_blank" class="social-icon whatsapp" title="WhatsApp">
-                                                    <i class="icofont-whatsapp"></i>
-                                                </a>
-                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
-                                                    <i class="icofont-instagram"></i>
-                                                </a>
-                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
-                                                    <i class="icofont-facebook"></i>
-                                                </a>
-                                            </div>
-                                            <div class="teaching-years">
-                                                <i class="icofont-book-alt"></i> 5 Tahun Mengajar
+                                                <div class="teaching-years"><i class="icofont-book-alt"></i> 5 Tahun Mengajar</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class="instructor-item">
-                                    <div class="instructor-inner">
-                                        <div class="instructor-thumb">
-                                            <img src="{{ asset('assets/images/instructor/02.jpg') }}" alt="instructor">
-                                        </div>
-                                        <div class="instructor-content">
-                                            <div class="text-center mb-3">
-                                                <a href="{{ route('guru') }}" class="text-decoration-none">
-                                                    <h4 class="m-0">Atika Nurmaningtyas, S.Pd., Gr.</h4>
-                                                </a>
-                                                <p class="m-0">Guru Mupel Bahasa Inggris</p>
-                                            </div>
-                                            <div class="social-media-icons">
-                                                <a href="https://wa.me/6282222222222" target="_blank" class="social-icon whatsapp" title="WhatsApp">
-                                                    <i class="icofont-whatsapp"></i>
-                                                </a>
-                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
-                                                    <i class="icofont-instagram"></i>
-                                                </a>
-                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
-                                                    <i class="icofont-facebook"></i>
-                                                </a>
-                                            </div>
-                                            <div class="teaching-years">
-                                                <i class="icofont-book-alt"></i> 7 Tahun Mengajar
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="instructor-item">
-                                    <div class="instructor-inner">
-                                        <div class="instructor-thumb">
-                                            <img src="{{ asset('assets/images/instructor/03.jpg') }}" alt="instructor">
-                                        </div>
-                                        <div class="instructor-content">
-                                            <div class="text-center mb-3">
-                                                <a href="{{ route('guru') }}" class="text-decoration-none">
-                                                    <h4 class="m-0">Budi Santoso, S.Pd.</h4>
-                                                </a>
-                                                <p class="m-0">Guru Mupel IPS</p>
-                                            </div>
-                                            <div class="social-media-icons">
-                                                <a href="https://wa.me/6285555555555" target="_blank" class="social-icon whatsapp" title="WhatsApp">
-                                                    <i class="icofont-whatsapp"></i>
-                                                </a>
-                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
-                                                    <i class="icofont-instagram"></i>
-                                                </a>
-                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
-                                                    <i class="icofont-facebook"></i>
-                                                </a>
-                                            </div>
-                                            <div class="teaching-years">
-                                                <i class="icofont-book-alt"></i> 9 Tahun Mengajar
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="instructor-item">
-                                    <div class="instructor-inner">
-                                        <div class="instructor-thumb">
-                                            <img src="{{ asset('assets/images/instructor/04.jpg') }}" alt="instructor">
-                                        </div>
-                                        <div class="instructor-content">
-                                            <div class="text-center mb-3">
-                                                <a href="{{ route('guru') }}" class="text-decoration-none">
-                                                    <h4 class="m-0">Dewi Sartika, S.Pd.</h4>
-                                                </a>
-                                                <p class="m-0">Guru Mupel IPA</p>
-                                            </div>
-                                            <div class="social-media-icons">
-                                                <a href="https://wa.me/6284444444444" target="_blank" class="social-icon whatsapp" title="WhatsApp">
-                                                    <i class="icofont-whatsapp"></i>
-                                                </a>
-                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
-                                                    <i class="icofont-instagram"></i>
-                                                </a>
-                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
-                                                    <i class="icofont-facebook"></i>
-                                                </a>
-                                            </div>
-                                            <div class="teaching-years">
-                                                <i class="icofont-book-alt"></i> 8 Tahun Mengajar
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="instructor-item">
-                                    <div class="instructor-inner">
-                                        <div class="instructor-thumb">
-                                            <img src="{{ asset('assets/images/instructor/05.jpg') }}" alt="instructor">
-                                        </div>
-                                        <div class="instructor-content">
-                                            <div class="text-center mb-3">
-                                                <a href="{{ route('guru') }}" class="text-decoration-none">
-                                                    <h4 class="m-0">Muhammad FajarKholilulloh, S.Pd</h4>
-                                                </a>
-                                                <p class="m-0">Guru Tahfidz Kelas 6A</p>
-                                            </div>
-                                            <div class="social-media-icons">
-                                                <a href="https://wa.me/6281444444444" target="_blank" class="social-icon whatsapp" title="WhatsApp">
-                                                    <i class="icofont-whatsapp"></i>
-                                                </a>
-                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
-                                                    <i class="icofont-instagram"></i>
-                                                </a>
-                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
-                                                    <i class="icofont-facebook"></i>
-                                                </a>
-                                            </div>
-                                            <div class="teaching-years">
-                                                <i class="icofont-book-alt"></i> 10 Tahun Mengajar
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="instructor-item">
-                                    <div class="instructor-inner">
-                                        <div class="instructor-thumb">
-                                            <img src="{{ asset('assets/images/instructor/06.jpg') }}" alt="instructor">
-                                        </div>
-                                        <div class="instructor-content">
-                                            <div class="text-center mb-3">
-                                                <a href="{{ route('guru') }}" class="text-decoration-none">
-                                                    <h4 class="m-0">Nurul Hidayah, S.Pd</h4>
-                                                </a>
-                                                <p class="m-0">Guru Kelas 1A</p>
-                                            </div>
-                                            <div class="social-media-icons">
-                                                <a href="https://wa.me/6281555555555" target="_blank" class="social-icon whatsapp" title="WhatsApp">
-                                                    <i class="icofont-whatsapp"></i>
-                                                </a>
-                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
-                                                    <i class="icofont-instagram"></i>
-                                                </a>
-                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
-                                                    <i class="icofont-facebook"></i>
-                                                </a>
-                                            </div>
-                                            <div class="teaching-years">
-                                                <i class="icofont-book-alt"></i> 7 Tahun Mengajar
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="instructor-item">
-                                    <div class="instructor-inner">
-                                        <div class="instructor-thumb">
-                                            <img src="{{ asset('assets/images/instructor/07.jpg') }}" alt="instructor">
-                                        </div>
-                                        <div class="instructor-content">
-                                            <div class="text-center mb-3">
-                                                <a href="{{ route('guru') }}" class="text-decoration-none">
-                                                    <h4 class="m-0">Ahmad Rizki, S.Pd</h4>
-                                                </a>
-                                                <p class="m-0">Guru Kelas 2B</p>
-                                            </div>
-                                            <div class="social-media-icons">
-                                                <a href="https://wa.me/6281666666666" target="_blank" class="social-icon whatsapp" title="WhatsApp">
-                                                    <i class="icofont-whatsapp"></i>
-                                                </a>
-                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
-                                                    <i class="icofont-instagram"></i>
-                                                </a>
-                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
-                                                    <i class="icofont-facebook"></i>
-                                                </a>
-                                            </div>
-                                            <div class="teaching-years">
-                                                <i class="icofont-book-alt"></i> 4 Tahun Mengajar
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="instructor-item">
-                                    <div class="instructor-inner">
-                                        <div class="instructor-thumb">
-                                            <img src="{{ asset('assets/images/instructor/08.jpg') }}" alt="instructor">
-                                        </div>
-                                        <div class="instructor-content">
-                                            <div class="text-center mb-3">
-                                                <a href="{{ route('guru') }}" class="text-decoration-none">
-                                                    <h4 class="m-0">Muhammad Yusuf, S.Pd</h4>
-                                                </a>
-                                                <p class="m-0">Guru Kelas 4B</p>
-                                            </div>
-                                            <div class="social-media-icons">
-                                                <a href="https://wa.me/6281234567899" target="_blank" class="social-icon whatsapp" title="WhatsApp">
-                                                    <i class="icofont-whatsapp"></i>
-                                                </a>
-                                                <a href="https://instagram.com/username" target="_blank" class="social-icon instagram" title="Instagram">
-                                                    <i class="icofont-instagram"></i>
-                                                </a>
-                                                <a href="https://facebook.com/username" target="_blank" class="social-icon facebook" title="Facebook">
-                                                    <i class="icofont-facebook"></i>
-                                                </a>
-                                            </div>
-                                            <div class="teaching-years">
-                                                <i class="icofont-book-alt"></i> 6 Tahun Mengajar
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
+                        </div>
+                        @endforelse
                     </div>
+                    <div class="client-pagination mt-4"></div>
                 </div>
-                <div class="text-center footer-btn">
-                    <p>Ingin mengetahui lebih lanjut?<a href="{{ route('guru') }}">Klik di sini</a></p>
+                <div class="text-center mt-4">
+                    <a href="{{ route('guru') }}" class="lab-btn"><span>Lihat Semua Guru</span></a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Instructors Section Ending Here -->
+    <!-- Guru & Staf Section (Clients-style) Ending Here -->
 
     @push('styles')
     <style>
-    /* Social icon chips like Guru & Karyawan page */
-    .social-media-icons { display: flex; gap: 8px; justify-content: center; flex-wrap: nowrap; white-space: nowrap; margin: 15px 0; }
-    .social-icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: #fff; text-decoration: none; transition: all .3s ease; font-size: 16px; }
-    .social-media-icons .social-icon { flex: 0 0 auto; }
-    .social-icon:hover { transform: translateY(-2px); color: #fff; text-decoration: none; }
-    .social-icon.whatsapp { background-color: #25D366; }
-    .social-icon.whatsapp:hover { background-color: #128C7E; }
-    .social-icon.instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
-    .social-icon.instagram:hover { background: linear-gradient(45deg, #e6683c 0%,#dc2743 25%,#cc2366 50%,#bc1888 75%,#f09433 100%); }
-    .social-icon.facebook { background-color: #1877F2; }
-    .social-icon.facebook:hover { background-color: #0d6efd; }
+      /* Scoping styles to teachers slider only */
+      .teachers-clients .teacher-meta { margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+      .teachers-clients .social-media-icons { display: flex; gap: 8px; justify-content: center; flex-wrap: nowrap; white-space: nowrap; }
+      .teachers-clients .social-icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: #fff; text-decoration: none; transition: all .3s ease; font-size: 16px; }
+      .teachers-clients .social-icon:hover { transform: translateY(-2px); color: #fff; text-decoration: none; }
+      .teachers-clients .social-icon.whatsapp { background-color: #25D366; }
+      .teachers-clients .social-icon.whatsapp:hover { background-color: #128C7E; }
+      .teachers-clients .social-icon.instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
+      .teachers-clients .social-icon.instagram:hover { background: linear-gradient(45deg, #e6683c 0%,#dc2743 25%,#cc2366 50%,#bc1888 75%,#f09433 100%); }
+      .teachers-clients .social-icon.facebook { background-color: #1877F2; }
+      .teachers-clients .social-icon.facebook:hover { background-color: #0d6efd; }
+      .teachers-clients .teaching-years { font-size: 14px; color: #666; }
+      .teachers-clients .teaching-years i { margin-right: 6px; color: var(--primary-color); }
 
-    /* Card layout and sizing */
-    .instructor-item {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        background: #fff;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        transition: transform 0.3s ease;
-    }
-    
-    .instructor-inner {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        padding: 20px 15px 15px;
-    }
-    
-    .instructor-thumb {
-        width: 120px;
-        height: 120px;
-        margin: 0 auto 15px;
-        border-radius: 50% !important;
-        overflow: hidden;
-        border: 3px solid #f8f9fa;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .instructor-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .instructor-content {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        padding: 0 5px;
-    }
-    
-    .instructor-content h4 {
-        font-size: 18px;
-        margin-bottom: 5px;
-        color: #2c3e50;
-    }
-    
-    .instructor-content p {
-        color: #666;
-        font-size: 14px;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        flex-grow: 1;
-    }
-    
-    .teaching-years {
-        margin-top: auto;
-        padding: 12px 0 0;
+      /* Teacher quote under photo */
+      .teachers-clients .teacher-quote {
+        font-style: italic;
+        color: #555;
+        margin: 6px auto 10px;
         text-align: center;
-        font-size: 14px;
-        color: #666;
-        border-top: 1px solid #eee;
-        margin-top: 10px;
-    }
-    
-    .teaching-years i {
-        margin-right: 5px;
-        color: var(--primary-color);
-    }
-    
-    .instructor-content {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
+        max-width: 90%;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
 
-    /* Small screens: slightly smaller icons to keep inline */
-    @media (max-width: 575.98px) {
-        .social-media-icons { gap: 8px; }
-        .social-icon { width: 30px; height: 30px; font-size: 14px; }
-    }
-
-    
+      @media (max-width: 575.98px) {
+        .teachers-clients .social-icon { width: 30px; height: 30px; font-size: 14px; }
+      }
     </style>
     @endpush
 
@@ -1282,38 +987,7 @@
     </style>
     @endpush
 
-    <!-- WhatsApp Floating Button -->
-    @if(config('whatsapp.enabled', true))
-    <div class="whatsapp-float" onclick="toggleWhatsAppPopup()">
-        <i class="fab fa-whatsapp"></i>
-    </div>
-    @endif
-
-    <!-- WhatsApp Popup -->
-    @if(config('whatsapp.enabled', true))
-    <div id="whatsapp-popup" class="whatsapp-popup">
-        <div class="whatsapp-popup-content">
-            <div class="whatsapp-popup-header">
-                <div class="whatsapp-popup-title">
-                    <i class="fab fa-whatsapp"></i>
-                    <span>{{ config('whatsapp.admin_name', 'Admin eLHaeS') }}</span>
-                </div>
-                <button class="whatsapp-popup-close" onclick="closeWhatsAppPopup()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="whatsapp-popup-body">
-                <div class="whatsapp-message">
-                    <p>{{ config('whatsapp.popup_message', 'Assalamualikum, ada yang bisa kami bantu?') }}</p>
-                </div>
-                <button class="whatsapp-open-chat" onclick="openWhatsAppChat()">
-                    <i class="fas fa-paper-plane"></i>
-                    Open chat
-                </button>
-            </div>
-        </div>
-    </div>
-    @endif
+    
 @endsection
 
 @push('styles')
@@ -1420,7 +1094,7 @@
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
     transition: all 0.3s ease;
-    z-index: 1000;
+    z-index: 999;
 }
 
 .whatsapp-float:hover {
@@ -1799,64 +1473,12 @@
         font-size: 14px;
     }
     
-    .whatsapp-popup {
-        width: 280px;
-        right: 20px;
-        bottom: 90px;
-    }
-    
-    .whatsapp-float {
-        bottom: 20px;
-        right: 20px;
-        width: 55px;
-        height: 55px;
-        font-size: 28px;
-    }
 }
 </style>
 @endpush
 
 @push('scripts')
 <script>
-// WhatsApp Popup Functions
-function toggleWhatsAppPopup() {
-    const popup = document.getElementById('whatsapp-popup');
-    popup.classList.toggle('show');
-}
-
-function closeWhatsAppPopup() {
-    const popup = document.getElementById('whatsapp-popup');
-    popup.classList.remove('show');
-}
-
-function openWhatsAppChat() {
-    // Menggunakan konfigurasi dari backend
-    const phoneNumber = '{{ config("whatsapp.phone_number") }}';
-    const message = '{{ config("whatsapp.default_message") }}';
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-    closeWhatsAppPopup();
-}
-
-// Auto show popup after delay dari konfigurasi
-document.addEventListener('DOMContentLoaded', function(){
-    const delay = {{ config("whatsapp.popup_delay", 3) }} * 1000; // Convert to milliseconds
-    setTimeout(function() {
-        const popup = document.getElementById('whatsapp-popup');
-        popup.classList.add('show');
-    }, delay);
-});
-
-// Close popup when clicking outside
-document.addEventListener('click', function(event) {
-    const popup = document.getElementById('whatsapp-popup');
-    const float = document.querySelector('.whatsapp-float');
-    
-    if (!popup.contains(event.target) && !float.contains(event.target)) {
-        popup.classList.remove('show');
-    }
-});
-
 // Initialize Instructor Slider
 document.addEventListener('DOMContentLoaded', function() {
     const instructorSlider = new Swiper('.instructor-slider', {

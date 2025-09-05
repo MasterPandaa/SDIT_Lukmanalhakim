@@ -22,93 +22,118 @@
 </div>
 
 <div class="container py-5">
-    <div class="row">
-        <div class="col-12">
-            <h3 class="mb-4 text-center">Artikel Sekolah</h3>
+    <div class="d-flex align-items-center justify-content-between mb-1">
+        <h3 class="mb-0">Artikel Sekolah</h3>
+        <span id="totalArtikel" class="badge bg-success-subtle text-success border border-success small">Total: {{ $artikels->total() }}</span>
+    </div>
+    <p class="text-muted mb-4">Kumpulan artikel terbaru seputar kegiatan dan informasi sekolah.</p>
 
-            <div class="card border-0 mb-4">
-                <div class="card-body">
-                    <form class="row g-2 align-items-center" id="filterForm" onsubmit="return false;">
-                        <div class="col-12 col-md-8">
-                            <div class="input-group">
-                                <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
-                                <input type="text" class="form-control" id="searchInput" name="q" value="{{ $q ?? request('q') }}" placeholder="Cari artikel (judul, ringkasan, konten, penulis, kategori)...">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4 text-md-end">
-                            <a href="{{ route('about.artikel') }}" class="btn btn-light" id="resetBtn"><i class="fas fa-undo me-1"></i>Reset</a>
-                        </div>
-                    </form>
+    <form method="GET" action="{{ route('about.artikel') }}" class="card card-body mb-4 border-0 filter-card" id="artikelFilterForm">
+        <input type="hidden" name="page" value="1">
+        <div class="row g-3 align-items-end">
+            <div class="col-12">
+                <label class="form-label small text-uppercase fw-semibold text-muted">Cari Artikel</label>
+                <div class="input-group input-group-sm stylish-input glow-on-focus">
+                    <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
+                    <input type="text" name="q" value="{{ $q ?? '' }}" class="form-control auto-submit" placeholder="Ketik judul, ringkasan, konten, penulis, atau kategori...">
+                    @if(!empty($q))
+                      <a class="btn btn-outline-secondary" data-ajax="1" href="{{ route('about.artikel') }}" title="Bersihkan"><i class="fas fa-times"></i></a>
+                    @endif
                 </div>
             </div>
-
-            <div id="artikelListWrapper">
-                @include('about.partials.artikel_list', ['artikels' => $artikels])
-            </div>
         </div>
+    </form>
+
+    <div id="artikelList">
+        @include('about.partials.artikel_list', ['artikels' => $artikels])
     </div>
 </div>
-@endsection 
 
-@push('styles')
 <style>
-  /* Match Home blog card behavior for Artikel list */
-  #artikelListWrapper .post-item { height: 100%; }
-  #artikelListWrapper .post-inner { display: flex; flex-direction: column; height: 100%; }
-  #artikelListWrapper .post-thumb img { display: block; width: 100%; height: 200px; object-fit: cover; }
-  #artikelListWrapper .post-content { flex: 1; display: flex; flex-direction: column; }
-  #artikelListWrapper .post-content h4 {
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em;
-  }
-  #artikelListWrapper .post-content p {
-    margin-top: 8px; color: #555; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 3.9em;
-  }
-  #artikelListWrapper .post-footer { margin-top: auto; display: flex; align-items: center; justify-content: space-between; }
-  /* Optional: tighten gaps on small screens */
-  @media (max-width: 575.98px) {
-    #artikelGrid { row-gap: 1rem; }
-  }
+  .stylish-input .input-group-text{border-right:0}
+  .stylish-input .form-control{border-left:0}
+  .stylish-input .form-control:focus{box-shadow:none}
+  .filter-card{background:linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.75)); backdrop-filter: blur(6px); box-shadow:none!important}
+  .glow-on-focus:focus-within{box-shadow:none!important; border-radius:.5rem}
+  .bg-success-subtle{background:rgba(25,135,84,.1)!important}
+  .border-success{border-color:rgba(25,135,84,.35)!important}
+  /* Match card behavior & remove shadows */
+  #artikelList .post-item, #artikelList .post-inner { height: 100%; }
+  #artikelList .post-thumb img { display:block; width:100%; height:200px; object-fit:cover; box-shadow:none!important; }
+  #artikelList .post-content { flex:1; display:flex; flex-direction:column; }
+  #artikelList .post-content h4 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:2.6em; }
+  #artikelList .post-content p { margin-top:8px; color:#555; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; min-height:3.9em; }
+  #artikelList .post-footer { margin-top:auto; display:flex; align-items:center; justify-content:space-between; }
+  @media (max-width:575.98px){ #artikelGrid { row-gap:1rem; } }
 </style>
-@endpush
 
-@push('scripts')
 <script>
-  (function() {
-    const wrapper = document.getElementById('artikelListWrapper');
-    const input = document.getElementById('searchInput');
-    const baseUrl = @json(route('about.artikel'));
-    let timer;
+  document.addEventListener('DOMContentLoaded', function(){
+    (function(){
+      const form = document.getElementById('artikelFilterForm');
+      const list = document.getElementById('artikelList');
+      const total = document.getElementById('totalArtikel');
+      if(!form || !list) return;
 
-    function fetchList(url) {
-      const u = new URL(url || baseUrl, window.location.origin);
-      if (input && input.value) u.searchParams.set('q', input.value);
-      fetch(u.toString(), { headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }})
-        .then(r => r.json())
-        .then(data => {
-          if (data && data.html && wrapper) {
-            wrapper.innerHTML = data.html;
-          } else if (wrapper) {
-            // fallback: full reload if unexpected
-            window.location.href = u.toString();
-          }
-        })
-        .catch(() => { window.location.href = u.toString(); });
-    }
+      const buildUrl = (base, paramsStr)=>{
+        const url = new URL(base, window.location.origin);
+        if(paramsStr){ url.search = paramsStr; }
+        return url.toString();
+      };
+      const getParams = ()=> new URLSearchParams(new FormData(form)).toString();
+      const setPageOne = ()=>{ const p=form.querySelector('input[name="page"]'); if(p) p.value='1'; };
+      const syncFormWithUrl = (urlStr)=>{
+        try{
+          const sp = new URL(urlStr, window.location.origin).searchParams;
+          const q = sp.get('q') || '';
+          const qEl = form.querySelector('[name="q"]');
+          if(qEl) qEl.value = q;
+        }catch(e){}
+      };
+      const updateList = (urlStr)=>{
+        document.body.style.cursor='progress';
+        fetch(urlStr, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
+          .then(r=>r.json())
+          .then(data=>{
+            list.innerHTML = data.html || '';
+            if(total && typeof data.total !== 'undefined') total.textContent = `Total: ${data.total}`;
+          })
+          .finally(()=>{ document.body.style.cursor='default'; });
+      };
 
-    if (input) {
-      input.addEventListener('input', function() {
-        clearTimeout(timer);
-        timer = setTimeout(() => fetchList(), 350);
+      const debounce = (fn, delay=500)=>{ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), delay); }; };
+      const onFilterChange = ()=>{
+        setPageOne();
+        const url = buildUrl(form.action, getParams());
+        window.history.pushState({}, '', url);
+        updateList(url);
+      };
+
+      form.addEventListener('submit', e=>{ e.preventDefault(); onFilterChange(); });
+      form.querySelectorAll('.auto-submit').forEach(el=> el.addEventListener('input', debounce(onFilterChange, 500)));
+
+      form.querySelectorAll('a[data-ajax="1"]').forEach(a=>{
+        a.addEventListener('click', e=>{
+          e.preventDefault();
+          const href = a.getAttribute('href');
+          syncFormWithUrl(href);
+          window.history.pushState({}, '', href);
+          updateList(href);
+        });
       });
-    }
 
-    // Delegate pagination clicks
-    document.addEventListener('click', function(e) {
-      const a = e.target.closest('#artikelListWrapper .pagination a');
-      if (!a) return;
-      e.preventDefault();
-      fetchList(a.getAttribute('href'));
-    });
-  })();
+      list.addEventListener('click', (e)=>{
+        const a = e.target.closest('.pagination a');
+        if(a){
+          e.preventDefault();
+          const href = a.getAttribute('href');
+          window.history.pushState({}, '', href);
+          syncFormWithUrl(href);
+          updateList(href);
+        }
+      });
+    })();
+  });
 </script>
-@endpush
+
+@endsection

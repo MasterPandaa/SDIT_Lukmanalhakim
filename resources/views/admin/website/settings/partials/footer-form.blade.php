@@ -60,42 +60,31 @@
                 </div>
             </div>
 
-            <!-- Social Media Links -->
+            <!-- Social Media Links (Synced with Contact Settings) -->
+            @php($contactSettings = App\Models\ContactSetting::getSettings())
             <div class="form-section">
                 <h5><i class="fas fa-share-alt mr-2 mt-4"></i>Media Sosial</h5>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label for="whatsapp" class="font-weight-bold">WhatsApp</label>
+                            <input type="text" class="form-control @error('whatsapp') is-invalid @enderror" 
+                                   id="whatsapp" name="whatsapp" 
+                                   value="{{ old('whatsapp', $contactSettings->whatsapp ?? '') }}"
+                                   placeholder="0857xxxxxxx">
+                            @error('whatsapp')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <label for="footer_facebook" class="font-weight-bold">Facebook</label>
                             <input type="url" class="form-control @error('footer_facebook') is-invalid @enderror" 
                                    id="footer_facebook" name="footer_facebook" 
-                                   value="{{ old('footer_facebook', $settings->footer_facebook ?? '') }}"
+                                   value="{{ old('footer_facebook', $contactSettings->facebook ?? $settings->footer_facebook ?? '') }}"
                                    placeholder="https://facebook.com/...">
                             @error('footer_facebook')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="footer_twitter" class="font-weight-bold">Twitter</label>
-                            <input type="url" class="form-control @error('footer_twitter') is-invalid @enderror" 
-                                   id="footer_twitter" name="footer_twitter" 
-                                   value="{{ old('footer_twitter', $settings->footer_twitter ?? '') }}"
-                                   placeholder="https://twitter.com/...">
-                            @error('footer_twitter')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="footer_linkedin" class="font-weight-bold">LinkedIn</label>
-                            <input type="url" class="form-control @error('footer_linkedin') is-invalid @enderror" 
-                                   id="footer_linkedin" name="footer_linkedin" 
-                                   value="{{ old('footer_linkedin', $settings->footer_linkedin ?? '') }}"
-                                   placeholder="https://linkedin.com/...">
-                            @error('footer_linkedin')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -105,7 +94,7 @@
                             <label for="footer_instagram" class="font-weight-bold">Instagram</label>
                             <input type="url" class="form-control @error('footer_instagram') is-invalid @enderror" 
                                    id="footer_instagram" name="footer_instagram" 
-                                   value="{{ old('footer_instagram', $settings->footer_instagram ?? '') }}"
+                                   value="{{ old('footer_instagram', $contactSettings->instagram ?? $settings->footer_instagram ?? '') }}"
                                    placeholder="https://instagram.com/...">
                             @error('footer_instagram')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -114,17 +103,30 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="footer_pinterest" class="font-weight-bold">Pinterest</label>
-                            <input type="url" class="form-control @error('footer_pinterest') is-invalid @enderror" 
-                                   id="footer_pinterest" name="footer_pinterest" 
-                                   value="{{ old('footer_pinterest', $settings->footer_pinterest ?? '') }}"
-                                   placeholder="https://pinterest.com/...">
-                            @error('footer_pinterest')
+                            <label for="youtube" class="font-weight-bold">YouTube</label>
+                            <input type="url" class="form-control @error('youtube') is-invalid @enderror" 
+                                   id="youtube" name="youtube" 
+                                   value="{{ old('youtube', $contactSettings->youtube ?? '') }}"
+                                   placeholder="https://youtube.com/@channel">
+                            @error('youtube')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="footer_tiktok" class="font-weight-bold">TikTok</label>
+                            <input type="url" class="form-control @error('footer_tiktok') is-invalid @enderror" 
+                                   id="footer_tiktok" name="footer_tiktok" 
+                                   value="{{ old('footer_tiktok', $contactSettings->tiktok ?? $settings->footer_tiktok ?? '') }}"
+                                   placeholder="https://www.tiktok.com/@username">
+                            @error('footer_tiktok')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
                 </div>
+                <small class="text-muted">Perubahan di sini akan otomatis menyinkronkan pengaturan di menu Kontak.</small>
             </div>
 
             <!-- Copyright & Designer -->

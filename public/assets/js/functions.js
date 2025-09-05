@@ -30,16 +30,16 @@
         $(window).on('scroll', function () {
             if ($(this).scrollTop() > 300) {
                 $('.scrollToTop').css({
-                    'bottom': '10%',
                     'opacity': '1',
-                    'transition': 'all .5s ease'
+                    'pointer-events': 'auto',
+                    'transition': 'opacity .3s ease'
                 });
             } else {
                 $('.scrollToTop').css({
-                    'bottom': '-30%',
                     'opacity': '0',
-                    'transition': 'all .5s ease'
-                })
+                    'pointer-events': 'none',
+                    'transition': 'opacity .3s ease'
+                });
             }
         });
 

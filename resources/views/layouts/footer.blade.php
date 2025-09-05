@@ -4,6 +4,12 @@
     } catch (\Exception $e) {
         $websiteSettings = new App\Models\WebsiteSetting();
     }
+    // Load contact settings to unify social links with the Contact page
+    try {
+        $contactSettings = App\Models\ContactSetting::getSettings();
+    } catch (\Exception $e) {
+        $contactSettings = null;
+    }
 @endphp
 
 <style>
@@ -25,7 +31,10 @@
   padding: 0; 
   text-align: center; 
   line-height: 1; /* avoid baseline shifting */
-  border-radius: 0; /* make box a true square */
+  border-radius: 12px; /* match contact page rounded corners */
+  background: #198754; /* match contact page green */
+  color: #fff; /* ensure icon is white */
+  transition: all 0.3s ease;
 }
 .yellow-color-section .social-icons > li > a i { 
   display: block; 
@@ -39,6 +48,12 @@
   display: block;
   margin: 0;
   transform: translateY(-2px);
+}
+/* Hover effect to match contact page */
+.yellow-color-section .social-icons > li > a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  color: #fff;
 }
 </style>
 
@@ -66,21 +81,42 @@
                                         <li><i class="icofont-envelope"></i>{{ $websiteSettings->footer_email ?: 'info@Edukon.com' }}</li>
                                     </ul>
                                     <ul class="lab-ul social-icons">
-                                        <li>
-                                            <a href="{{ $websiteSettings->footer_facebook ?: '#' }}" class="facebook" target="_blank"><i class="icofont-facebook"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ $websiteSettings->footer_twitter ?: '#' }}" class="twitter" target="_blank"><i class="icofont-twitter"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ $websiteSettings->footer_linkedin ?: '#' }}" class="linkedin" target="_blank"><i class="icofont-linkedin"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ $websiteSettings->footer_instagram ?: '#' }}" class="instagram" target="_blank"><i class="icofont-instagram"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ $websiteSettings->footer_pinterest ?: '#' }}" class="pinterest" target="_blank"><i class="icofont-pinterest"></i></a>
-                                        </li>
+                                        @if(!empty($contactSettings?->facebook))
+                                            <li>
+                                                <a href="{{ $contactSettings->facebook }}" class="facebook" target="_blank" title="Facebook"><i class="icofont-facebook"></i></a>
+                                            </li>
+                                        @endif
+                                        @if(!empty($contactSettings?->instagram))
+                                            <li>
+                                                <a href="{{ $contactSettings->instagram }}" class="instagram" target="_blank" title="Instagram"><i class="icofont-instagram"></i></a>
+                                            </li>
+                                        @endif
+                                        @if(!empty($contactSettings?->youtube))
+                                            <li>
+                                                <a href="{{ $contactSettings->youtube }}" class="youtube" target="_blank" title="YouTube"><i class="icofont-youtube"></i></a>
+                                            </li>
+                                        @endif
+                                        @if(!empty($contactSettings?->whatsapp))
+                                            @php
+                                                $wa = preg_replace('/\D+/', '', $contactSettings->whatsapp);
+                                                if ($wa && substr($wa, 0, 1) === '0') { $wa = '62'.substr($wa, 1); }
+                                                $waUrl = $wa ? ('https://wa.me/'.$wa) : null;
+                                            @endphp
+                                            @if($waUrl)
+                                                <li>
+                                                    <a href="{{ $waUrl }}" class="whatsapp" target="_blank" title="WhatsApp"><i class="icofont-whatsapp"></i></a>
+                                                </li>
+                                            @endif
+                                        @endif
+                                        @if(!empty($contactSettings?->tiktok))
+                                            <li>
+                                                <a href="{{ $contactSettings->tiktok }}" class="tiktok" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                                            </li>
+                                        @elseif(!empty($websiteSettings?->footer_tiktok))
+                                            <li>
+                                                <a href="{{ $websiteSettings->footer_tiktok }}" class="tiktok" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>

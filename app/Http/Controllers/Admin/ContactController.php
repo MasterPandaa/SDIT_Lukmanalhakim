@@ -104,7 +104,24 @@ class ContactController extends Controller
             ContactSetting::create($payload);
         }
 
-        return redirect()->route('admin.contact.index')->with('success', 'Pengaturan kontak berhasil diperbarui.');
+        // Sync to WebsiteSetting footer socials so both stay consistent
+        try {
+            $website = \App\Models\WebsiteSetting::getSettings();
+            if ($website) {
+                $website->update([
+                    'footer_facebook'  => $request->input('facebook'),
+                    'footer_instagram' => $request->input('instagram'),
+                    'footer_tiktok'    => $request->input('tiktok'),
+                ]);
+                // Clear cache if any
+                try { \Cache::forget('website_settings'); } catch (\Throwable $e) {}
+            }
+        } catch (\Throwable $e) {
+            // do not fail the request if syncing fails; just log silently
+            try { \Log::warning('Footer social sync failed: '.$e->getMessage()); } catch (\Throwable $e2) {}
+        }
+
+        return redirect()->route('admin.contact.index')->with('success', 'Pengaturan kontak berhasil diperbarui dan disinkronkan ke footer.');
     }
 
     public function delete($id)
