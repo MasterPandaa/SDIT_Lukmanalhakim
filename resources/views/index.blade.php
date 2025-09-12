@@ -684,13 +684,13 @@
                         <div class="post-item">
                             <div class="post-inner">
                                 <div class="post-thumb">
-                                    <a href="{{ route('blog-single', $article->slug) }}">
+                                    <a href="{{ route('about.artikel') }}">
                                         <img src="{{ $article->gambar_url }}" alt="{{ $article->judul }}" class="img-fluid" style="width: 100%; height: 200px; object-fit: cover;"
                                              onerror="this.onerror=null;this.src='{{ asset('assets/images/blog/01.jpg') }}';">
                                     </a>
                                 </div>
                                 <div class="post-content">
-                                    <a href="{{ route('blog-single', $article->slug) }}">
+                                    <a href="{{ route('about.artikel') }}">
                                         <h4>{{ $article->judul }}</h4>
                                     </a>
                                     <div class="meta-post">
@@ -703,7 +703,7 @@
                                 </div>
                                 <div class="post-footer">
                                     <div class="pf-left">
-                                        <a href="{{ route('blog-single', $article->slug) }}" class="lab-btn-text">Baca selengkapnya <i class="icofont-external-link"></i></a>
+                                        <a href="{{ route('about.artikel') }}" class="lab-btn-text">Baca selengkapnya <i class="icofont-external-link"></i></a>
                                     </div>
 
                                 </div>
@@ -718,7 +718,7 @@
                 </div>
                 @if($articles->count() > 0)
                 <div class="text-center mt-5">
-                    <a href="{{ route('blog') }}" class="lab-btn"><span>Lihat Semua Artikel</span></a>
+                    <a href="{{ route('about.artikel') }}" class="lab-btn"><span>Lihat Semua Artikel</span></a>
                 </div>
                 @endif
             </div>

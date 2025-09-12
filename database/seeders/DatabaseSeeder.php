@@ -25,6 +25,10 @@ class DatabaseSeeder extends Seeder
             GaleriSeeder::class,
             AlumniSeeder::class,
             ArtikelSeeder::class,
+            // Indikator Kelulusan defaults
+            IndikatorKelulusanSettingSeeder::class,
+            IndikatorKelulusanKategoriSeeder::class,
+            IndikatorKelulusanSeeder::class,
         ]);
     }
 }

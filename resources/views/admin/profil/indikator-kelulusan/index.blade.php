@@ -44,7 +44,7 @@
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="content-tab" data-bs-toggle="tab" data-bs-target="#content" type="button" role="tab">
+                            <button class="nav-link" id="content-tab" data-bs-toggle="tab" data-bs-target="#content-tab-pane" type="button" role="tab" aria-controls="content-tab-pane" aria-selected="false">
                                 <i class="fas fa-list me-2"></i>Konten Indikator
                             </button>
                         </li>
@@ -70,7 +70,7 @@
                         </div>
                         
                         <!-- Content Section -->
-                        <div class="tab-pane fade" id="content" role="tabpanel" aria-labelledby="content-tab">
+                        <div class="tab-pane fade" id="content-tab-pane" role="tabpanel" aria-labelledby="content-tab">
                             @if(isset($indikatorKelulusan) && $indikatorKelulusan)
                                 @include('admin.profil.indikator-kelulusan.partials.content-form')
                             @else

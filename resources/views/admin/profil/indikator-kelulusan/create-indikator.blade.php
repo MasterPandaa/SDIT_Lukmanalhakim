@@ -5,126 +5,64 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-8">
-            <!-- Header -->
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">
-                    <i class="fas fa-plus fa-lg text-info mr-2"></i>
-                    Tambah Indikator Kelulusan
-                </h1>
-                <a href="{{ route('admin.indikator-kelulusan.index') }}" class="btn btn-secondary shadow-sm">
-                    <i class="fas fa-arrow-left mr-2"></i>
-                    Kembali
-                </a>
-            </div>
-
-
-            @if(count($kategoris) == 0)
-                <div class="alert alert-warning">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-triangle fa-lg mr-3"></i>
-                        <div>
-                            <strong>Peringatan!</strong> Belum ada kategori aktif. 
-                            <a href="{{ route('admin.indikator-kelulusan.create-kategori') }}" class="alert-link">Buat kategori terlebih dahulu</a>.
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            <!-- Form -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-success">
-                        <i class="fas fa-file-plus mr-2"></i>
-                        Form Tambah Indikator
-                    </h6>
+        <div class="col-lg-9">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0"><i class="fas fa-plus-circle me-2 text-success"></i>Tambah Indikator</h5>
+                    <a href="{{ route('admin.indikator-kelulusan.index') }}" class="btn btn-light btn-sm"><i class="fas fa-arrow-left me-1"></i>Kembali</a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.indikator-kelulusan.store-indikator') }}" method="POST">
+                    <form method="POST" action="{{ route('admin.indikator-kelulusan.store-indikator') }}">
                         @csrf
-                        
-                        <div class="form-group">
-                            <label for="kategori_id">Kategori <span class="text-danger">*</span></label>
-                            <select class="form-control @error('kategori_id') is-invalid @enderror" 
-                                    id="kategori_id" name="kategori_id" required>
-                                <option value="">Pilih Kategori</option>
-                                @foreach($kategoris as $kategori)
-                                    <option value="{{ $kategori->id }}" {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>
-                                        {{ $kategori->nama }}
+
+                        <div class="mb-3">
+                            <label class="form-label">Kategori <span class="text-danger">*</span></label>
+                            <select name="kategori_id" class="form-select @error('kategori_id') is-invalid @enderror" required>
+                                <option value="">-- Pilih Kategori --</option>
+                                @foreach($kategoris as $kat)
+                                    <option value="{{ $kat->id }}" {{ old('kategori_id') == $kat->id ? 'selected' : '' }}>
+                                        {{ $kat->urutan }}. {{ $kat->nama }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('kategori_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            @error('kategori_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
-                        <div class="form-group">
-                            <label for="judul">Judul Indikator <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('judul') is-invalid @enderror" 
-                                   id="judul" name="judul" value="{{ old('judul') }}" required>
-                            @error('judul')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <small class="form-text text-muted">Contoh: 1.1 Welcome to the course, 1.2 How to set up your workspace, dll.</small>
+                        <div class="mb-3">
+                            <label class="form-label">Judul Indikator <span class="text-danger">*</span></label>
+                            <input type="text" name="judul" class="form-control @error('judul') is-invalid @enderror" value="{{ old('judul') }}" required>
+                            @error('judul')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
-                        <div class="form-group">
-                            <label for="deskripsi">Deskripsi</label>
-                            <textarea class="form-control @error('deskripsi') is-invalid @enderror" 
-                                      id="deskripsi" name="deskripsi" rows="3">{{ old('deskripsi') }}</textarea>
-                            @error('deskripsi')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <small class="form-text text-muted">Deskripsi detail tentang indikator ini (opsional).</small>
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea name="deskripsi" rows="4" class="form-control @error('deskripsi') is-invalid @enderror">{{ old('deskripsi') }}</textarea>
+                            @error('deskripsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="durasi">Durasi</label>
-                                    <input type="text" class="form-control @error('durasi') is-invalid @enderror" 
-                                           id="durasi" name="durasi" value="{{ old('durasi') }}"
-                                           placeholder="02:30 minutes">
-                                    @error('durasi')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    <small class="form-text text-muted">Contoh: 02:30 minutes, 5 menit, dll.</small>
-                                </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-sm-4">
+                                <label class="form-label">Durasi (opsional)</label>
+                                <input type="text" name="durasi" class="form-control @error('durasi') is-invalid @enderror" value="{{ old('durasi') }}" placeholder="cth: 1 semester">
+                                @error('durasi')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="urutan">Urutan dalam Kategori <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control @error('urutan') is-invalid @enderror" 
-                                           id="urutan" name="urutan" value="{{ old('urutan', 0) }}" min="0" required>
-                                    @error('urutan')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    <small class="form-text text-muted">Nomor urutan dalam kategori (0 = paling atas).</small>
+                            <div class="col-sm-4">
+                                <label class="form-label">Urutan <span class="text-danger">*</span></label>
+                                <input type="number" name="urutan" min="0" class="form-control @error('urutan') is-invalid @enderror" value="{{ old('urutan', 0) }}" required>
+                                @error('urutan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-sm-4 d-flex align-items-end">
+                                <div class="form-check form-switch">
+                                    <input type="hidden" name="is_active" value="0">
+                                    <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_active">Aktif</label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="is_active" name="is_active" 
-                                       {{ old('is_active', true) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="is_active">
-                                    Aktifkan indikator
-                                </label>
-                            </div>
-                            <small class="form-text text-muted">Indikator yang tidak aktif tidak akan ditampilkan di halaman publik.</small>
-                        </div>
-
-                        <div class="form-group mb-0">
-                            <button type="submit" class="btn btn-info">
-                                <i class="fas fa-save mr-2"></i>
-                                Simpan Indikator
-                            </button>
-                            <a href="{{ route('admin.indikator-kelulusan.index') }}" class="btn btn-secondary ml-2">
-                                <i class="fas fa-times mr-2"></i>
-                                Batal
-                            </a>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i>Simpan</button>
+                            <a href="{{ route('admin.indikator-kelulusan.index') }}" class="btn btn-secondary">Batal</a>
                         </div>
                     </form>
                 </div>
