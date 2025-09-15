@@ -75,7 +75,13 @@
   document.addEventListener('click', async function(e){
     const btn = e.target.closest('.btn-delete');
     if(!btn) return;
+    
+    if (!confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+      return;
+    }
+    
     const url = btn.getAttribute('data-url');
+    const row = btn.closest('tr');
     const csrf = (document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')) || '{{ csrf_token() }}';
     if (typeof Swal !== 'undefined' && Swal.fire) {
       const res = await Swal.fire({
