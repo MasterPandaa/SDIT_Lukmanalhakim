@@ -27,12 +27,12 @@
         <td>{{ $row->formatted_published_at ?? '-' }}</td>
         <td>
           <div class="form-check form-switch">
-            <input class="form-check-input toggle-status" type="checkbox" role="switch" data-url="{{ route('admin.about.artikel.toggle', $row->id) }}" {{ $row->is_active ? 'checked' : '' }}>
+            <input class="form-check-input toggle-status" type="checkbox" role="switch" data-url="{{ route('admin.artikel.toggle', $row->id) }}" {{ $row->is_active ? 'checked' : '' }}>
           </div>
         </td>
         <td class="d-flex gap-1">
-          <a href="{{ route('admin.about.artikel.edit', $row->id) }}" class="btn btn-sm btn-primary" title="Edit"><i class="fas fa-edit"></i></a>
-          <button type="button" class="btn btn-sm btn-danger btn-delete" data-url="{{ route('admin.about.artikel.destroy', $row->id) }}" title="Hapus"><i class="fas fa-trash"></i></button>
+          <a href="{{ route('admin.artikel.edit', $row->id) }}" class="btn btn-sm btn-primary" title="Edit"><i class="fas fa-edit"></i></a>
+          <button type="button" class="btn btn-sm btn-danger btn-delete" data-url="{{ route('admin.artikel.destroy', $row->id) }}" title="Hapus"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
       @empty

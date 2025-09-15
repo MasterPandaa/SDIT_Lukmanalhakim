@@ -51,87 +51,110 @@
 
 @push('scripts')
 <script>
-  (function() {
-    const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-    // Delete with SweetAlert2 if available
-    document.addEventListener('click', async function(e) {
-      const btn = e.target.closest('.btn-delete');
-      if (!btn) return;
-      e.preventDefault();
-      const url = btn.getAttribute('data-url');
-      const proceed = await (async () => {
-        if (window.Swal) {
-          const res = await Swal.fire({
-            title: 'Hapus data? ',
-            text: 'Tindakan ini tidak dapat dibatalkan.',
+$(document).ready(function() {
+    // Delete button click handler
+    $(document).on('click', '.btn-delete', function(e) {
+        e.preventDefault();
+        
+        const url = $(this).data('url');
+        const token = $('meta[name="csrf-token"]').attr('content');
+        const button = $(this);
+        
+        Swal.fire({
+            title: 'Hapus Artikel?',
+            text: 'Data yang dihapus tidak dapat dikembalikan!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Ya, hapus',
-            cancelButtonText: 'Batal'
-          });
-          return res.isConfirmed;
-        }
-        return confirm('Hapus data ini?');
-      })();
-      if (!proceed) return;
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': csrf,
-            'X-Requested-With': 'XMLHttpRequest',
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ _method: 'DELETE' })
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': token,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: response.message || 'Artikel berhasil dihapus',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    },
+                    error: function(xhr) {
+                        let errorMessage = 'Terjadi kesalahan saat menghapus artikel';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: errorMessage,
+                            timer: 2500
+                        });
+                    }
+                });
+            }
         });
-        if (!res.ok) throw new Error('Request failed');
-        const data = await res.json().catch(() => ({}));
-        if (window.Swal) {
-          await Swal.fire({ icon: 'success', title: 'Berhasil', text: (data.message || 'Data dihapus'), timer: 1200, showConfirmButton: false });
-        }
-        location.reload();
-      } catch (err) {
-        if (window.Swal) {
-          Swal.fire({ icon: 'error', title: 'Gagal', text: 'Tidak dapat menghapus data.' });
-        } else {
-          alert('Gagal menghapus data');
-        }
-      }
     });
 
-    // Toggle status
-    document.addEventListener('change', async function(e) {
-      const input = e.target.closest('.toggle-status');
-      if (!input) return;
-      const url = input.getAttribute('data-url');
-      const prev = !input.checked; // store previous state
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': csrf,
-            'X-Requested-With': 'XMLHttpRequest',
-            'Accept': 'application/json'
-          }
+    // Toggle status handler
+    $(document).on('change', '.toggle-status', function() {
+        const input = $(this);
+        const url = input.data('url');
+        const token = $('meta[name="csrf-token"]').attr('content');
+        const prevState = input.prop('checked');
+        
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': token,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function(response) {
+                // Update the UI based on the response
+                input.prop('checked', response.is_active);
+                
+                // Show success message
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: response.message || 'Status artikel berhasil diubah',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            },
+            error: function(xhr) {
+                // Revert the toggle state
+                input.prop('checked', !prevState);
+                
+                // Show error message
+                let errorMessage = 'Terjadi kesalahan saat mengubah status';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                }
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: errorMessage,
+                    timer: 2500
+                });
+            }
         });
-        if (!res.ok) throw new Error('Request failed');
-        const data = await res.json().catch(() => ({}));
-        if (data && data.status !== undefined) {
-          // optionally show toast
-        }
-      } catch (err) {
-        input.checked = prev; // revert
-        if (window.Swal) {
-          Swal.fire({ icon: 'error', title: 'Gagal', text: 'Tidak dapat mengubah status.' });
-        } else {
-          alert('Gagal mengubah status');
-        }
-      }
     });
-  })();
+});
 </script>
 @endpush

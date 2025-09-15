@@ -178,4 +178,20 @@ class AboutController extends Controller
 
         return view('about.artikel', compact('artikels', 'q'));
     }
-} 
+    
+    public function showArtikel($slug) {
+        $artikel = Artikel::where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+            
+        // Get related articles (same category, excluding current article)
+        $related = Artikel::where('kategori', $artikel->kategori)
+            ->where('id', '!=', $artikel->id)
+            ->where('is_active', true)
+            ->orderBy('published_at', 'desc')
+            ->take(3)
+            ->get();
+            
+        return view('about.artikel_show', compact('artikel', 'related'));
+    }
+}

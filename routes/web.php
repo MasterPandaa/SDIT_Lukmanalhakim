@@ -46,6 +46,7 @@ Route::get('/about/fasilitas', [App\Http\Controllers\AboutController::class, 'fa
 Route::get('/about/galeri', [App\Http\Controllers\AboutController::class, 'galeri'])->name('about.galeri');
 Route::get('/about/alumni', [App\Http\Controllers\AboutController::class, 'alumni'])->name('about.alumni');
 Route::get('/about/artikel', [App\Http\Controllers\AboutController::class, 'artikel'])->name('about.artikel');
+Route::get('/artikel/{slug}', [App\Http\Controllers\AboutController::class, 'showArtikel'])->name('about.artikel.show');
 
 // Admin Panel Routes
 Route::prefix('adminpanel')->group(function () {

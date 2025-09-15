@@ -5,13 +5,13 @@
     <div class="post-item">
       <div class="post-inner">
         <div class="post-thumb">
-          <a href="{{ route('about.artikel') }}">
+          <a href="{{ route('about.artikel.show', $artikel->slug) }}">
             <img src="{{ $artikel->gambar_url }}" alt="{{ $artikel->judul }}" class="img-fluid" style="width: 100%; height: 200px; object-fit: cover;"
                  onerror="this.onerror=null;this.src='{{ asset('assets/images/blog/01.jpg') }}';">
           </a>
         </div>
         <div class="post-content">
-          <a href="{{ route('about.artikel') }}">
+          <a href="{{ route('about.artikel.show', $artikel->slug) }}">
             <h4 title="{{ $artikel->judul }}">{{ $artikel->judul }}</h4>
           </a>
           <div class="meta-post">
@@ -24,7 +24,7 @@
         </div>
         <div class="post-footer">
           <div class="pf-left">
-            <a href="{{ route('about.artikel') }}" class="lab-btn-text">Baca selengkapnya <i class="icofont-external-link"></i></a>
+            <a href="{{ route('about.artikel.show', $artikel->slug) }}" class="lab-btn-text">Baca selengkapnya <i class="icofont-external-link"></i></a>
           </div>
         </div>
       </div>

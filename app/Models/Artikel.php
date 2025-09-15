@@ -57,6 +57,12 @@ class Artikel extends Model
     // Scope for published articles
     public function scopePublished($query)
     {
+        // For development/testing - show all active articles regardless of publish date
+        if (app()->environment('local')) {
+            return $query->where('is_active', true);
+        }
+        
+        // For production - only show published articles (past or present)
         return $query->where('is_active', true)
                     ->whereNotNull('published_at')
                     ->where('published_at', '<=', now());

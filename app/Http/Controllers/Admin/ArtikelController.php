@@ -138,41 +138,81 @@ class ArtikelController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $artikel = Artikel::findOrFail($id);
+        try {
+            $artikel = Artikel::findOrFail($id);
+            
+            if ($artikel->gambar) {
+                $imagePath = public_path('assets/images/artikel/' . $artikel->gambar);
+                if (file_exists($imagePath)) {
+                    @unlink($imagePath);
+                }
+            }
 
-        // Delete image if exists
-        if ($artikel->gambar && file_exists(public_path('assets/images/artikel/' . $artikel->gambar))) {
-            @unlink(public_path('assets/images/artikel/' . $artikel->gambar));
+            $artikel->delete();
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Artikel berhasil dihapus',
+                    'redirect' => route('admin.artikel.index')
+                ]);
+            }
+
+            return redirect()->route('admin.artikel.index')
+                ->with('success', 'Artikel berhasil dihapus!');
+
+        } catch (\Exception $e) {
+            \Log::error('Error deleting artikel: ' . $e->getMessage());
+            
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal menghapus artikel: ' . $e->getMessage()
+                ], 500);
+            }
+
+            return redirect()->back()
+                ->with('error', 'Gagal menghapus artikel: ' . $e->getMessage());
         }
-
-        $artikel->delete();
-
-        if ($request->expectsJson() || $request->ajax()) {
-            return response()->json(['success' => true, 'message' => 'Artikel berhasil dihapus']);
-        }
-
-        return redirect()->route('admin.artikel.index')
-            ->with('success', 'Artikel berhasil dihapus!');
     }
 
     public function toggleStatus(Request $request, $id)
     {
-        $artikel = Artikel::findOrFail($id);
-        $artikel->is_active = !$artikel->is_active;
-        
-        // Set published_at if activating and not already set
-        if ($artikel->is_active && !$artikel->published_at) {
-            $artikel->published_at = now();
-        }
-        
-        $artikel->save();
+        try {
+            $artikel = Artikel::findOrFail($id);
+            $artikel->is_active = !$artikel->is_active;
+            
+            // Set published_at if activating and not already set
+            if ($artikel->is_active && !$artikel->published_at) {
+                $artikel->published_at = now();
+            }
+            
+            $artikel->save();
 
-        if ($request->expectsJson() || $request->ajax()) {
-            return response()->json(['success' => true, 'is_active' => $artikel->is_active]);
-        }
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true, 
+                    'is_active' => $artikel->is_active,
+                    'message' => 'Status artikel berhasil diubah'
+                ]);
+            }
 
-        $status = $artikel->is_active ? 'diaktifkan' : 'dinonaktifkan';
-        return redirect()->route('admin.artikel.index')
-            ->with('success', "Artikel berhasil {$status}!");
+            $status = $artikel->is_active ? 'diaktifkan' : 'dinonaktifkan';
+            return redirect()->route('admin.artikel.index')
+                ->with('success', "Artikel berhasil {$status}!");
+                
+        } catch (\Exception $e) {
+            \Log::error('Error toggling artikel status: ' . $e->getMessage());
+            
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengubah status artikel: ' . $e->getMessage()
+                ], 500);
+            }
+
+            return redirect()->back()
+                ->with('error', 'Gagal mengubah status artikel: ' . $e->getMessage());
+        }
     }
 }
