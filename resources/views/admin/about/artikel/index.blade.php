@@ -57,7 +57,6 @@ $(document).ready(function() {
         e.preventDefault();
         
         const url = $(this).data('url');
-        const token = $('meta[name="csrf-token"]').attr('content');
         const button = $(this);
         
         Swal.fire({
@@ -76,10 +75,6 @@ $(document).ready(function() {
                     url: url,
                     type: 'DELETE',
                     dataType: 'json',
-                    headers: {
-                        'X-CSRF-TOKEN': token,
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
                     success: function(response) {
                         Swal.fire({
                             icon: 'success',
@@ -112,17 +107,12 @@ $(document).ready(function() {
     $(document).on('change', '.toggle-status', function() {
         const input = $(this);
         const url = input.data('url');
-        const token = $('meta[name="csrf-token"]').attr('content');
         const prevState = input.prop('checked');
         
         $.ajax({
             url: url,
             type: 'POST',
             dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': token,
-                'X-Requested-With': 'XMLHttpRequest'
-            },
             success: function(response) {
                 // Update the UI based on the response
                 input.prop('checked', response.is_active);
